@@ -18,7 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # any route that begins with api/ will be passed to
-    # api/urls.py (without the leading '...api/')
-    path('', include('frontend.urls')),
+    path('users/', include('users.urls')),
+    path('', include('frontend.urls')),  # frontend urls to be dispatched from inside the react app
 ]
