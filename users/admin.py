@@ -78,6 +78,10 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('name', 'body')
+
+
 admin.site.register(Account, UserAdmin)
 admin.site.unregister(Group)
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)
