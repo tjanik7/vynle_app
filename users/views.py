@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import AccountSerializer
-from .models import Account
+from .serializers import AccountSerializer, PostSerializer
+from .models import Account, Post
 
 
 class GetUser(APIView):  # gets a user by username
@@ -23,5 +23,22 @@ class GetUser(APIView):  # gets a user by username
             )
         return Response(
             {'Bad Request': 'Username not found in request'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class CreatePostView(APIView):
+    serializer_class = PostSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            name = serializer.data.get('name')
+            body = serializer.data.get('body')
+            post = Post(name=name, body=body)
+            post.save()
+            return Response(PostSerializer(post).data, status=status.HTTP_201_CREATED)
+        return Response(
+            {'Bad Request': 'Invalid data'},
             status=status.HTTP_400_BAD_REQUEST
         )

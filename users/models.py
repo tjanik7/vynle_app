@@ -57,3 +57,8 @@ class Account(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+# using for practice with django/react integration
+class Post(models.Model):
+    name = models.CharField(max_length=30)
+    body = models.TextField(max_length=150)

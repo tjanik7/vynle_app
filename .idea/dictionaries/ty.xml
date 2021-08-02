@@ -2,6 +2,7 @@
   <dictionary name="ty">
     <words>
       <w>avitar</w>
+      <w>csrftoken</w>
       <w>lconf</w>
       <w>postgresql</w>
       <w>vynle</w>
