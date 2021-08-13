@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Button} from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Post from "./Post";
 
 export default class Feed extends React.Component {
     constructor(props) {
@@ -31,8 +32,7 @@ export default class Feed extends React.Component {
         const posts = this.state.posts.map((post) =>{
             return (
                 <div>
-                    <li>{ post.name }</li>
-                    <li>{ post.body }</li>
+                    <Post name={post.name} body={post.body}/>
                 </div>
             )
         })
