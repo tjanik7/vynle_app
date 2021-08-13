@@ -6,6 +6,8 @@
       <w>csrftoken</w>
       <w>lconf</w>
       <w>postgresql</w>
+      <w>pswd</w>
+      <w>pswds</w>
       <w>vynle</w>
     </words>
   </dictionary>
