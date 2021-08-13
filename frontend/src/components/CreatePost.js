@@ -8,7 +8,7 @@ import {
     Typography
 } from "@material-ui/core";
 import CSRFToken from "./csrftoken";
-import getCookie from "./csrftoken"
+import {getCookie} from "./csrftoken"
 
 const csrftoken = getCookie('csrftoken');
 
@@ -46,7 +46,11 @@ export default class CreatePost extends Component {
                 }),
             };
             fetch("/users/create-post", requestOptions)
-                .then((response) => response.json());
+                .then((response) => {
+                    if (response.ok) {
+                        this.props.history.push(`/`)
+                    }
+                })
         }
 
     render() {

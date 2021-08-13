@@ -3,6 +3,7 @@
     <words>
       <w>admin's</w>
       <w>avitar</w>
+      <w>csrfmiddlewaretoken</w>
       <w>csrftoken</w>
       <w>lconf</w>
       <w>postgresql</w>
