@@ -1,30 +1,23 @@
-from django.shortcuts import render
-from rest_framework import status
+from django.contrib.auth import logout
+from rest_framework import status, permissions, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import AccountSerializer, CreatePostSerializer, PostSerializer
-from .models import Account, Post
+from knox.models import AuthToken
+from .serializers import CreatePostSerializer, PostSerializer, RegisterSerializer, AccountSerializer
+from .models import Account, Post, AccountManager
 
 
-class GetUser(APIView):  # gets a user by username
-    serializer_class = AccountSerializer
-    lookup_url_kwarg = 'username'
+class RegisterAPI(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
 
-    def get(self, request, format=None):
-        username = request.GET.get(self.lookup_url_kwarg)
-        if username is not None:
-            user = Account.objects.filter(username=username)
-            if len(user) > 0:
-                data = AccountSerializer(user[0]).data  # take the first occurrence since there should only be one (username is unique)
-                return Response(data, status=status.HTTP_200_OK)
-            return Response(
-                {'User not found': 'Invalid username'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-        return Response(
-            {'Bad Request': 'Username not found in request'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        account = serializer.save()
+        return Response({
+            'account': AccountSerializer(account, context=self.get_serializer_context()).data,
+            'token': AuthToken.objects.create(account)[1]  # associates new token with specified account
+        })
 
 
 class GetPosts(APIView):  # get all posts
@@ -56,3 +49,62 @@ class CreatePostView(APIView):
             {'Bad Request': 'Invalid data'},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+# class LogoutUser(APIView):
+#     def post(self, request, format=None):
+#         logout(request)
+#         return Response(status=status.HTTP_200_OK)
+
+
+# class CreateUser(APIView):
+#     serializer_class = AccountSerializer
+#
+#     def post(self, request, format=None):
+#         serializer = self.serializer_class(data=request.data)
+#         if serializer.is_valid():
+#             email = serializer.data.get('email')
+#             username = serializer.data.get('username')
+#             firstname = serializer.data.get('firstname')
+#             lastname = serializer.data.get('lastname')
+#             password = serializer.data.get('password')
+#
+#             Account.objects.create_user(email, username, firstname, lastname, password)
+#             return Response(
+#                 {'Account created': 'account created successfully'},
+#                 status=status.HTTP_201_CREATED
+#             )
+
+
+# class GetUser(APIView):  # gets a user by username
+#     serializer_class = AccountSerializer
+#     lookup_url_kwarg = 'username'
+#
+#     def get(self, request, format=None):
+#         username = request.GET.get(self.lookup_url_kwarg)
+#         if username is not None:
+#             user = Account.objects.filter(username=username)
+#             if len(user) > 0:
+#                 data = AccountSerializer(user[0]).data  # take the first occurrence since there should only be one (username is unique)
+#                 return Response(data, status=status.HTTP_200_OK)
+#             return Response(
+#                 {'User not found': 'Invalid username'},
+#                 status=status.HTTP_404_NOT_FOUND
+#             )
+#         return Response(
+#             {'Bad Request': 'Username not found in request'},
+#             status=status.HTTP_400_BAD_REQUEST
+#         )
+
+
+# class GetAuthStatus(APIView):  # returns true if user is authenticated
+#     def get(self, request, format=None):
+#         if request.user.is_authenticated:
+#             return Response(
+#                 {'authenticated': 'true'},
+#                 status=status.HTTP_200_OK
+#             )
+#         return Response(
+#                 {'authenticated': 'false'},
+#                 status=status.HTTP_200_OK
+#             )

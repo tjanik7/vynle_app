@@ -38,9 +38,6 @@ class Account(AbstractBaseUser):
     last = models.CharField(max_length=64, blank=False, default='Not specified')
     is_active = models.BooleanField(default=True)
 
-    # avitar = models.ImageField(null=True, blank=True, upload_to='dev/media/')
-    # follows = models.ManyToManyField('self', related_name='followers', symmetrical=False)
-
     objects = AccountManager()
     REQUIRED_FIELDS = ['username', 'first', 'last']
 
