@@ -29,10 +29,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user_account
 
 
-class LoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Account
-        fields = ('username', 'password')
+class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        account = authenticate(**data)
+        if account and account.is_active:
+            return account
+        raise serializers.ValidationError('Incorrect credentials')
 
 
 class PostSerializer(serializers.ModelSerializer):

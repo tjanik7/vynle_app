@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import CreatePostView, GetPosts, RegisterAPI
+from .views import CreatePostView, GetPosts, RegisterAPI, LoginAPI, AccountAPI
 from knox import views as knox_views
 
 # defines the API endpoints for user-based requests
@@ -9,4 +9,7 @@ urlpatterns = [  # localhost:8000/users/...
     path('get-posts', GetPosts.as_view()),
     path('auth', include('knox.urls')),
     path('auth/register', RegisterAPI.as_view()),
+    path('auth/login', LoginAPI.as_view()),
+    path('auth/account', AccountAPI.as_view()),
+    path('auth/logout', knox_views.LogoutView.as_view(), name='knox_logout'),
 ]
