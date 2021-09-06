@@ -1,5 +1,4 @@
 from django.shortcuts import render
 
-
-def index(request, *args, **kwargs):
-    return render(request, 'frontend/index.html')  # passes control to react via index/html
+def index(request):
+    return render(request, 'frontend/index.html')

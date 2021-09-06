@@ -1,31 +1,25 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-import HomePage from "./HomePage";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Login from "./Login";
-import ProtectedRoute from "./ProtectedRoute";
-import CreatePost from "./CreatePost";
-import NotFound from "./NotFound"
+import React, { Component, Fragment } from 'react';
+import ReactDOM from 'react-dom';
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-    }
+import Header from './layout/Header';
+import Feed from './posts/Feed';
+
+import { Provider } from 'react-redux';
+import store from '../store';
+
+class App extends Component {
     render() {
         return (
-            <div className="center">
-                <Router>
-                    <Switch>
-                        <Route exact path={"/login"} component={Login} />
-                        <ProtectedRoute exact={true} path={"/"} component={HomePage} />
-                        <ProtectedRoute exact={true} path={"/create"} component={CreatePost} />
-                        <Route component={NotFound}/>
-                    </Switch>
-                </Router>
-            </div>
+            <Provider store={store}>
+                <Fragment>
+                    <Header/>
+                    <div className={'container'}>
+                        <Feed/>
+                    </div>
+                </Fragment>
+            </Provider>
         );
     }
 }
 
-const appDiv = document.getElementById("app");
-render(<App />, appDiv);
+ReactDOM.render(<App/>, document.getElementById('app'));

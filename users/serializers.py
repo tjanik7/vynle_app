@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import Account, Post
+from .models import Account
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -40,33 +40,13 @@ class LoginSerializer(serializers.Serializer):
         raise serializers.ValidationError('Incorrect credentials')
 
 
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ('id', 'name', 'body')
-
-
-class CreatePostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ('id', 'name', 'body')
-
-
-# class AccountSerializer(serializers.ModelSerializer):
+# class PostSerializer(serializers.ModelSerializer):
 #     class Meta:
-#         model = Account
-#         fields = '__all__'
-
-
-# class AccountSerializer(serializers.ModelSerializer):
-#     email = serializers.EmailField(
-#         required=True,
-#         validators=[UniqueValidator(queryset=Account.objects.all())]
-#     )
-#     username = serializers.CharField(
-#         validators=[UniqueValidator(queryset=Account.objects.all())]
-#     )
-#     password = serializers.CharField(min_length=8)
+#         model = Post
+#         fields = ('id', 'name', 'body')
 #
-#     def create(self, validated_data):
-#         account = AccountManager.create_user(self, )
+#
+# class CreatePostSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Post
+#         fields = ('id', 'name', 'body')

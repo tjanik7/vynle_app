@@ -1,9 +1,6 @@
-from django.conf.urls import url
-from .views import index
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    # path('', index),  # renders index template whenever the empty route is visited
-    # path('create', index),
-    # path('logins', index),
-    url(r'^.*$', index),
+    path('', views.index),
 ]

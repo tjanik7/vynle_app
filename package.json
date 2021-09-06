@@ -1,0 +1,41 @@
+{
+  "name": "vynle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.3",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.4",
+    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "webpack": "^5.51.2",
+    "webpack-cli": "^4.8.0"
+  },
+  "scripts": {
+    "dev": "webpack --mode development --watch ./frontend/src/index.js --output-path ./frontend/static/frontend",
+    "build": "webpack --mode production --watch ./frontend/src/index.js --output-path ./frontend/static/frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjanik7/vynle_app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tjanik7/vynle_app/issues"
+  },
+  "homepage": "https://github.com/tjanik7/vynle_app#readme"
+}
