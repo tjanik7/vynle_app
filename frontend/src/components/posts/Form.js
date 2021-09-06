@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addPost } from '../../actions/posts';
 
 class Form extends Component {
     state = { // holds current values of form fields
         name: '',
         body: ''
+    };
+
+    static propTypes = {
+        addPost: PropTypes.func.isRequired,
     };
 
     onChange = e => this.setState({
@@ -12,7 +19,13 @@ class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault(); // prevents default HTML element behavior which we do not want to allow to run
-        console.log('submit');
+        const {name, body} = this.state;
+        const post = {name, body};
+        this.props.addPost(post);
+        this.setState({
+            name: '',
+            body: ''
+        });
     };
 
     render() {
@@ -53,4 +66,5 @@ class Form extends Component {
     }
 }
 
-export default Form;
+// don't need mapStateToProps for this form since there is not a state being passed in via props from the reducer
+export default connect(null, {addPost})(Form);

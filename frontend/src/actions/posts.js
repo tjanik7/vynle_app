@@ -1,7 +1,7 @@
 // this is the file where requests are made
 import axios from 'axios';
 
-import { GET_POSTS, DELETE_POST } from './types';
+import { GET_POSTS, DELETE_POST, ADD_POST } from './types';
 
 // GET POSTS
 export const getPosts = () => dispatch => {
@@ -21,6 +21,17 @@ export const deletePost = (id) => dispatch => {
             dispatch({
                 type: DELETE_POST,
                 payload: id
+            });
+        }).catch(err => console.log(err));
+};
+
+// ADD POST
+export const addPost = post => dispatch => {
+    axios.post('/api/posts/', post)
+        .then(res => {
+            dispatch({
+                type: ADD_POST,
+                payload: res.data
             });
         }).catch(err => console.log(err));
 };

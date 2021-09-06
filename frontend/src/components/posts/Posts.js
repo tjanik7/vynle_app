@@ -49,6 +49,7 @@ class Posts extends Component {
     }
 }
 
+// necessary to connect props being passed in from reducer to the internal react state of this component
 const mapStateToProps = state => ({
     posts: state.posts.posts
 });
