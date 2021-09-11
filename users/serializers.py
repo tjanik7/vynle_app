@@ -38,15 +38,3 @@ class LoginSerializer(serializers.Serializer):
         if account and account.is_active:
             return account
         raise serializers.ValidationError('Incorrect credentials')
-
-
-# class PostSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Post
-#         fields = ('id', 'name', 'body')
-#
-#
-# class CreatePostSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Post
-#         fields = ('id', 'name', 'body')
