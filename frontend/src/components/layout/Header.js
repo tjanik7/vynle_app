@@ -12,9 +12,14 @@ class Header extends Component {
 
     render() {
         const { isAuthenticated, user } = this.props.auth;
-
+        
         const authLinks = ( // links to show when user is authenticated
             <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
+                <span className={'navbar-text mr-3'}>
+                    <strong>
+                        {user ? `Welcome, ${user.first}` : 'yooooo'}
+                    </strong>
+                </span>
                 <li className={'nav-item'}>
                     <button onClick={this.props.logout} className={'nav-link btn-info btn-sm text-light'}>Logout
                     </button>
