@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/auth';
@@ -41,6 +41,10 @@ class Register extends Component {
     };
 
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to={'/'}/>;
+        }
+
         const { email, username, password, re_password, first, last } = this.state;
         return (
             <div className="col-md-6 m-auto">
@@ -57,15 +61,16 @@ class Register extends Component {
                                 value={email}
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group has-danger">
                             <label>Username</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className="form-control is-invalid"
                                 name="username"
                                 onChange={this.onChange}
                                 value={username}
                             />
+                            <div className={'invalid-feedback'}>username taken idiot</div>
                         </div>
                         <div className="form-group">
                             <label>First Name</label>
@@ -102,7 +107,7 @@ class Register extends Component {
                             <input
                                 type="password"
                                 className="form-control"
-                                name="password2"
+                                name="re_password"
                                 onChange={this.onChange}
                                 value={re_password}
                             />

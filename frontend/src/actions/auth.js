@@ -61,7 +61,6 @@ export const login = (email, password) => dispatch => { // getState not needed s
 
 // REGISTER USER
 export const register = ({ email, password, username, first, last }) => dispatch => {
-    // Headers
     const config = {
         headers: {
             'Content-Type': 'application/json',
