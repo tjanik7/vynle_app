@@ -7,6 +7,7 @@ export const clearErrors = () => dispatch => {
     })
 }
 
+// Add a new error to redux state
 export const createError = err => dispatch => {
     dispatch({
         type: GET_ERRORS,

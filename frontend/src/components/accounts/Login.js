@@ -39,7 +39,7 @@ class Login extends Component {
         const { email, password } = this.state
 
         const errors = this.props.errors
-        const fields = ['email', 'password']
+        const fields = ['email', 'password', 'non_field_errors']
         const fieldHasError = getFieldHasErrorObj(fields, errors)
         let currField
 
@@ -77,11 +77,19 @@ class Login extends Component {
             </div>
         )
 
+        currField = 'non_field_errors'
+        const nonFieldErrors = (
+            fieldHasError[currField] ?
+                <h5 className={'text-danger'}>Incorrect username or password. Please try again.</h5>
+                : null
+        )
+
         return (
             <div className="col-md-6 m-auto">
                 <div className="card card-body mt-5">
                     <h2 className="text-center">Login</h2>
                     <form onSubmit={this.onSubmit}>
+                        {nonFieldErrors}
                         {emailField}
                         {passwordField}
                         <div className="form-group">
