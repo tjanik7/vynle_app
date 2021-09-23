@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { addPost } from '../../actions/posts'
 import { clearErrors } from '../../actions/errors'
+import { getFieldHasErrorObj } from '../helperFunctions'
 
 class Form extends Component {
     state = { // holds current values of form fields
@@ -16,16 +17,9 @@ class Form extends Component {
         clearErrors: PropTypes.func.isRequired,
     }
 
-    componentWillUnmount() {
+    componentWillUnmount() { // clears errors when user navigates away from this component
         this.props.clearErrors()
     }
-
-    // componentDidUpdate(prevProps) {
-    //     const { error } = this.props
-    //     if (error !== prevProps.error) {
-    //         console.log(this.props)
-    //     }
-    // }
 
     onChange = e => this.setState({
         [e.target.name]: e.target.value,
@@ -46,11 +40,9 @@ class Form extends Component {
         // destructure state object into 'name' and 'body' variables
         const { song, body } = this.state
         const errors = this.props.errors
-        const isError = errors.status !== null
-        const fieldHasError = {
-            'body': isError && ('body' in errors.msg),
-            'song': isError && ('song' in errors.msg),
-        }
+        const fields = ['body', 'song']
+        const fieldHasError = getFieldHasErrorObj(fields, errors)
+
         const bodyField = (
             !fieldHasError['body'] ? ( // if no error
                     <div className="form-group">
