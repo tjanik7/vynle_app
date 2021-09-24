@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions
 
 from .serializers import PostSerializer
+from .models import Post
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -11,8 +12,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        return self.request.user.posts.all()
-
+        return Post.objects.all()
 
     def perform_create(self, serializer):  # allows for user to be assigned to post when it is created
         serializer.save(user=self.request.user)

@@ -1,13 +1,15 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Col, Container, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import { getPosts, deletePost } from '../../actions/posts'
+import Post from './Post'
 
 class Posts extends Component {
     static propTypes = {
         posts: PropTypes.array.isRequired,
         getPosts: PropTypes.func.isRequired,
-        deletePost: PropTypes.func.isRequired
+        deletePost: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
@@ -16,33 +18,20 @@ class Posts extends Component {
 
     render() {
         return (
-            <Fragment>
-                <h2>Posts</h2>
-                <table className={'table table-striped'}>
-                    <thead>
-                    <tr>
-                        <th>Body</th>
-                        <th>Song</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.props.posts.map(post => (
-                        <tr key={post.id}>
-                            <td>{post.body}</td>
-                            <td>{post.song}</td>
-                            <td>
-                                <button
-                                    onClick={this.props.deletePost.bind(this, post.id)}
-                                    className={'btn btn-danger btn-sm'}>
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </Fragment>
+            <Container>
+                <Row className={'justify-content-md-center'}>
+                    <Col md={4}>
+                        <h2>Posts</h2>
+                    </Col>
+                </Row>
+                {this.props.posts.map(post => (
+                    <Row key={post.id} className={'justify-content-md-center'}>
+                        <Col md={8}>
+                            <Post username={post.user.username} body={post.body} song={post.song}/>
+                        </Col>
+                    </Row>
+                ))}
+            </Container>
         )
     }
 }
