@@ -37,8 +37,11 @@ class Posts extends Component {
 }
 
 // necessary to connect props being passed in from reducer to the internal react state of this component
+// map redux state to the props of this component
 const mapStateToProps = state => ({
-    posts: state.posts.posts
+    posts: state.posts.posts // storing the attribute 'posts' from the posts reducer
+    // of the redux state in this.props.posts
+    // the name of the prop we want to store this in is specified on the LHS of this line
 })
 
 export default connect(

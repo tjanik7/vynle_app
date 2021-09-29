@@ -6,4 +6,5 @@ urlpatterns = [
     path('api/', include('posts.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
+    path('spotify/', include('spotify.urls')),
 ]

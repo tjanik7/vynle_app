@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-v5r7h336p-*sct!hc!7u7)0*3ajopv&89s9lfk&%vm&##v8u(*
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -42,6 +40,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'posts.apps.PostsConfig',
     'knox',
+    'spotify.apps.SpotifyConfig'
 ]
 
 REST_FRAMEWORK = {
@@ -79,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'vynle_app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -93,7 +91,6 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -125,7 +122,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

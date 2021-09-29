@@ -1,23 +1,26 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { logout } from '../../actions/auth';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { logout } from '../../actions/auth'
 
 class Header extends Component {
     static propTypes = {
         auth: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired,
-    };
+    }
 
     render() {
-        const { isAuthenticated, user } = this.props.auth;
-        
+        const { isAuthenticated, user } = this.props.auth
+
         const authLinks = ( // links to show when user is authenticated
             <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
+                <li className={'nav-item'}>
+                    <Link to={'/spotify'} className={'nav-link'}>Connect with Spotify</Link>
+                </li>
                 <span className={'navbar-text mr-3'}>
                     <strong>
-                        {user ? `Welcome, ${user.first}` : 'yooooo'}
+                        {user ? `Welcome, ${user.first}` : ''}
                     </strong>
                 </span>
                 <li className={'nav-item'}>
@@ -25,9 +28,9 @@ class Header extends Component {
                     </button>
                 </li>
             </ul>
-        );
+        )
 
-        const guestLinks = ( // links to show when no user is logged in
+        const guestLinks = ( // links to show when not authenticated
             <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
                 <li className={'nav-item'}>
                     <Link to={'/register'} className={'nav-link'}>Register</Link>
@@ -36,7 +39,7 @@ class Header extends Component {
                     <Link to={'/login'} className={'nav-link'}>Login</Link>
                 </li>
             </ul>
-        );
+        )
 
         return (
             <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -51,7 +54,6 @@ class Header extends Component {
                             aria-expanded="false"
                             aria-label="Toggle navigation"
                         >
-                            <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                             <a className="navbar-brand" href="#">
@@ -62,12 +64,12 @@ class Header extends Component {
                     </div>
                 </div>
             </nav>
-        );
+        )
     }
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
-});
+})
 
-export default connect(mapStateToProps, { logout })(Header);
+export default connect(mapStateToProps, { logout })(Header)
