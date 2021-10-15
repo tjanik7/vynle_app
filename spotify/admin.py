@@ -9,7 +9,7 @@ class SpotifyTokenAdmin(admin.ModelAdmin):
         'created_at',
         'refresh_token',
         'access_token',
-        'expires_in',
+        'expires_at',
         'token_type',
     )
 

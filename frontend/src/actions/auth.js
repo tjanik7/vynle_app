@@ -8,7 +8,8 @@ import {
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    GET_ERRORS
+    GET_ERRORS,
+    USER_LOGGED_OUT,
 } from './types'
 
 // Check token & load user
@@ -113,6 +114,8 @@ export const logout = () => (dispatch, getState) => {
         console.log('error logging out')
         console.log(err)
     })
+
+    dispatch({ type: USER_LOGGED_OUT })
 }
 
 // Setup config with token (helper function)

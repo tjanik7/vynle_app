@@ -19,17 +19,17 @@ def update_or_create_user_tokens(user, access_token, token_type, expires_in, ref
     tokens = get_user_tokens(user)
 
     # Take the current time and add the amount of time it takes for the token to expire (usually 3600sec)
-    expires_in = timezone.now() + timedelta(seconds=expires_in)
+    expires_at = timezone.now() + timedelta(seconds=expires_in)
 
     if tokens:  # update existing tokens
         tokens.access_token = access_token
         tokens.refresh_token = refresh_token
-        tokens.expires_in = expires_in
+        tokens.expires_at = expires_at
         tokens.token_type = token_type
         tokens.save(update_fields=[
             'access_token',
             'refresh_token',
-            'expires_in',
+            'expires_at',
             'token_type'
         ])
 
@@ -38,7 +38,7 @@ def update_or_create_user_tokens(user, access_token, token_type, expires_in, ref
                               access_token=access_token,
                               refresh_token=refresh_token,
                               token_type=token_type,
-                              expires_in=expires_in
+                              expires_at=expires_at,
                               )
         tokens.save()  # writes to database
 
@@ -55,7 +55,6 @@ def refresh_spotify_token(user):
     access_token = response.get('access_token')
     token_type = response.get('token_type')
     expires_in = response.get('expires_in')
-    refresh_token = response.get('refresh_token')
 
     update_or_create_user_tokens(
         user,
@@ -69,7 +68,7 @@ def refresh_spotify_token(user):
 def is_spotify_authenticated(user):
     tokens = get_user_tokens(user)
     if tokens:
-        expiry = tokens.expires_in
+        expiry = tokens.expires_at
         if expiry <= timezone.now():  # If the 'expiry' DateTime object is in the past
             refresh_spotify_token(user)
         return True

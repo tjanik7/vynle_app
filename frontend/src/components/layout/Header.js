@@ -8,15 +8,31 @@ class Header extends Component {
     static propTypes = {
         auth: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired,
+        isSpotifyAuthenticated: PropTypes.bool,
     }
 
     render() {
         const { isAuthenticated, user } = this.props.auth
+        const isSpotifyAuthenticated = this.props.isSpotifyAuthenticated
+        let spotifyLink
+        if (isSpotifyAuthenticated == null) { // status not yet loaded
+            spotifyLink = (
+                <Link to={'#'} className={'nav-link disabled'}>Connect with Spotify</Link>
+            )
+        } else if (isSpotifyAuthenticated) { // authenticated
+            spotifyLink = (
+                <Link to={'/spotify-profile'} className={'nav-link'}>Spotify Profile</Link>
+            )
+        } else {
+            spotifyLink = ( // user is not spotify authenticated
+                <Link to={'/spotify-redirect'} className={'nav-link'}>Connect with Spotify</Link>
+            )
+        }
 
         const authLinks = ( // links to show when user is authenticated
             <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
                 <li className={'nav-item'}>
-                    <Link to={'/spotify'} className={'nav-link'}>Connect with Spotify</Link>
+                    {spotifyLink}
                 </li>
                 <span className={'navbar-text mr-3'}>
                     <strong>
@@ -70,6 +86,7 @@ class Header extends Component {
 
 const mapStateToProps = state => ({
     auth: state.auth,
+    isSpotifyAuthenticated: state.spotify.isSpotifyAuthenticated,
 })
 
 export default connect(mapStateToProps, { logout })(Header)

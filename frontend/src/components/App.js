@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Header from './layout/Header'
-import SpotifyHome from './spotify/SpotifyHome'
 import Feed from './posts/Feed'
 import Login from './accounts/Login'
 import Register from './accounts/Register'
@@ -12,6 +11,8 @@ import PrivateRoute from './common/PrivateRoute'
 import { Provider } from 'react-redux'
 import store from '../store'
 import { loadUser } from '../actions/auth'
+import SpotifyProfile from './spotify/SpotifyProfile'
+import SpotifyRedirect from './spotify/SpotifyRedirect'
 
 class App extends Component {
     componentDidMount() {
@@ -27,7 +28,8 @@ class App extends Component {
                         <div className={'container'}>
                             <Switch>
                                 <PrivateRoute exact path={'/'} component={Feed}/>
-                                <PrivateRoute exact path={'/spotify'} component={SpotifyHome}/>
+                                <PrivateRoute exact path={'/spotify-redirect'} component={SpotifyRedirect}/>
+                                <PrivateRoute exact path={'/spotify-profile'} component={SpotifyProfile}/>
                                 <Route exact path={'/register'} component={Register}/>
                                 <Route exact path={'/login'} component={Login}/>
                             </Switch>

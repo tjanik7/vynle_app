@@ -8,5 +8,5 @@ class SpotifyToken(models.Model):  # NEWEST MIGRATIONS HAVE BEEN APPLIED
     created_at = models.DateTimeField(auto_now_add=True)
     refresh_token = models.CharField(max_length=150)
     access_token = models.CharField(max_length=200)
-    expires_in = models.DateTimeField()
+    expires_at = models.DateTimeField()
     token_type = models.CharField(max_length=50)
