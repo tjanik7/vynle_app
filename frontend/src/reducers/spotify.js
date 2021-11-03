@@ -1,13 +1,13 @@
 import {
     GET_SPOTIFY_AUTH_STATUS,
     GET_SPOTIFY_AUTH_URL,
-    SPOTIFY_AUTH_LOADED,
-    SPOTIFY_AUTH_LOADING,
+    GET_CURRENT_USER_SPOTIFY_PROFILE,
 } from '../actions/types'
 
 const initialState = {
     isSpotifyAuthenticated: null, // null by default until auth status is loaded
     url: '', // used for redirect if user needs to authenticate with spotify
+    id: '',
 }
 
 export default function (state = initialState, action) {
@@ -21,6 +21,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 url: action.payload.url,
+            }
+        case GET_CURRENT_USER_SPOTIFY_PROFILE:
+            return {
+                ...state,
+                id: action.payload.id
             }
         default:
             return state

@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from requests import Request, post
+from requests import Request, post, get
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,8 +7,59 @@ from rest_framework.views import APIView
 from users.models import Account
 from .models import SpotifyToken
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
-from .util import update_or_create_user_tokens, is_spotify_authenticated
+from .util import update_or_create_user_tokens, is_spotify_authenticated, get_user_tokens
 from .serializers import SpotifyTokenSerializer
+
+
+class SearchSpotify(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, format=None):
+        user = request.user
+        if is_spotify_authenticated(user):
+            access_token = get_user_tokens(user).access_token
+
+            q = request.query_params.get('q')
+            media_type = request.query_params.get('type')
+            payload = {
+                'q': q,
+                'type': media_type,
+                'limit': '5'
+            }
+
+            headers = {
+                'Authorization': 'Bearer ' + access_token,
+            }
+
+            response = get('https://api.spotify.com/v1/search', params=payload, headers=headers).json()
+
+            albums = response.get('albums')
+
+            return Response({
+                'albums': albums,
+            },
+                status=status.HTTP_200_OK
+            )
+        # add else condition for these top two
+
+
+class GetCurrentUserSpotifyProfile(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, format=None):
+        user = request.user
+        if is_spotify_authenticated(user):
+            access_token = get_user_tokens(user).access_token
+            response = get('https://api.spotify.com/v1/me', headers={
+                'Authorization': 'Bearer ' + access_token,
+            }).json()
+
+            spotify_username = response.get('id')
+            return Response({
+                'id': spotify_username,
+            },
+                status=status.HTTP_200_OK
+            )
 
 
 # Returns the url that will be used to authenticate this application (this endpoint does not make the request)
@@ -73,8 +124,6 @@ def spotify_callback(request, format=None):
     refresh_token = response.get('refresh_token')
     expires_in = response.get('expires_in')
     error = response.get('error')
-
-    print(f'adding access token {access_token} to db for user {user}')
 
     update_or_create_user_tokens(user, access_token, token_type, expires_in, refresh_token)
     return redirect('frontend:')

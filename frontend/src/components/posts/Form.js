@@ -6,7 +6,7 @@ import { clearErrors } from '../../actions/errors'
 import { getFieldHasErrorObj } from '../helperFunctions'
 
 class Form extends Component {
-    state = { // holds current values of form fields
+    state = { // stores current values of form fields
         body: '',
         song: ''
     }
@@ -17,7 +17,8 @@ class Form extends Component {
         clearErrors: PropTypes.func.isRequired,
     }
 
-    componentWillUnmount() { // clears errors when user navigates away from this component
+    // Clears errors when user navigates away from this component
+    componentWillUnmount() {
         this.props.clearErrors()
     }
 
@@ -107,14 +108,6 @@ class Form extends Component {
                         </button>
                     </div>
                 </form>
-                {/*{!isError ?*/}
-                {/*    <p>there is no error guy chill</p> :*/}
-                {/*    Object.entries(this.props.errors.msg).map(([key, value]) => (*/}
-                {/*        <div key={key}>*/}
-                {/*            <p>{key}</p>*/}
-                {/*            <p>{value}</p>*/}
-                {/*        </div>*/}
-                {/*    ))}*/}
             </div>
         )
     }

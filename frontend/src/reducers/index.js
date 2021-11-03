@@ -3,22 +3,15 @@ import posts from './posts'
 import auth from './auth'
 import errors from './errors'
 import spotify from './spotify'
+import spotifySearch from './spotifySearch'
 import { USER_LOGGED_OUT } from '../actions/types'
-
-// ORIGINAL
-// export default combineReducers({
-//     posts,
-//     auth,
-//     errors,
-//     spotify,
-// })  // FIGURE OUT HOW TO COMPLETELY RESET REDUX STATE WHEN A USER LOGS OUT
-// END ORIGINAL
 
 const appReducer = combineReducers({
     posts,
     auth,
     errors,
     spotify,
+    spotifySearch,
 })
 
 const rootReducer = (state, action) => {
