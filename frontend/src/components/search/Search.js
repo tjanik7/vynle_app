@@ -3,26 +3,43 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { search } from '../../actions/spotifySearch'
 import DropdownRow from '../search/DropdownRow'
+import { Col, Container, Row } from 'react-bootstrap'
+
+const TIME_TO_WAIT = 1500 // Length of time after user stops typing to send request
 
 class Search extends Component {
     state = {
         q: '', // stores current value of search query bar
+        t: null,
     }
 
     static propTypes = {
-        queryResults: PropTypes.array,
+        albums: PropTypes.array,
+        tracks: PropTypes.array,
         search: PropTypes.func.isRequired,
     }
 
-    // Keeps state updated based on the current value of the search bar
-    onChange = e => this.setState({
-        [e.target.name]: e.target.value,
-    })
-
-    onSubmit = e => {
-        e.preventDefault()
+    sendQuery = () => {
         const { q } = this.state
+        console.log(`sending query: ${q}`)
         this.props.search(q)
+    }
+
+    onChange = e => {
+        // Update state based on the current value of the search bar
+        this.setState({
+            [e.target.name]: e.target.value,
+        })
+
+        const { t } = this.state
+        clearTimeout(t)
+        console.log('resetting timer')
+
+        if (e.target.value !== '') { // Only start new timer if search bar is nonempty
+            this.setState({
+                t: setTimeout(this.sendQuery, TIME_TO_WAIT)
+            })
+        }
     }
 
     render() {
@@ -41,15 +58,21 @@ class Search extends Component {
                             placeholder={'Search...'}
                         />
                     </div>
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary">
-                            Submit
-                        </button>
-                    </div>
                 </form>
-                {this.props.queryResults.map(result => (
-                    <DropdownRow key={result.id} media={result.name} artist={result.artists[0].name}/>
-                ))}
+                <Container>
+                    <Row>
+                        <Col>
+                            {this.props.albums.map(result => (
+                                <DropdownRow key={result.id} media={result.name} artist={result.artists[0].name}/>
+                            ))}
+                        </Col>
+                        <Col>
+                            {this.props.tracks.map(result => (
+                                <DropdownRow key={result.id} media={result.name} artist={result.artists[0].name}/>
+                            ))}
+                        </Col>
+                    </Row>
+                </Container>
             </Fragment>
         )
     }
@@ -57,7 +80,8 @@ class Search extends Component {
 
 const mapStateToProps = state => (
     {
-        queryResults: state.spotifySearch.queryResults,
+        albums: state.spotifySearch.albums,
+        tracks: state.spotifySearch.tracks,
     }
 )
 

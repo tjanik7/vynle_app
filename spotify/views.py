@@ -20,10 +20,10 @@ class SearchSpotify(APIView):
             access_token = get_user_tokens(user).access_token
 
             q = request.query_params.get('q')
-            media_type = request.query_params.get('type')
+            media_types = request.query_params.get('type')
             payload = {
                 'q': q,
-                'type': media_type,
+                'type': media_types,
                 'limit': '5'
             }
 
@@ -33,14 +33,8 @@ class SearchSpotify(APIView):
 
             response = get('https://api.spotify.com/v1/search', params=payload, headers=headers).json()
 
-            albums = response.get('albums')
-
-            return Response({
-                'albums': albums,
-            },
-                status=status.HTTP_200_OK
-            )
-        # add else condition for these top two
+            return Response(response, status=status.HTTP_200_OK)
+        # add else condition for these top two endpoints
 
 
 class GetCurrentUserSpotifyProfile(APIView):

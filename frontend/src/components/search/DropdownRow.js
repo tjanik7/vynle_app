@@ -10,7 +10,7 @@ class DropdownRow extends Component {
     render() {
         return (
             <Fragment>
-                <div className={'card'} style={{ width: '25rem' }}>
+                <div className={'card'}>
                     <div className={'card-body'}>
                         <h5 className={'card-title'}>{this.props.media}</h5>
                         <p className={'card-text'}>{this.props.artist}</p>

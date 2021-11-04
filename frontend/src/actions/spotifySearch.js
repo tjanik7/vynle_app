@@ -7,7 +7,7 @@ export const search = (q) => (dispatch, getState) => {
     //axios.get('/spotify/search-spotify?q=rodeo&type=album', tokenConfig(getState))
     const data = {
         headers: tokenConfig(getState).headers,
-        params: { q: q, type: 'album' }
+        params: { q: q, type: 'album,track' }
     }
     axios.get('/spotify/search-spotify', data)
         .then(res => {
