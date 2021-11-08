@@ -73,3 +73,8 @@ def is_spotify_authenticated(user):
             refresh_spotify_token(user)
         return True
     return False
+
+
+def get_header(user):
+    access_token = get_user_tokens(user).access_token
+    return {'Authorization': 'Bearer ' + access_token, }

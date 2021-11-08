@@ -21,7 +21,6 @@ class Search extends Component {
 
     sendQuery = () => {
         const { q } = this.state
-        console.log(`sending query: ${q}`)
         this.props.search(q)
     }
 
@@ -33,7 +32,6 @@ class Search extends Component {
 
         const { t } = this.state
         clearTimeout(t)
-        console.log('resetting timer')
 
         if (e.target.value !== '') { // Only start new timer if search bar is nonempty
             this.setState({
@@ -63,12 +61,14 @@ class Search extends Component {
                     <Row>
                         <Col>
                             {this.props.albums.map(result => (
-                                <DropdownRow key={result.id} media={result.name} artist={result.artists[0].name}/>
+                                <DropdownRow key={result.id} media={result.name} artist={result.artists[0].name}
+                                             img={result.images[1].url}/>
                             ))}
                         </Col>
                         <Col>
                             {this.props.tracks.map(result => (
-                                <DropdownRow key={result.id} media={result.name} artist={result.artists[0].name}/>
+                                <DropdownRow key={result.id} media={result.name} artist={result.artists[0].name}
+                                             img={result.album.images[1].url}/>
                             ))}
                         </Col>
                     </Row>

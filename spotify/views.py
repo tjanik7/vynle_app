@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from users.models import Account
 from .models import SpotifyToken
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
-from .util import update_or_create_user_tokens, is_spotify_authenticated, get_user_tokens
+from .util import update_or_create_user_tokens, is_spotify_authenticated, get_user_tokens, get_header
 from .serializers import SpotifyTokenSerializer
 
 
@@ -17,8 +17,6 @@ class SearchSpotify(APIView):
     def get(self, request, format=None):
         user = request.user
         if is_spotify_authenticated(user):
-            access_token = get_user_tokens(user).access_token
-
             q = request.query_params.get('q')
             media_types = request.query_params.get('type')
             payload = {
@@ -27,9 +25,7 @@ class SearchSpotify(APIView):
                 'limit': '5'
             }
 
-            headers = {
-                'Authorization': 'Bearer ' + access_token,
-            }
+            headers = get_header(user)
 
             response = get('https://api.spotify.com/v1/search', params=payload, headers=headers).json()
 
@@ -43,10 +39,8 @@ class GetCurrentUserSpotifyProfile(APIView):
     def get(self, request, format=None):
         user = request.user
         if is_spotify_authenticated(user):
-            access_token = get_user_tokens(user).access_token
-            response = get('https://api.spotify.com/v1/me', headers={
-                'Authorization': 'Bearer ' + access_token,
-            }).json()
+            headers = get_header(user)
+            response = get('https://api.spotify.com/v1/me', headers=headers).json()
 
             spotify_username = response.get('id')
             return Response({
@@ -117,7 +111,7 @@ def spotify_callback(request, format=None):
     token_type = response.get('token_type')
     refresh_token = response.get('refresh_token')
     expires_in = response.get('expires_in')
-    error = response.get('error')
+    error = response.get('error')  # Add error functionality
 
     update_or_create_user_tokens(user, access_token, token_type, expires_in, refresh_token)
     return redirect('frontend:')
