@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.models import Account
-from .models import SpotifyToken
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
-from .util import update_or_create_user_tokens, is_spotify_authenticated, get_user_tokens, get_header
+from .models import SpotifyToken
 from .serializers import SpotifyTokenSerializer
+from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header
 
 
 class SearchSpotify(APIView):

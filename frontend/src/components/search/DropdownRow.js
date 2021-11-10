@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
+import './css/DropdownRow.css'
 
 class DropdownRow extends Component {
     static propTypes = {
@@ -12,7 +13,7 @@ class DropdownRow extends Component {
     render() {
         return (
             <Fragment>
-                <div className={'card'}>
+                <div className={'card test1'}>
                     <div className={'card-body'}>
                         <Row>
                             <Col className={'col-md-2'}>
