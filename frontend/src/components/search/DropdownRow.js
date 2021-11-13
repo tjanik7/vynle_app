@@ -1,19 +1,28 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
 import './css/DropdownRow.css'
+import { updateSelection } from '../../actions/spotifySearch'
 
 class DropdownRow extends Component {
     static propTypes = {
         media: PropTypes.string.isRequired,
         artist: PropTypes.string.isRequired,
         img: PropTypes.string.isRequired,
+        dataKey: PropTypes.string.isRequired,
+        updateSelection: PropTypes.func.isRequired,
+    }
+
+    onClickHandler = e => {
+        const key = this.props.dataKey
+        this.props.updateSelection(key)
     }
 
     render() {
         return (
             <Fragment>
-                <div className={'card test1'}>
+                <div className={'card media-card'} onClick={this.onClickHandler}>
                     <div className={'card-body'}>
                         <Row>
                             <Col className={'col-md-2'}>
@@ -31,4 +40,10 @@ class DropdownRow extends Component {
     }
 }
 
-export default DropdownRow
+const mapStateToProps = state => ({})
+
+export default connect(mapStateToProps,
+    {
+        updateSelection
+    }
+)(DropdownRow)

@@ -1,13 +1,14 @@
-import { SEARCH_SPOTIFY } from '../actions/types'
+import { SEND_QUERY, UPDATE_SELECTION } from '../actions/types'
 
 const initialState = {
-    albums: [],
-    tracks: []
+    albums: [], // Albums returned from query
+    tracks: [], // Tracks returned from query
+    selection: null, // Album/track user selects with the spotify search component
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case SEARCH_SPOTIFY:
+        case SEND_QUERY:
             let albums = []
             let tracks = []
             if ('albums' in action.payload) {
@@ -22,6 +23,11 @@ export default function (state = initialState, action) {
                 ...state,
                 albums: albums,
                 tracks: tracks,
+            }
+        case UPDATE_SELECTION:
+            return {
+                ...state,
+                selection: action.payload,
             }
         default:
             return state

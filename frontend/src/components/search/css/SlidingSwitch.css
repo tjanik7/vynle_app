@@ -1,0 +1,83 @@
+:root {
+    --radius: 2em;
+    --switch-container-width: 12em;
+    --switch-container-height: calc(var(--switch-container-width) / 3);
+    --switch-color-width: calc(var(--switch-container-width) - 1em);
+    --switch-color-height: calc(var(--switch-container-height) - 1em);
+    --top: calc(calc(var(--switch-container-height) - var(--switch-color-height)) / 2);
+    --left: calc(calc(var(--switch-container-width) - var(--switch-color-width)) / 2);
+}
+
+.switch-container {
+    width: var(--switch-container-width);
+    height: var(--switch-container-height);
+    border-radius: var(--radius);
+    box-shadow: 5px 5px 15px 5px #cfd8dc;
+    position: relative;
+    margin: 10px 0;
+}
+
+#clickable-area {
+    width: var(--switch-color-width);
+    height: var(--switch-color-height);
+    left: 1em;
+    top: 1em;
+    border-radius: var(--radius);
+    z-index: 100;
+    position: absolute;
+    cursor: pointer;
+}
+
+#switch-color {
+    width: var(--switch-color-width);
+    height: var(--switch-color-height);
+    left: var(--left);
+    top: var(--top);
+    border-radius: var(--radius);
+    background: #cfd8dc;
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+#switch-handle {
+    width: 50%;
+    height: var(--switch-color-height);
+    z-index: 99;
+    top: var(--top);
+    left: var(--left);
+    background: white;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: var(--radius);
+    position: absolute;
+    transition: all 250ms;
+    box-shadow: 2px 2px 10px 2px #cfd8dc;
+}
+
+#switch:checked ~ #switch-handle {
+    transform: translatex(5em);
+}
+
+#tracks {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+#albums {
+    width: 50%;
+    float: right;
+    text-align: center;
+}
+
+.switch-text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+#switch {
+    display: none;
+}
