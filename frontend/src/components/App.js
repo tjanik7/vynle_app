@@ -14,6 +14,10 @@ import { loadUser } from '../actions/auth'
 import SpotifyProfile from './spotify/SpotifyProfile'
 import SpotifyRedirect from './spotify/SpotifyRedirect'
 
+//import '../../sass/bootstrapgood.min.css'
+
+import '../../sass/main.css'
+
 class App extends Component {
     componentDidMount() {
         store.dispatch(loadUser())

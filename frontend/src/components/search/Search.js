@@ -6,7 +6,7 @@ import SlidingSwitch from './SlidingSwitch'
 import DropdownRow from '../search/DropdownRow'
 import { Col, Container, Row } from 'react-bootstrap'
 
-const TIME_TO_WAIT = 1500 // Length of time after user stops typing to send request
+const TIME_TO_WAIT = 1000 // ms to wait after user stops typing to send request
 
 class Search extends Component {
     state = {
@@ -27,30 +27,33 @@ class Search extends Component {
         this.props.search(q, mediaType)
     }
 
-    onSearchbarChange = e => {
-        // Update state based on the current value of the search bar
-        this.setState({
-            [e.target.name]: e.target.value,
-        })
-
+    timerReset = (searchBarValue) => {
         const { t } = this.state
         clearTimeout(t)
 
-        if (e.target.value !== '') { // Only start new timer if search bar is nonempty
+        if (searchBarValue !== '') { // Only start new timer if search bar is nonempty
             this.setState({
                 t: setTimeout(this.sendQuery, TIME_TO_WAIT)
             })
         }
     }
 
+    onSearchbarChange = e => {
+        // Update state based on the current value of the search bar
+        this.setState({
+            [e.target.name]: e.target.value,
+        })
+        this.timerReset(e.target.value)
+    }
+
     // To be passed into sliding switch - toggles boolean state value when change is detected within the checkbox
     onCheckboxChange = e => {
-        if (e.target.name === 'tracksSelected') {
-            const { tracksSelected } = this.state
-            this.setState({
-                [e.target.name]: !tracksSelected,
-            })
-        }
+        const { tracksSelected } = this.state
+        this.setState({
+            [e.target.name]: !tracksSelected,
+        })
+        const { q } = this.state
+        this.timerReset(q)
     }
 
     render() {
