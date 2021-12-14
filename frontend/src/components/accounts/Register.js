@@ -67,7 +67,7 @@ class Register extends Component {
 
         currField = 'email'
         const emailField = (
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>Email</label>
                 <input
                     type="email"
@@ -84,7 +84,7 @@ class Register extends Component {
 
         currField = 'username'
         const usernameField = (
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>Username</label>
                 <input
                     type="text"
@@ -101,7 +101,7 @@ class Register extends Component {
 
         currField = 'first'
         const firstField = (
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>First Name</label>
                 <input
                     type="text"
@@ -118,7 +118,7 @@ class Register extends Component {
 
         currField = 'last'
         const lastField = (
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>Last Name</label>
                 <input
                     type="text"
@@ -135,7 +135,7 @@ class Register extends Component {
 
         currField = 'password'
         const passwordField = (
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>Password</label>
                 <input
                     type="password"
@@ -152,7 +152,7 @@ class Register extends Component {
 
         currField = 're_password'
         const re_passwordField = ( // figure out how to create new err if pwds don't match
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>Confirm Password</label>
                 <input
                     type="password"
@@ -179,7 +179,7 @@ class Register extends Component {
                         {passwordField}
                         {re_passwordField}
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary mb-2">
                                 Register
                             </button>
                         </div>

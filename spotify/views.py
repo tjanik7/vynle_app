@@ -11,6 +11,28 @@ from .serializers import SpotifyTokenSerializer
 from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header
 
 
+class GetAlbum(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, format=None):
+        user = request.user
+        if is_spotify_authenticated(user):
+            album_id = request.query_params.get('album_id')
+
+            url = 'https://api.spotify.com/v1/albums/' + album_id
+            headers = get_header(user)
+            response = get(url, headers=headers).json()
+
+            # Return only necessary albums attributes
+            ret = {
+                'name': response['name'],  # Name of album
+                'artist': response['artists'][0]['name'],  # Name of first artist listed
+                'img': response['images'][1]['url'],  # Medium img - 300x300
+            }
+
+            return Response(ret, status=status.HTTP_200_OK)
+
+
 class SearchSpotify(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
 

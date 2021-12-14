@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { search } from '../../actions/spotifySearch'
+import { search, clearSearchResults } from '../../actions/spotifySearch'
 import SlidingSwitch from './SlidingSwitch'
 import DropdownRow from '../search/DropdownRow'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -19,6 +19,10 @@ class Search extends Component {
         albums: PropTypes.array,
         tracks: PropTypes.array,
         search: PropTypes.func.isRequired,
+    }
+
+    componentWillUnmount() {
+        this.props.clearSearchResults()
     }
 
     sendQuery = () => {
@@ -106,6 +110,7 @@ const mapStateToProps = state => (
 
 export default connect(mapStateToProps,
     {
-        search
+        search,
+        clearSearchResults
     }
 )(Search)

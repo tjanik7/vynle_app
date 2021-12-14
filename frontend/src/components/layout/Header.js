@@ -66,8 +66,8 @@ class Header extends Component {
                 <div className={'container'}>
                     <div className="container-fluid">
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                            <a className="navbar-brand " href="#">
-                                Vynle
+                            <a className="navbar-brand py-0" href="#">
+                                <img id={'logo-main'} src={'/static/logo/logo_main.svg'} alt={'Vynle Logo'}/>
                             </a>
                             {isAuthenticated ? authLinks : guestLinks}
                         </div>

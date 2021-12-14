@@ -3,8 +3,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getCurrentUserSpotifyProfile } from '../../actions/spotify'
 import Search from '../search/Search'
+import CoverArt from '../cover_art/CoverArt'
 
 class SpotifyProfile extends Component {
+    state = {
+        searchDisplayed: false, // bool to toggle whether the search tool should be displayed
+    }
+
     static propTypes = {
         id: PropTypes.string.isRequired,
     }
@@ -17,6 +22,7 @@ class SpotifyProfile extends Component {
         return (
             <div>
                 <p>Your Spotify username is {this.props.id}</p>
+                <CoverArt albumID={'5ll74bqtkcXlKE7wwkMq4g'} ind={0}/>
                 <Search/>
             </div>
         )

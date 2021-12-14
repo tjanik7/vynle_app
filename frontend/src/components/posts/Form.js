@@ -103,7 +103,7 @@ class Form extends Component {
                     {bodyField}
                     {songField}
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary my-2">
                             Submit
                         </button>
                     </div>

@@ -1,4 +1,4 @@
-import { SEND_QUERY, UPDATE_SELECTION } from '../actions/types'
+import { CLEAR_SEARCH_RESULTS, SEND_QUERY, UPDATE_SELECTION } from '../actions/types'
 
 const initialState = {
     albums: [], // Albums returned from query
@@ -28,6 +28,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 selection: action.payload,
+            }
+        case CLEAR_SEARCH_RESULTS:
+            return {
+                ...state,
+                albums: [],
+                tracks: [],
             }
         default:
             return state

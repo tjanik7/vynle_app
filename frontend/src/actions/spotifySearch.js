@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { tokenConfig } from './auth'
-import { SEND_QUERY, UPDATE_SELECTION } from './types'
+import { SEND_QUERY, UPDATE_SELECTION, CLEAR_SEARCH_RESULTS } from './types'
 
 // Make a search query using the Spotify API
 export const search = (q, mediaType) => (dispatch, getState) => {
@@ -21,5 +21,11 @@ export const updateSelection = s => (dispatch, getState) => {
     dispatch({
         type: UPDATE_SELECTION,
         payload: s,
+    })
+}
+
+export const clearSearchResults = () => dispatch => {
+    dispatch({
+        type: CLEAR_SEARCH_RESULTS,
     })
 }

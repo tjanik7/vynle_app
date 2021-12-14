@@ -7,7 +7,7 @@ import {
 const initialState = {
     isSpotifyAuthenticated: null, // null by default until auth status is loaded
     url: '', // used for redirect if user needs to authenticate with spotify
-    id: '',
+    id: '', // user's spotify username
 }
 
 export default function (state = initialState, action) {

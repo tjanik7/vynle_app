@@ -45,7 +45,7 @@ class Login extends Component {
 
         currField = 'email'
         const emailField = (
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>Email</label>
                 <input
                     type="email"
@@ -62,7 +62,7 @@ class Login extends Component {
 
         currField = 'password'
         const passwordField = (
-            <div className={'form-group' + (fieldHasError[currField] ? ' has-danger' : '')}>
+            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
                 <label>Password</label>
                 <input
                     type="password"
@@ -93,7 +93,7 @@ class Login extends Component {
                         {emailField}
                         {passwordField}
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary mb-2">
                                 Login
                             </button>
                         </div>

@@ -4,6 +4,7 @@ import auth from './auth'
 import errors from './errors'
 import spotify from './spotify'
 import spotifySearch from './spotifySearch'
+import profile from './profile'
 import { USER_LOGGED_OUT } from '../actions/types'
 
 const appReducer = combineReducers({
@@ -12,6 +13,7 @@ const appReducer = combineReducers({
     errors,
     spotify,
     spotifySearch,
+    profile,
 })
 
 const rootReducer = (state, action) => {
