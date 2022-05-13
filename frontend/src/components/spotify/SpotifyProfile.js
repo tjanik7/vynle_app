@@ -12,6 +12,7 @@ class SpotifyProfile extends Component {
 
     static propTypes = {
         id: PropTypes.string.isRequired,
+        isSearchVisible: PropTypes.bool.isRequired,
     }
 
     componentDidMount() {
@@ -23,7 +24,12 @@ class SpotifyProfile extends Component {
             <div>
                 <p>Your Spotify username is {this.props.id}</p>
                 <CoverArt albumID={'5ll74bqtkcXlKE7wwkMq4g'} ind={0}/>
-                <Search/>
+                <CoverArt albumID={'4PWBTB6NYSKQwfo79I3prg'} ind={1}/>
+                <CoverArt albumID={'5Gm2XKBgnlzd6qTi7LE1z2'} ind={2}/>
+                <CoverArt albumID={'7EJ0OT5ZqybXxcYRa6mccM'} ind={3}/>
+                <CoverArt albumID={'3Gt7rOjcZQoHCfnKl5AkK7'} ind={4}/>
+                <CoverArt albumID={'2WmJ5wp5wKBlIJE6FDAIBJ'} ind={5}/>
+                {this.props.isSearchVisible ? <Search/> : null}
             </div>
         )
     }
@@ -31,6 +37,7 @@ class SpotifyProfile extends Component {
 
 const mapStateToProps = state => ({
     id: state.spotify.id,
+    isSearchVisible: state.spotifySearch.isVisible,
 })
 
 export default connect(mapStateToProps, { getCurrentUserSpotifyProfile })(SpotifyProfile)

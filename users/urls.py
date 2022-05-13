@@ -1,3 +1,4 @@
+# Users
 from django.urls import path, include
 from .views import RegisterAPI, LoginAPI, AccountAPI
 from knox import views as knox_views

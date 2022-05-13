@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import Account
+from .models import Account, Profile
 
 
 class UserCreationForm(forms.ModelForm):
@@ -49,7 +49,7 @@ class UserChangeForm(forms.ModelForm):
 
 
 class UserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
+    # Forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
 
@@ -79,4 +79,5 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(Account, UserAdmin)
+admin.site.register(Profile)
 admin.site.unregister(Group)

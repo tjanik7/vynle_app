@@ -1,3 +1,4 @@
+# Spotify
 from django.shortcuts import redirect
 from requests import Request, post, get
 from rest_framework import status, permissions
@@ -9,6 +10,37 @@ from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
 from .models import SpotifyToken
 from .serializers import SpotifyTokenSerializer
 from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header
+
+
+class SetFavAlbum(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    ALBUM_LIST_LEN = 6  # Treat as constant static variable to avoid hardcoding
+
+    # Note that if variable is accessed using the classname, it is treated as a static variable
+    # If it is accessed using an object/instance, it is treated as an object attribute (unique to each object)
+
+    def post(self, request):
+        user = request.user
+        if is_spotify_authenticated(user):
+            album_id = request.data['album_id']
+            ind = request.data['ind']
+            if not ind.is_digit():
+                return Response(
+                    {'msg': f"Index must be an int 0 <= ind < {str(SetFavAlbum.ALBUM_LIST_LEN)}"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            ind_int = int(ind)
+            if ind_int < 0 or ind_int >= SetFavAlbum.ALBUM_LIST_LEN:  # If out index out of range
+                return Response(
+                    {'msg': f"Index must be an int 0 <= ind < {str(SetFavAlbum.ALBUM_LIST_LEN)}"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            return Response(status=status.HTTP_200_OK)
+
+            # Make sure album_id corresponds is mapped to a Spotify album
+            # UP NEXT: CREATE METHOD CHECKING STATUS TO MAKE SURE THE ALBUM EXISTS; IF IT DOES, SET IT WITHIN FAVALBUMS
 
 
 class GetAlbum(APIView):
