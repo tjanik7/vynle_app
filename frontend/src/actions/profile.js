@@ -5,7 +5,10 @@ import axios from 'axios'
 export const getAlbumData = (ind, album_id) => (dispatch, getState) => {
     const data = {
         headers: tokenConfig(getState).headers,
-        params: { album_id }
+        params: {
+            ind,
+            album_id
+        }
     }
     axios.get('/spotify/get-album', data)
         .then(res => {

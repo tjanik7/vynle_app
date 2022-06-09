@@ -25,22 +25,44 @@ class SetFavAlbum(APIView):
         if is_spotify_authenticated(user):
             album_id = request.data['album_id']
             ind = request.data['ind']
-            if not ind.is_digit():
+            if not isinstance(ind, int):
                 return Response(
                     {'msg': f"Index must be an int 0 <= ind < {str(SetFavAlbum.ALBUM_LIST_LEN)}"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            ind_int = int(ind)
-            if ind_int < 0 or ind_int >= SetFavAlbum.ALBUM_LIST_LEN:  # If out index out of range
+            if ind < 0 or ind >= SetFavAlbum.ALBUM_LIST_LEN:  # If out index out of range
                 return Response(
                     {'msg': f"Index must be an int 0 <= ind < {str(SetFavAlbum.ALBUM_LIST_LEN)}"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
+
+            # Make sure album_id is mapped to a Spotify album
+            # UP NEXT: CREATE METHOD CHECKING STATUS TO MAKE SURE THE ALBUM EXISTS; IF IT DOES, SET IT WITHIN FAVALBUMS
+
+            url = 'https://api.spotify.com/v1/albums/' + album_id
+            response = get(url, headers=get_header(user))
+            status_code = response.status_code
+            if not status_code:  # Not a 200 response
+                return Response(response.json(), status=status_code)
+            user_albums = user.profile.favalbums
+
+            # Maybe use getattr for this instead?
+            if ind == 0:
+                user_albums.a0 = album_id
+            elif ind == 1:
+                user_albums.a1 = album_id
+            elif ind == 2:
+                user_albums.a2 = album_id
+            elif ind == 3:
+                user_albums.a3 = album_id
+            elif ind == 4:
+                user_albums.a4 = album_id
+            elif ind == 5:
+                user_albums.a5 = album_id
+
+            user_albums.save()
 
             return Response(status=status.HTTP_200_OK)
-
-            # Make sure album_id corresponds is mapped to a Spotify album
-            # UP NEXT: CREATE METHOD CHECKING STATUS TO MAKE SURE THE ALBUM EXISTS; IF IT DOES, SET IT WITHIN FAVALBUMS
 
 
 class GetAlbum(APIView):

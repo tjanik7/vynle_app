@@ -1,10 +1,18 @@
-import { CLEAR_SEARCH_RESULTS, SEARCH_INVISIBLE, SEARCH_VISIBLE, SEND_QUERY, UPDATE_SELECTION } from '../actions/types'
+import {
+    CLEAR_SEARCH_RESULTS,
+    SEARCH_INVISIBLE,
+    SEARCH_VISIBLE,
+    SEND_QUERY,
+    SET_SELECTED_INDEX,
+    UPDATE_SELECTION
+} from '../actions/types'
 
 const initialState = {
     albums: [], // Albums returned from query
     tracks: [], // Tracks returned from query
     selection: null, // Album/track user selects with the spotify search component
     isVisible: false, // Tracks whether search tool should appear on screen
+    selectedIndex: -1, // Last clicked favorite album index - sent in SetFavAlbum request to track which index to set
 }
 
 export default function (state = initialState, action) {
@@ -29,6 +37,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 selection: action.payload,
+            }
+        case SET_SELECTED_INDEX:
+            return {
+                ...state,
+                selectedIndex: action.payload,
             }
         case CLEAR_SEARCH_RESULTS:
             return {

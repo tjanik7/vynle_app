@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
 import './css/DropdownRow.css'
-import { updateSelection, setSearchVisibility } from '../../actions/spotifySearch'
+import { updateSelection, setSearchVisibility, setFavAlbum } from '../../actions/spotifySearch'
 
 class DropdownRow extends Component {
     static propTypes = {
@@ -13,12 +13,16 @@ class DropdownRow extends Component {
         dataKey: PropTypes.string.isRequired,
         updateSelection: PropTypes.func.isRequired,
         setSearchVisibility: PropTypes.func.isRequired,
+        selectedIndex: PropTypes.number.isRequired,
+        setFavAlbum: PropTypes.func.isRequired,
     }
 
     onClickHandler = e => {
         const key = this.props.dataKey // Album ID
+        const album_id = this.props.selectedIndex
         this.props.updateSelection(key)
         this.props.setSearchVisibility(false)
+        this.props.setFavAlbum(key, album_id)
     }
 
     render() {
@@ -42,11 +46,14 @@ class DropdownRow extends Component {
     }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+    selectedIndex: state.spotifySearch.selectedIndex,
+})
 
 export default connect(mapStateToProps,
     {
         updateSelection,
-        setSearchVisibility
+        setSearchVisibility,
+        setFavAlbum,
     }
 )(DropdownRow)

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getAlbumData } from '../../actions/profile'
-import { setSearchVisibility } from '../../actions/spotifySearch'
+import { setSearchVisibility, setSelectedIndex } from '../../actions/spotifySearch'
 
 class CoverArt extends Component {
     static propTypes = {
@@ -13,6 +13,7 @@ class CoverArt extends Component {
 
     onClickHandler = e => {
         this.props.setSearchVisibility(true)
+        this.props.setSelectedIndex(this.props.ind)
     }
 
     componentDidMount() {
@@ -37,4 +38,4 @@ const mapStateToProps = state => ({
     favoriteAlbums: state.profile.favoriteAlbums,
 })
 
-export default connect(mapStateToProps, { getAlbumData, setSearchVisibility })(CoverArt)
+export default connect(mapStateToProps, { getAlbumData, setSearchVisibility, setSelectedIndex })(CoverArt)
