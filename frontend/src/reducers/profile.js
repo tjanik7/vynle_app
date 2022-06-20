@@ -1,4 +1,4 @@
-import { GET_ALBUM_DATA } from '../actions/types'
+import { GET_ALBUM_DATA, SET_FAV_ALBUM } from '../actions/types'
 
 const initialState = {
     // Must be init'd with map rather than fill since using fill to init an array of objects creates a
@@ -18,6 +18,7 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_ALBUM_DATA:
+        case SET_FAV_ALBUM:
             // Keep original state array while only changing the selected index
             let favoriteAlbums = [...state.favoriteAlbums]
             favoriteAlbums[action.payload.ind].data = action.payload.album

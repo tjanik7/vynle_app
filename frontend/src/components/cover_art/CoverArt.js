@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getAlbumData } from '../../actions/profile'
 import { setSearchVisibility, setSelectedIndex } from '../../actions/spotifySearch'
+import './css/CoverArt.css'
 
 class CoverArt extends Component {
     static propTypes = {
-        albumID: PropTypes.string.isRequired,
         ind: PropTypes.number.isRequired,
         getAlbumData: PropTypes.func.isRequired,
     }
@@ -17,7 +17,7 @@ class CoverArt extends Component {
     }
 
     componentDidMount() {
-        this.props.getAlbumData(this.props.ind, this.props.albumID)
+        this.props.getAlbumData(this.props.ind)
     }
 
     render() {
@@ -26,7 +26,7 @@ class CoverArt extends Component {
         return (
             <Fragment>
                 {album.data.img ?
-                    <img src={album.data.img} alt={'Album'} onClick={this.onClickHandler}/>
+                    <img src={album.data.img} alt={'Album'} className={'album-art-img'} onClick={this.onClickHandler}/>
                     :
                     null}
             </Fragment>

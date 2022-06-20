@@ -1,13 +1,29 @@
 import { tokenConfig } from './auth'
-import { GET_ALBUM_DATA } from './types'
+import { GET_ALBUM_DATA, SET_FAV_ALBUM } from './types'
 import axios from 'axios'
 
-export const getAlbumData = (ind, album_id) => (dispatch, getState) => {
+
+export const setFavAlbum = (album_id, ind) => (dispatch, getState) => {
+    const headers = tokenConfig(getState)
+    const params = { album_id, ind }
+    axios.post('/spotify/set-fav-album', params, headers)
+        .then(res => {
+            dispatch({
+                type: GET_ALBUM_DATA,
+                payload: {
+                    album: res.data,
+                    ind: ind,
+                }
+            })
+        })
+}
+
+
+export const getAlbumData = (ind) => (dispatch, getState) => {
     const data = {
         headers: tokenConfig(getState).headers,
         params: {
             ind,
-            album_id
         }
     }
     axios.get('/spotify/get-album', data)

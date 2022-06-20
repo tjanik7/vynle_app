@@ -8,13 +8,12 @@ import {
     SEARCH_INVISIBLE,
     SET_SELECTED_INDEX,
 } from './types'
-import { assertSourceType } from '@babel/core/lib/config/validation/option-assertions'
 
 // Make a search query using the Spotify API
-export const search = (q, mediaType) => (dispatch, getState) => {
+export const search = (q) => (dispatch, getState) => {
     const data = {
         headers: tokenConfig(getState).headers,
-        params: { q: q, type: mediaType }
+        params: { q: q }
     }
     axios.get('/spotify/search-spotify', data)
         .then(res => {
@@ -23,16 +22,6 @@ export const search = (q, mediaType) => (dispatch, getState) => {
                 payload: res.data
             })
         }).catch(err => console.log(err))
-}
-
-
-export const setFavAlbum = (album_id, ind) => (dispatch, getState) => {
-    const headers = tokenConfig(getState)
-    const params = { album_id, ind }
-    axios.post('/spotify/set-fav-album', params, headers)
-        .then(res => {
-            console.log('success i think')
-        })
 }
 
 

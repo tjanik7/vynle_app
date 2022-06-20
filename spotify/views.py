@@ -9,7 +9,7 @@ from users.models import Account
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
 from .models import SpotifyToken
 from .serializers import SpotifyTokenSerializer
-from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header
+from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header, get_spotify_album
 
 
 class SetFavAlbum(APIView):
@@ -22,6 +22,7 @@ class SetFavAlbum(APIView):
 
     def post(self, request):
         user = request.user
+
         if is_spotify_authenticated(user):
             album_id = request.data['album_id']
             ind = request.data['ind']
@@ -36,33 +37,33 @@ class SetFavAlbum(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            # Make sure album_id is mapped to a Spotify album
-            # UP NEXT: CREATE METHOD CHECKING STATUS TO MAKE SURE THE ALBUM EXISTS; IF IT DOES, SET IT WITHIN FAVALBUMS
+            album_obj = get_spotify_album(user, album_id)
+            if album_obj is None:
+                return Response(
+                    "This album could not be found",
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
-            url = 'https://api.spotify.com/v1/albums/' + album_id
-            response = get(url, headers=get_header(user))
-            status_code = response.status_code
-            if not status_code:  # Not a 200 response
-                return Response(response.json(), status=status_code)
             user_albums = user.profile.favalbums
 
-            # Maybe use getattr for this instead?
-            if ind == 0:
-                user_albums.a0 = album_id
-            elif ind == 1:
-                user_albums.a1 = album_id
-            elif ind == 2:
-                user_albums.a2 = album_id
-            elif ind == 3:
-                user_albums.a3 = album_id
-            elif ind == 4:
-                user_albums.a4 = album_id
-            elif ind == 5:
-                user_albums.a5 = album_id
+            # REFACTOR THIS TO USE GETATTR INSTEAD
+            # if ind == 0:
+            #     user_albums.a0 = album_id
+            # elif ind == 1:
+            #     user_albums.a1 = album_id
+            # elif ind == 2:
+            #     user_albums.a2 = album_id
+            # elif ind == 3:
+            #     user_albums.a3 = album_id
+            # elif ind == 4:
+            #     user_albums.a4 = album_id
+            # elif ind == 5:
+            #     user_albums.a5 = album_id
+            setattr(user_albums, 'a' + str(ind), album_id)
 
             user_albums.save()
 
-            return Response(status=status.HTTP_200_OK)
+            return Response(album_obj, status=status.HTTP_200_OK)
 
 
 class GetAlbum(APIView):
@@ -71,20 +72,24 @@ class GetAlbum(APIView):
     def get(self, request, format=None):
         user = request.user
         if is_spotify_authenticated(user):
-            album_id = request.query_params.get('album_id')
+            ind = request.query_params.get('ind')
+            if ind is None:
+                return Response('Request must have ind param.', status=status.HTTP_400_BAD_REQUEST)
+            album_id = getattr(user.profile.favalbums, 'a' + ind)
+            if len(album_id) == 0:  # Index is empty
+                return Response(
+                    "An album has not yet been set at this index",
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
-            url = 'https://api.spotify.com/v1/albums/' + album_id
-            headers = get_header(user)
-            response = get(url, headers=headers).json()
+            album_obj = get_spotify_album(user, album_id)
+            if album_obj is None:
+                return Response(
+                    "This album could not be found",
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
-            # Return only necessary albums attributes
-            ret = {
-                'name': response['name'],  # Name of album
-                'artist': response['artists'][0]['name'],  # Name of first artist listed
-                'img': response['images'][1]['url'],  # Medium img - 300x300
-            }
-
-            return Response(ret, status=status.HTTP_200_OK)
+            return Response(album_obj, status=status.HTTP_200_OK)
 
 
 class SearchSpotify(APIView):
@@ -94,10 +99,9 @@ class SearchSpotify(APIView):
         user = request.user
         if is_spotify_authenticated(user):
             q = request.query_params.get('q')
-            media_types = request.query_params.get('type')
             payload = {
                 'q': q,
-                'type': media_types,
+                'type': 'album',
                 'limit': '5'
             }
 

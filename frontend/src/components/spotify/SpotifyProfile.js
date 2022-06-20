@@ -1,16 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getCurrentUserSpotifyProfile } from '../../actions/spotify'
 import Search from '../search/Search'
 import CoverArt from '../cover_art/CoverArt'
+import { Col, Container, Row } from 'react-bootstrap'
+import './css/SpotifyProfile.css'
 
 class SpotifyProfile extends Component {
     state = {
         searchDisplayed: false, // bool to toggle whether the search tool should be displayed
     }
 
-    static propTypes = {
+    static propTypes = {  // TODAY: MAKE SURE REACT IMMEDIATELY DISPLAYS NEW ALBUM ART WHEN UPDATED
         id: PropTypes.string.isRequired,
         isSearchVisible: PropTypes.bool.isRequired,
     }
@@ -21,16 +23,32 @@ class SpotifyProfile extends Component {
 
     render() {
         return (
-            <div>
+            <Fragment>
                 <p>Your Spotify username is {this.props.id}</p>
-                <CoverArt albumID={'5ll74bqtkcXlKE7wwkMq4g'} ind={0}/>
-                <CoverArt albumID={'4PWBTB6NYSKQwfo79I3prg'} ind={1}/>
-                <CoverArt albumID={'5Gm2XKBgnlzd6qTi7LE1z2'} ind={2}/>
-                <CoverArt albumID={'7EJ0OT5ZqybXxcYRa6mccM'} ind={3}/>
-                <CoverArt albumID={'3Gt7rOjcZQoHCfnKl5AkK7'} ind={4}/>
-                <CoverArt albumID={'2WmJ5wp5wKBlIJE6FDAIBJ'} ind={5}/>
+                <Container>
+                    <Row xs={6}>
+                        <Col>
+                            <CoverArt ind={0}/>
+                        </Col>
+                        <Col>
+                            <CoverArt ind={1}/>
+                        </Col>
+                        <Col>
+                            <CoverArt ind={2}/>
+                        </Col>
+                        <Col>
+                            <CoverArt ind={3}/>
+                        </Col>
+                        <Col>
+                            <CoverArt ind={4}/>
+                        </Col>
+                        <Col>
+                            <CoverArt ind={5}/>
+                        </Col>
+                    </Row>
+                </Container>
                 {this.props.isSearchVisible ? <Search/> : null}
-            </div>
+            </Fragment>
         )
     }
 }

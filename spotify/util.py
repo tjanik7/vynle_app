@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.utils import timezone
-from requests import post
+from requests import post, get
+from rest_framework import status
 
 from spotify.credentials import CLIENT_ID, CLIENT_SECRET
 from spotify.models import SpotifyToken
@@ -78,3 +79,28 @@ def is_spotify_authenticated(user):
 def get_header(user):
     access_token = get_user_tokens(user).access_token
     return {'Authorization': 'Bearer ' + access_token, }
+
+
+def get_spotify_album(user, album_id, img_size='m'):
+    size_letter_to_ind = {
+        's': 2,
+        'm': 1,
+        'l': 0,
+    }
+    img_size_ind = size_letter_to_ind[img_size]
+
+    url = 'https://api.spotify.com/v1/albums/'
+    url += album_id
+
+    headers = get_header(user)
+    response_obj = get(url, headers=headers)
+    if response_obj.status_code:  # If OK response
+        response = response_obj.json()
+
+        ret = {
+            'name': response['name'],  # Name of album
+            'artist': response['artists'][0]['name'],  # Name of first artist listed
+            'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
+        }
+        return ret
+    return None
