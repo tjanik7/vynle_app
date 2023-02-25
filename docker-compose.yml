@@ -12,6 +12,7 @@ services:
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    platform: linux/amd64
     volumes:
       - .:/code
     ports:
