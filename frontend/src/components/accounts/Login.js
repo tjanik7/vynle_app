@@ -94,7 +94,7 @@ class Login extends Component {
                         {passwordField}
                         <div className="form-group">
                             <button type="submit" className="btn btn-primary mb-2">
-                                Login
+                                Login login login
                             </button>
                         </div>
                         <p>
