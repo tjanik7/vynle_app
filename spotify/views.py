@@ -71,11 +71,15 @@ class GetAlbum(APIView):
 
     def get(self, request, format=None):
         user = request.user
+
         if is_spotify_authenticated(user):
             ind = request.query_params.get('ind')
             if ind is None:
-                return Response('Request must have ind param.', status=status.HTTP_400_BAD_REQUEST)
+                return Response('Request must have ind param', status=status.HTTP_400_BAD_REQUEST)
+
+            # Retrieve album_id string, i.e. the ID Spotify assigns the release
             album_id = getattr(user.profile.favalbums, 'a' + ind)
+
             if len(album_id) == 0:  # Index is empty
                 return Response(
                     "An album has not yet been set at this index",
