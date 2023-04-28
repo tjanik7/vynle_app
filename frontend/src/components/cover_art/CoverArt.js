@@ -25,10 +25,12 @@ class CoverArt extends Component {
 
         return (
             <Fragment>
-                {album.data.img ?
-                    <img src={album.data.img} alt={'Album'} className={'album-art-img'} onClick={this.onClickHandler}/>
-                    :
-                    null}
+                <img
+                    src={album.data.img ? album.data.img : '/static/img/plus.png'}
+                    alt={'Album'}
+                    className={'album-art-img'}
+                    onClick={this.onClickHandler}
+                />
             </Fragment>
         )
     }

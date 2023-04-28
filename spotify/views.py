@@ -83,7 +83,7 @@ class GetAlbum(APIView):
             if len(album_id) == 0:  # Index is empty
                 return Response(
                     "An album has not yet been set at this index",
-                    status=status.HTTP_404_NOT_FOUND,
+                    status=status.HTTP_204_NO_CONTENT,
                 )
 
             album_obj = get_spotify_album(user, album_id)
@@ -93,6 +93,7 @@ class GetAlbum(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
+            # Returns dict with 'name', 'artist', and 'img' keys
             return Response(album_obj, status=status.HTTP_200_OK)
 
 
