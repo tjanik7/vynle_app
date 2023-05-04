@@ -29,8 +29,8 @@
     "webpack-cli": "^4.8.0"
   },
   "scripts": {
-    "dev": "webpack --mode development --watch ./frontend/src/index.js --output-path ./frontend/static/frontend",
-    "build": "webpack --mode production --watch ./frontend/src/index.js --output-path ./frontend/static/frontend"
+    "dev": "webpack --mode development --watch ./src/index.js --output-path ./frontend/static/frontend",
+    "build": "webpack --mode production --watch ./src/index.js --output-path ./frontend/static/frontend"
   },
   "repository": {
     "type": "git",

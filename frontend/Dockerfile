@@ -7,9 +7,13 @@ WORKDIR /app
 COPY ../../package.json .
 COPY ../../package-lock.json .
 
+# Copy source code
+RUN mkdir /app/frontend
+COPY ../../frontend /app/frontend
+
 # --- BUILD ---
 RUN npm ci
-RUN npm run dev
+CMD ["npm", "run", "dev"]
 
 EXPOSE 3000
 
