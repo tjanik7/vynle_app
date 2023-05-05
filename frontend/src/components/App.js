@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Header from './layout/Header'
 import Feed from './posts/Feed'
+import Form from './posts/Form'
 import Login from './accounts/Login'
 import Register from './accounts/Register'
 import PrivateRoute from './common/PrivateRoute'
@@ -13,8 +14,6 @@ import store from '../store'
 import { loadUser } from '../actions/auth'
 import SpotifyProfile from './spotify/SpotifyProfile'
 import SpotifyRedirect from './spotify/SpotifyRedirect'
-
-//import '../../sass/bootstrapgood.min.css'
 
 import '../../sass/main.css'
 
@@ -32,6 +31,7 @@ class App extends Component {
                         <div className={'container'}>
                             <Switch>
                                 <PrivateRoute exact path={'/'} component={Feed}/>
+                                <PrivateRoute exact path={'/create-post-form'} component={Form} />
                                 <PrivateRoute exact path={'/spotify-redirect'} component={SpotifyRedirect}/>
                                 <PrivateRoute exact path={'/spotify-profile'} component={SpotifyProfile}/>
                                 <Route exact path={'/register'} component={Register}/>
