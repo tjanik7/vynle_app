@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import { addPost } from '../../actions/posts'
 import { clearErrors } from '../../actions/errors'
 import { getFieldHasErrorObj } from '../helperFunctions'
+import {Link} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import {useNavigate} from 'react-router-dom'
 
 class Form extends Component {
     state = { // stores current values of form fields
@@ -35,6 +38,8 @@ class Form extends Component {
             body: '',
             song: ''
         })
+        const navigate = useNavigate()
+        navigate('/', {replace: true})
     }
 
     render() {
@@ -106,6 +111,7 @@ class Form extends Component {
                         <button type="submit" className="btn btn-primary my-2">
                             Submit
                         </button>
+                        <Link to={'/'} className="btn btn-secondary my-2">Cancel</Link>
                     </div>
                 </form>
             </div>
