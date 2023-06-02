@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { register } from '../../actions/auth'
@@ -57,7 +57,7 @@ class Register extends Component {
 
     render() {
         if (this.props.isAuthenticated) {
-            return <Redirect to={'/'}/>
+            return <Navigate to={'/'}/>
         }
         const { email, username, password, re_password, first, last } = this.state
         const fields = ['email', 'username', 'first', 'last', 'password', 're_password']

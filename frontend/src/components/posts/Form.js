@@ -30,7 +30,7 @@ class Form extends Component {
     })
 
     onSubmit = e => {
-        e.preventDefault() // prevents default HTML element behavior which we do not want to allow to run
+        e.preventDefault() // prevents default HTML element behavior which we do not want to run
         const { body, song } = this.state
         const post = { body, song }
         this.props.addPost(post)

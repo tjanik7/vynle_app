@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 
 import Header from './layout/Header'
 import Feed from './posts/Feed'
@@ -29,14 +29,23 @@ class App extends Component {
                     <Fragment>
                         <Header/>
                         <div className={'container'}>
-                            <Switch>
-                                <PrivateRoute exact path={'/'} component={Feed}/>
-                                <PrivateRoute exact path={'/create-post-form'} component={Form} />
-                                <PrivateRoute exact path={'/spotify-redirect'} component={SpotifyRedirect}/>
-                                <PrivateRoute exact path={'/spotify-profile'} component={SpotifyProfile}/>
+                            <Routes>
+                                <Route path={'/create-post-form'} element={<PrivateRoute>
+                                    <Form/>
+                                </PrivateRoute>} />
+                                <Route path={'/spotify-redirect'} element={<PrivateRoute>
+                                    <SpotifyRedirect/>
+                                </PrivateRoute>} />
+                                <Route path={'/spotify-profile'} element={<PrivateRoute>
+                                    <SpotifyProfile/>
+                                </PrivateRoute>} />
+                                <Route path='/' element={<PrivateRoute>
+                                        <Feed/>
+                                    </PrivateRoute>
+                                } />
                                 <Route exact path={'/register'} component={Register}/>
-                                <Route exact path={'/login'} component={Login}/>
-                            </Switch>
+                                <Route path={'/login'} element={<Login/>}/>
+                            </Routes>
                         </div>
                     </Fragment>
                 </Router>
