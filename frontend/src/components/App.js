@@ -31,7 +31,7 @@ class App extends Component {
                         <div className={'container'}>
                             <Routes>
                                 <Route path={'/create-post-form'} element={<PrivateRoute>
-                                    <Form/>
+                                    <Form />
                                 </PrivateRoute>} />
                                 <Route path={'/spotify-redirect'} element={<PrivateRoute>
                                     <SpotifyRedirect/>

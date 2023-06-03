@@ -28,6 +28,8 @@ export const deletePost = id => (dispatch, getState) => {
 
 // ADD POST
 export const addPost = post => (dispatch, getState) => {
+    console.log('submitting post')
+
     axios.post('/api/posts/', post, tokenConfig(getState))
         .then(res => {
             dispatch({
