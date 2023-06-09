@@ -82,8 +82,7 @@ class GetAlbum(APIView):
 
             if len(album_id) == 0:  # Nothing at this index
                 return Response(
-                    # "An album has not yet been set at this index",
-                    status=status.HTTP_204_NO_CONTENT,
+                    status=status.HTTP_204_NO_CONTENT,  # Sending a msg with this response code throws an error
                 )
 
             album_obj = get_spotify_album(user, album_id)
