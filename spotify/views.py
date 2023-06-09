@@ -46,19 +46,6 @@ class SetFavAlbum(APIView):
 
             user_albums = user.profile.favalbums
 
-            # REFACTOR THIS TO USE GETATTR INSTEAD
-            # if ind == 0:
-            #     user_albums.a0 = album_id
-            # elif ind == 1:
-            #     user_albums.a1 = album_id
-            # elif ind == 2:
-            #     user_albums.a2 = album_id
-            # elif ind == 3:
-            #     user_albums.a3 = album_id
-            # elif ind == 4:
-            #     user_albums.a4 = album_id
-            # elif ind == 5:
-            #     user_albums.a5 = album_id
             setattr(user_albums, 'a' + str(ind), album_id)
 
             user_albums.save()
@@ -80,10 +67,9 @@ class GetAlbum(APIView):
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
             album_id = getattr(user.profile.favalbums, 'a' + ind)
 
-            if len(album_id) == 0:  # Index is empty
+            if len(album_id) == 0:  # Nothing at this index
                 return Response(
-                    "An album has not yet been set at this index",
-                    status=status.HTTP_204_NO_CONTENT,
+                    status=status.HTTP_204_NO_CONTENT,  # Sending a msg with this response code throws an error
                 )
 
             album_obj = get_spotify_album(user, album_id)
