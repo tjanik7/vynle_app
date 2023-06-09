@@ -46,19 +46,6 @@ class SetFavAlbum(APIView):
 
             user_albums = user.profile.favalbums
 
-            # REFACTOR THIS TO USE GETATTR INSTEAD
-            # if ind == 0:
-            #     user_albums.a0 = album_id
-            # elif ind == 1:
-            #     user_albums.a1 = album_id
-            # elif ind == 2:
-            #     user_albums.a2 = album_id
-            # elif ind == 3:
-            #     user_albums.a3 = album_id
-            # elif ind == 4:
-            #     user_albums.a4 = album_id
-            # elif ind == 5:
-            #     user_albums.a5 = album_id
             setattr(user_albums, 'a' + str(ind), album_id)
 
             user_albums.save()
