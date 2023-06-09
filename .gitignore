@@ -79,6 +79,9 @@ celerybeat-schedule.*
 # SageMath parsed files
 *.sage.py
 
+# Compiled React source files
+frontend/static/frontend/main.js
+
 # Environments
 .env
 .venv
