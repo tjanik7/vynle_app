@@ -80,9 +80,9 @@ class GetAlbum(APIView):
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
             album_id = getattr(user.profile.favalbums, 'a' + ind)
 
-            if len(album_id) == 0:  # Index is empty
+            if len(album_id) == 0:  # Nothing at this index
                 return Response(
-                    "An album has not yet been set at this index",
+                    # "An album has not yet been set at this index",
                     status=status.HTTP_204_NO_CONTENT,
                 )
 
