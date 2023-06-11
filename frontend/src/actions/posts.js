@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { tokenConfig } from './auth'
 
-import { GET_POSTS, DELETE_POST, ADD_POST, GET_ERRORS } from './types'
+import { GET_POSTS, DELETE_POST, ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS } from './types'
 
 // GET POSTS
 export const getPosts = () => (dispatch, getState) => {
@@ -26,7 +26,6 @@ export const deletePost = id => (dispatch, getState) => {
         }).catch(err => console.log(err))
 }
 
-// ADD POST
 export const addPost = post => (dispatch, getState) => {
 
     axios.post('/api/posts/', post, tokenConfig(getState))
@@ -44,5 +43,11 @@ export const addPost = post => (dispatch, getState) => {
             type: GET_ERRORS,
             payload: errors
         })
+    })
+}
+
+export const clearPostSubmissionStatus = () => dispatch => {
+    dispatch({
+        type: CLEAR_SUBMISSION_STATUS,
     })
 }
