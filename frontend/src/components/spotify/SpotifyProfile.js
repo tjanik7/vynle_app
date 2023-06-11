@@ -12,7 +12,7 @@ class SpotifyProfile extends Component {
         searchDisplayed: false, // bool to toggle whether the search tool should be displayed
     }
 
-    static propTypes = {  // TODAY: MAKE SURE REACT IMMEDIATELY DISPLAYS NEW ALBUM ART WHEN UPDATED
+    static propTypes = {
         id: PropTypes.string.isRequired,
         isSearchVisible: PropTypes.bool.isRequired,
     }

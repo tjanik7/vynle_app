@@ -1,7 +1,8 @@
 import React, {useState} from "react"
-import {addPost} from "../../actions/posts"
+import {addPost, clearPostSubmissionStatus} from "../../actions/posts"
 import {connect} from "react-redux"
 import {Link, useNavigate} from "react-router-dom"
+import {useEffect} from "react"
 
 function Form(props) {
     // Set default values for the form fields
@@ -9,6 +10,18 @@ function Form(props) {
     const [postSong, setPostSong] = useState('')
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (props.submissionStatus === 'submitted') { // TODO: Check for err conditions / notify user post is submitting
+            navigate('/')
+        }
+
+        // Clean up function - i.e. what componentWillUnmount use to be
+        return function cleanup() {
+            // Set postSubmissionStatus to the empty string
+            props.clearPostSubmissionStatus()
+        }
+    })
 
     // Define onSubmit (see if this also works with 'const' instead of 'let')
     let onSubmit = e => {
@@ -18,8 +31,11 @@ function Form(props) {
             'body': postBody,
             'song': postSong
         }
-        props.addPost(post) // Needs to be accessed via props, cannot just import it and call it
-        navigate('/')
+
+        // Needs to be accessed via props, cannot just import it and call it
+        props.addPost(post)
+
+        // navigate('/')
     }
 
     return (
@@ -54,6 +70,8 @@ function Form(props) {
     )
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+    submissionStatus: state.posts.submissionStatus,
+})
 
-export default connect(mapStateToProps, {addPost})(Form)
+export default connect(mapStateToProps, {addPost, clearPostSubmissionStatus})(Form)
