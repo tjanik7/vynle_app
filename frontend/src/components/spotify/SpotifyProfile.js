@@ -21,30 +21,26 @@ class SpotifyProfile extends Component {
         this.props.getCurrentUserSpotifyProfile()
     }
 
+    generateAlbumTags() {
+        const rows = []
+
+        for (let i = 0; i < 6; i++) {
+            rows.push(
+                <Col key={i}>
+                    <CoverArt ind={i} />
+                </Col>
+            )
+        }
+        return rows
+    }
+
     render() {
         return (
             <Fragment>
                 <p>Your Spotify username is {this.props.id}</p>
                 <Container>
                     <Row xs={6}>
-                        <Col>
-                            <CoverArt ind={0}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={1}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={2}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={3}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={4}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={5}/>
-                        </Col>
+                        {this.generateAlbumTags()}
                     </Row>
                 </Container>
                 {this.props.isSearchVisible ? <Search/> : null}
