@@ -17,12 +17,9 @@ class DropdownRow extends Component {
     }
 
     onClickHandler = e => {
-        const key = this.props.dataKey // Album ID
-        const ind = this.props.selectedIndex // Index >= 0 and < 6 representing which user album to replace
-
         this.props.updateSelection(key)
         this.props.setSearchVisibility(false)
-        this.props.clickFunction(key, ind)
+        this.props.clickFunction() // Arguments already configured in parent component
     }
 
     render() {

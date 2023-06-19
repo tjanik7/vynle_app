@@ -6,8 +6,6 @@ import DropdownRow from '../search/DropdownRow'
 import { Col, Container, Row } from 'react-bootstrap'
 import './css/Search.css'
 
-import {setFavAlbum} from "../../actions/profile"
-
 const TIME_TO_WAIT = 500 // ms to wait after user stops typing to send request
 
 class Search extends Component {
@@ -75,9 +73,8 @@ class Search extends Component {
                                 <DropdownRow key={result.id} dataKey={result.id} media={result.name}
                                              artist={result.artists[0].name}
                                              img={result.images[1].url}
-                                             // clickFunction={this.props.setFavAlbum}
-                                             clickFunction={() => this.props.setFavAlbum(
-                                                 result.id, this.props.selectedIndex
+                                             clickFunction={() => this.props.clickFunction(
+                                                 result.id, ...this.props.clickFunctionArgs
                                              )}
                                 />
                             ))}
@@ -100,6 +97,5 @@ export default connect(mapStateToProps,
     {
         search,
         clearSearchResults,
-        setFavAlbum,
     }
 )(Search)
