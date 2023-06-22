@@ -82,6 +82,21 @@ class GetAlbum(APIView):
             # Returns dict with 'name', 'artist', and 'img' keys
             return Response(album_obj, status=status.HTTP_200_OK)
 
+class GetFavoriteAlbums(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, format=None):
+        user = request.user
+
+        if is_spotify_authenticated(user):  # PICK BACK UP HERE
+            # Retrieve album_id string, i.e. the ID Spotify assigns the release
+            print('start')
+            fav_album_ids = [getattr(user.profile.favalbums, 'a' + str(i)) for i in range(6)]
+            print('middle')
+            album_objects = [get_spotify_album(user, album_id) for album_id in fav_album_ids]
+            print('end')
+            return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some err conditions
+
 
 class SearchSpotify(APIView):
     permission_classes = [permissions.IsAuthenticated, ]

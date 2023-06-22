@@ -6,7 +6,7 @@ import Search from '../search/Search'
 import CoverArt from '../cover_art/CoverArt'
 import { Col, Container, Row } from 'react-bootstrap'
 import './css/SpotifyProfile.css'
-import { setFavAlbum } from "../../actions/profile"
+import { setFavAlbum, getFavAlbums } from "../../actions/profile"
 
 class SpotifyProfile extends Component {
     state = {
@@ -20,6 +20,7 @@ class SpotifyProfile extends Component {
 
     componentDidMount() {
         this.props.getCurrentUserSpotifyProfile()
+        this.props.getFavAlbums()
     }
 
     generateAlbumTags() {
@@ -28,7 +29,10 @@ class SpotifyProfile extends Component {
         for (let i = 0; i < 6; i++) {
             rows.push(
                 <Col key={i}>
-                    <CoverArt ind={i} />
+                    <CoverArt
+                        ind={i}
+                        albumData={this.props.favoriteAlbums[i]}
+                    />
                 </Col>
             )
         }
@@ -54,9 +58,11 @@ const mapStateToProps = state => ({
     id: state.spotify.id, // User's Spotify username
     isSearchVisible: state.spotifySearch.isVisible,
     selectedIndex: state.spotifySearch.selectedIndex,
+    favoriteAlbums: state.profile.favoriteAlbums,
 })
 
 export default connect(mapStateToProps, {
     getCurrentUserSpotifyProfile,
     setFavAlbum,
+    getFavAlbums,
 })(SpotifyProfile)
