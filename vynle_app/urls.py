@@ -10,5 +10,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('spotify/', include('spotify.urls')),
     # Tells server to look in /static/img/favicon.ico for icon
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
