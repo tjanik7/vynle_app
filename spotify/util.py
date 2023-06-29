@@ -81,6 +81,7 @@ def get_header(user):
     return {'Authorization': 'Bearer ' + access_token, }
 
 
+# Takes in album ID and requests the spotify API for data about the album
 def get_spotify_album(user, album_id, img_size='m'):
     size_letter_to_ind = {
         's': 2,
@@ -89,8 +90,7 @@ def get_spotify_album(user, album_id, img_size='m'):
     }
     img_size_ind = size_letter_to_ind[img_size]
 
-    url = 'https://api.spotify.com/v1/albums/'
-    url += album_id
+    url = f'https://api.spotify.com/v1/albums/{album_id}'
 
     headers = get_header(user)
     response_obj = get(url, headers=headers)
@@ -104,3 +104,33 @@ def get_spotify_album(user, album_id, img_size='m'):
         }
         return ret
     return None
+
+# Same func as above but accepts multiple IDs
+def get_spotify_albums(user, album_ids, img_size='m'):
+    size_letter_to_ind = {
+        's': 2,
+        'm': 1,
+        'l': 0,
+    }
+    img_size_ind = size_letter_to_ind[img_size]
+
+    headers = get_header(user)
+
+    ret = []
+
+    for album_id in album_ids:
+        url = f'https://api.spotify.com/v1/albums/{album_id}'
+        response_obj = get(url, headers=headers)
+
+        if response_obj.status_code:  # If OK response
+            response = response_obj.json()
+
+            ret.append({
+                'name': response['name'],  # Name of album
+                'artist': response['artists'][0]['name'],  # Name of first artist listed
+                'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
+            })
+        else:
+            return None
+
+    return ret
