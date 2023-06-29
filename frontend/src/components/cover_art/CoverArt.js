@@ -16,12 +16,8 @@ class CoverArt extends Component {
         this.props.setSelectedIndex(this.props.ind)
     }
 
-    componentDidMount() {
-        this.props.getAlbumData(this.props.ind)
-    }
-
     render() {
-        const album = this.props.favoriteAlbums[this.props.ind]
+        const album = this.props.albumData
 
         return (
             <Fragment>
@@ -36,8 +32,6 @@ class CoverArt extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    favoriteAlbums: state.profile.favoriteAlbums,
-})
+const mapStateToProps = state => ({})
 
 export default connect(mapStateToProps, { getAlbumData, setSearchVisibility, setSelectedIndex })(CoverArt)

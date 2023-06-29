@@ -9,7 +9,8 @@ from users.models import Account
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
 from .models import SpotifyToken
 from .serializers import SpotifyTokenSerializer
-from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header, get_spotify_album
+from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header, get_spotify_album, \
+    get_spotify_albums
 
 
 class SetFavAlbum(APIView):
@@ -81,6 +82,20 @@ class GetAlbum(APIView):
 
             # Returns dict with 'name', 'artist', and 'img' keys
             return Response(album_obj, status=status.HTTP_200_OK)
+
+class GetFavoriteAlbums(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, format=None):
+        user = request.user
+
+        if is_spotify_authenticated(user):
+            # Retrieve album_id string, i.e. the ID Spotify assigns the release
+            fav_album_ids = [getattr(user.profile.favalbums, 'a' + str(i)) for i in range(6)]
+            album_objects = get_spotify_albums(user, fav_album_ids)
+
+            return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some err conditions
+
 
 
 class SearchSpotify(APIView):

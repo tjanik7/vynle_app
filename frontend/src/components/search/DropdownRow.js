@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
 import './css/DropdownRow.css'
 import { updateSelection, setSearchVisibility } from '../../actions/spotifySearch'
-import { setFavAlbum } from '../../actions/profile'
 
 class DropdownRow extends Component {
     static propTypes = {
@@ -15,16 +14,12 @@ class DropdownRow extends Component {
         updateSelection: PropTypes.func.isRequired,
         setSearchVisibility: PropTypes.func.isRequired,
         selectedIndex: PropTypes.number.isRequired,
-        setFavAlbum: PropTypes.func.isRequired,
     }
 
     onClickHandler = e => {
-        const key = this.props.dataKey // Album ID
-        const ind = this.props.selectedIndex
-
         this.props.updateSelection(key)
         this.props.setSearchVisibility(false)
-        this.props.setFavAlbum(key, ind)
+        this.props.clickFunction() // Arguments already configured in parent component
     }
 
     render() {
@@ -56,6 +51,5 @@ export default connect(mapStateToProps,
     {
         updateSelection,
         setSearchVisibility,
-        setFavAlbum,
     }
 )(DropdownRow)

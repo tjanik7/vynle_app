@@ -6,6 +6,7 @@ import Search from '../search/Search'
 import CoverArt from '../cover_art/CoverArt'
 import { Col, Container, Row } from 'react-bootstrap'
 import './css/SpotifyProfile.css'
+import { setFavAlbum, getFavAlbums } from "../../actions/profile"
 
 class SpotifyProfile extends Component {
     state = {
@@ -19,6 +20,23 @@ class SpotifyProfile extends Component {
 
     componentDidMount() {
         this.props.getCurrentUserSpotifyProfile()
+        this.props.getFavAlbums()
+    }
+
+    generateAlbumTags() {
+        const rows = []
+
+        for (let i = 0; i < 6; i++) {
+            rows.push(
+                <Col key={i}>
+                    <CoverArt
+                        ind={i}
+                        albumData={this.props.favoriteAlbums[i]}
+                    />
+                </Col>
+            )
+        }
+        return rows
     }
 
     render() {
@@ -27,35 +45,24 @@ class SpotifyProfile extends Component {
                 <p>Your Spotify username is {this.props.id}</p>
                 <Container>
                     <Row xs={6}>
-                        <Col>
-                            <CoverArt ind={0}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={1}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={2}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={3}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={4}/>
-                        </Col>
-                        <Col>
-                            <CoverArt ind={5}/>
-                        </Col>
+                        {this.generateAlbumTags()}
                     </Row>
                 </Container>
-                {this.props.isSearchVisible ? <Search/> : null}
+                {this.props.isSearchVisible ? <Search clickFunction={this.props.setFavAlbum} clickFunctionArgs={[this.props.selectedIndex]} /> : null}
             </Fragment>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    id: state.spotify.id,
+    id: state.spotify.id, // User's Spotify username
     isSearchVisible: state.spotifySearch.isVisible,
+    selectedIndex: state.spotifySearch.selectedIndex,
+    favoriteAlbums: state.profile.favoriteAlbums,
 })
 
-export default connect(mapStateToProps, { getCurrentUserSpotifyProfile })(SpotifyProfile)
+export default connect(mapStateToProps, {
+    getCurrentUserSpotifyProfile,
+    setFavAlbum,
+    getFavAlbums,
+})(SpotifyProfile)

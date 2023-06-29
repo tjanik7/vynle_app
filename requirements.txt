@@ -3,3 +3,4 @@ psycopg2-binary>=2.8
 djangorestframework>=3.0
 django-rest-knox>=4.0
 requests
+django-debug-toolbar

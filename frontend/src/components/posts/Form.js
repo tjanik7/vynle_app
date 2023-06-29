@@ -3,6 +3,7 @@ import {addPost, clearPostSubmissionStatus} from "../../actions/posts"
 import {connect} from "react-redux"
 import {Link, useNavigate} from "react-router-dom"
 import {useEffect} from "react"
+import Search from "../search/Search"
 
 function Form(props) {
     // Set default values for the form fields
@@ -35,7 +36,6 @@ function Form(props) {
         // Needs to be accessed via props, cannot just import it and call it
         props.addPost(post)
 
-        // navigate('/')
     }
 
     return (
@@ -66,6 +66,10 @@ function Form(props) {
                     <Link to={'/'} className={'btn btn-secondary my-2'}>Cancel</Link>
                 </div>
             </form>
+            <div className={'form-group'}>
+                <label>Search Spotify for a Song</label>
+                <Search/>
+            </div>
         </div>
     )
 }

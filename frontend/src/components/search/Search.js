@@ -36,6 +36,8 @@ class Search extends Component {
             this.setState({
                 t: setTimeout(this.sendQuery, TIME_TO_WAIT)
             })
+        } else {
+            this.props.clearSearchResults() // Remove results if no text in search bar
         }
     }
 
@@ -70,7 +72,11 @@ class Search extends Component {
                             {this.props.albums.map(result => (
                                 <DropdownRow key={result.id} dataKey={result.id} media={result.name}
                                              artist={result.artists[0].name}
-                                             img={result.images[1].url}/>
+                                             img={result.images[1].url}
+                                             clickFunction={() => this.props.clickFunction(
+                                                 result.id, ...this.props.clickFunctionArgs
+                                             )}
+                                />
                             ))}
                         </Col>
                     </Row>
@@ -83,12 +89,13 @@ class Search extends Component {
 const mapStateToProps = state => (
     {
         albums: state.spotifySearch.albums,
+        selectedIndex: state.spotifySearch.selectedIndex,
     }
 )
 
 export default connect(mapStateToProps,
     {
         search,
-        clearSearchResults
+        clearSearchResults,
     }
 )(Search)
