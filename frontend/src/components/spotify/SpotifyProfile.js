@@ -11,6 +11,7 @@ import { setFavAlbum, getFavAlbums } from "../../actions/profile"
 class SpotifyProfile extends Component {
     state = {
         searchDisplayed: false, // bool to toggle whether the search tool should be displayed
+        albumsLoading: null, // bool to determine whether to show spinner while fav albums are fetched
     }
 
     static propTypes = {
@@ -23,10 +24,25 @@ class SpotifyProfile extends Component {
         this.props.getFavAlbums()
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.fetchedAllAlbums())
+    }
+
+    fetchedAllAlbums() { // Returns bool specifying if done loading
+        const albums = this.props.favoriteAlbums
+
+        for (const album of albums) {
+            if (!album.fetched) {
+                return false
+            }
+        }
+        return true
+    }
+
     generateAlbumTags() {
         const rows = []
 
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {  // Generates JSX tags for album art
             rows.push(
                 <Col key={i}>
                     <CoverArt

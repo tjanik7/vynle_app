@@ -6,6 +6,7 @@ const initialState = {
     favoriteAlbums: new Array(6).fill(null).map(() => (
         {
             albumID: '',
+            fetched: false, // Update to true when response received (even if user has no album has been set at index)
             data: {
                 name: null,
                 artist: null,
@@ -17,13 +18,13 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case GET_FAV_ALBUMS:
+        case GET_FAV_ALBUMS:  // Retrieves all 6 albums from backend
             const newAlbums = action.payload.albums
-            // Need to include "AlbumID" not present in API response
             let arr = []
             for (const newAlbum of newAlbums) {
                 arr.push({
                     albumID: '',
+                    fetched: true,
                     data: newAlbum,
                 })
             }

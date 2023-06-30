@@ -44,7 +44,7 @@ class Login extends Component {
             return <Navigate to={'/'}/>
         }
         const { email, password, isLoading } = this.state
-        
+
         const errors = this.props.errors
         const fields = ['email', 'password', 'non_field_errors']
         const fieldHasError = getFieldHasErrorObj(fields, errors)
