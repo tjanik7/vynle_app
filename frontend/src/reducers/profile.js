@@ -37,7 +37,17 @@ export default function (state = initialState, action) {
         case SET_FAV_ALBUM:
             // Keep original state array while only changing the selected index
             let favoriteAlbums = [...state.favoriteAlbums]
-            favoriteAlbums[action.payload.ind].data = action.payload.album
+
+            favoriteAlbums[action.payload.ind] = {
+                albumID: '',
+                fetched: true,
+                data: {
+                    name: action.payload.album.name,
+                    artist: action.payload.album.artist,
+                    img: action.payload.album.img,
+                }
+            }
+
             return {
                 ...state,
                 favoriteAlbums: favoriteAlbums,

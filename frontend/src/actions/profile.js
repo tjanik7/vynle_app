@@ -9,7 +9,7 @@ export const setFavAlbum = (album_id, ind) => (dispatch, getState) => {
     axios.post('/spotify/set-fav-album', params, headers)
         .then(res => {
             dispatch({
-                type: GET_ALBUM_DATA,
+                type: SET_FAV_ALBUM,
                 payload: {
                     album: res.data,
                     ind: ind,

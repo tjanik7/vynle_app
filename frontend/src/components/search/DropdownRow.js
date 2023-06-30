@@ -17,7 +17,7 @@ class DropdownRow extends Component {
     }
 
     onClickHandler = e => {
-        this.props.updateSelection(key)
+        this.props.updateSelection(this.props.dataKey)
         this.props.setSearchVisibility(false)
         this.props.clickFunction() // Arguments already configured in parent component
     }

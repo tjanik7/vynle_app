@@ -58,13 +58,17 @@ class SpotifyProfile extends Component {
     render() {
         return (
             <Fragment>
-                <p>Your Spotify username is {this.props.id}</p>
-                <Container>
-                    <Row xs={6}>
-                        {this.generateAlbumTags()}
-                    </Row>
-                </Container>
-                {this.props.isSearchVisible ? <Search clickFunction={this.props.setFavAlbum} clickFunctionArgs={[this.props.selectedIndex]} /> : null}
+                <div>
+                    <p>Your Spotify username is {this.props.id}</p>
+                    <Container>
+                        <Row xs={6}>
+                            {this.generateAlbumTags()}
+                        </Row>
+                    </Container>
+                    {this.props.isSearchVisible ?
+                        <Search clickFunction={this.props.setFavAlbum} clickFunctionArgs={[this.props.selectedIndex]} />
+                        : null}
+                </div>
             </Fragment>
         )
     }
