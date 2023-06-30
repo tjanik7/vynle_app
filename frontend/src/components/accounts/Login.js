@@ -10,6 +10,7 @@ class Login extends Component {
     state = {
         email: '',
         password: '',
+        isLoading: null,  // Represents loading status
     }
 
     static propTypes = {
@@ -19,7 +20,10 @@ class Login extends Component {
         clearErrors: PropTypes.func.isRequired,
     }
 
-    componentWillUnmount() { // clears errors when user navigates away from this component
+    componentWillUnmount() { // clears errors and reset state when user navigates away from this component
+        this.setState({
+                isLoading: false,
+            })
         this.props.clearErrors()
     }
 
@@ -28,7 +32,10 @@ class Login extends Component {
     })
 
     onSubmit = e => {
-        e.preventDefault()
+        e.preventDefault() // Prevent default behavior of HTML element
+        this.setState({
+            isLoading: true,
+        })
         this.props.login(this.state.email, this.state.password) // call login action
     }
 
@@ -36,8 +43,8 @@ class Login extends Component {
         if (this.props.isAuthenticated) {
             return <Navigate to={'/'}/>
         }
-        const { email, password } = this.state
-
+        const { email, password, isLoading } = this.state
+        
         const errors = this.props.errors
         const fields = ['email', 'password', 'non_field_errors']
         const fieldHasError = getFieldHasErrorObj(fields, errors)
@@ -94,6 +101,8 @@ class Login extends Component {
                         {passwordField}
                         <div className="form-group">
                             <button type="submit" className="btn btn-primary mb-2">
+                                {isLoading ? <span className="spinner-border spinner-border-sm" role="status"
+                                      aria-hidden="true"></span>: null}
                                 Login
                             </button>
                         </div>
