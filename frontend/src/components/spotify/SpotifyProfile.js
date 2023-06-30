@@ -25,7 +25,7 @@ class SpotifyProfile extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.fetchedAllAlbums())
+        //console.log(this.fetchedAllAlbums())
     }
 
     fetchedAllAlbums() { // Returns bool specifying if done loading
