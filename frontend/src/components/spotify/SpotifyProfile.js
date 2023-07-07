@@ -66,7 +66,7 @@ class SpotifyProfile extends Component {
                     </div>
                 </div>}
                 <div>
-                    <p>Your Spotify username is {this.props.id}</p>
+                    <p>Authenticated with Spotify as {this.props.id}</p>
                     <Container>
                         <Row xs={6}>
                             {this.generateAlbumTags()}
