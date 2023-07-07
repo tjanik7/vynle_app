@@ -58,6 +58,13 @@ class SpotifyProfile extends Component {
     render() {
         return (
             <Fragment>
+                {!this.fetchedAllAlbums() && <div className={'spinner-layer'}>
+                    <div className={'text-container'}>
+                        <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>}
                 <div>
                     <p>Your Spotify username is {this.props.id}</p>
                     <Container>
