@@ -11,12 +11,12 @@ class FavAlbums(models.Model):
 
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True)
     # Holds ID of each of user's 6 favorite albums they can select via their profile
-    a0 = models.CharField(max_length=22)
-    a1 = models.CharField(max_length=22)
-    a2 = models.CharField(max_length=22)
-    a3 = models.CharField(max_length=22)
-    a4 = models.CharField(max_length=22)
-    a5 = models.CharField(max_length=22)
+    a0 = models.CharField(max_length=22, blank=True)
+    a1 = models.CharField(max_length=22, blank=True)
+    a2 = models.CharField(max_length=22, blank=True)
+    a3 = models.CharField(max_length=22, blank=True)
+    a4 = models.CharField(max_length=22, blank=True)
+    a5 = models.CharField(max_length=22, blank=True)
 
     def __str__(self):
         return str(self.profile)

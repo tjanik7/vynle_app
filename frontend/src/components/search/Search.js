@@ -56,6 +56,21 @@ class Search extends Component {
         return () => func(firstArg)
     }
 
+    transformAlbumObj = (album) => {
+        if(!album) {
+            return {}
+        }
+
+        return {
+            albumID: album.id,
+            data: {
+                name: album.name,
+                artist: album.artists[0].name,
+                img: album.images[1].url, // Currently grabbing medium size image
+            }
+        }
+    }
+
     render() {
         const { q } = this.state
         return (
@@ -82,9 +97,9 @@ class Search extends Component {
                                      img={result.images[1].url}
                                      clickFunction={this.configureClickFunction(
                                          this.props.clickFunction,
-                                         result.id,
-                                         this.props.clickFunctionArgs)
-                                    }
+                                         this.transformAlbumObj(result), // line used to be result.id
+                                         this.props.clickFunctionArgs
+                                     )}
                                 />
                             ))}
                         </Col>

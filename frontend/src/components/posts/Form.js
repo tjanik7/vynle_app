@@ -9,14 +9,22 @@ import CoverArt from "../cover_art/CoverArt"
 function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
     console.log('in da callback func')
     console.log(`newAlbum is ${newAlbum}`)
-    setPostAlbum(newAlbum)
+    //setPostAlbum(newAlbum)
 }
 
 function Form(props) {
     // Set default values for the form fields
     const [postBody, setPostBody] = useState('')
     const [postSong, setPostSong] = useState('')
-    const [postAlbum, setPostAlbum] = useState('')
+
+    const [postAlbum, setPostAlbum] = useState({
+        albumID: '',
+        data: {
+            artist: '',
+            img: '',
+            name: '',
+        }
+    })
 
     const navigate = useNavigate()
 
@@ -74,7 +82,7 @@ function Form(props) {
                 </div>
             </form>
             <div>
-                <CoverArt/>
+                <CoverArt albumData={postAlbum} />
             </div>
             <div className={'form-group'}>
                 <label>Search Spotify for a Song</label>
