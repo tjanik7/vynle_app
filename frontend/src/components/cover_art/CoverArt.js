@@ -2,20 +2,13 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getAlbumData } from '../../actions/profile'
-import { setSearchVisibility, setSelectedIndex } from '../../actions/spotifySearch'
+import { setSearchVisibility } from '../../actions/spotifySearch'
 import './css/CoverArt.css'
 
 class CoverArt extends Component {
     static propTypes = {
-        ind: PropTypes.number.isRequired,
+        handleClick: PropTypes.func,
         getAlbumData: PropTypes.func.isRequired,
-    }
-
-    onClickHandler = e => {
-        this.props.setSearchVisibility(true)
-
-        // May need to figure out how to generalize this
-        this.props.setSelectedIndex(this.props.ind)
     }
 
     render() {
@@ -27,7 +20,10 @@ class CoverArt extends Component {
                     src={album.data.img ? album.data.img : '/static/img/plus.png'}
                     alt={'Album'}
                     className={'album-art-img'}
-                    onClick={this.onClickHandler}
+                    onClick={() => {
+                        this.props.setSearchVisibility(true)
+                        this.props.handleClick()
+                    }}
                 />
             </Fragment>
         )
@@ -36,4 +32,4 @@ class CoverArt extends Component {
 
 const mapStateToProps = state => ({})
 
-export default connect(mapStateToProps, { getAlbumData, setSearchVisibility, setSelectedIndex })(CoverArt)
+export default connect(mapStateToProps, { getAlbumData, setSearchVisibility })(CoverArt)

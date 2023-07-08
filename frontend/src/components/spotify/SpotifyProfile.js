@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getCurrentUserSpotifyProfile } from '../../actions/spotify'
+import {setSelectedIndex} from "../../actions/spotifySearch"
 import Search from '../search/Search'
 import CoverArt from '../cover_art/CoverArt'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -46,8 +47,10 @@ class SpotifyProfile extends Component {
             rows.push(
                 <Col key={i}>
                     <CoverArt
-                        ind={i}
                         albumData={this.props.favoriteAlbums[i]}
+                        handleClick={() => {
+                            this.props.setSelectedIndex(i)
+                        }}
                     />
                 </Col>
             )
@@ -91,5 +94,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
     getCurrentUserSpotifyProfile,
     setFavAlbum,
+    setSelectedIndex,
     getFavAlbums,
 })(SpotifyProfile)
