@@ -72,6 +72,9 @@ function Form(props) {
                     <Link to={'/'} className={'btn btn-secondary my-2'}>Cancel</Link>
                 </div>
             </form>
+            <div>
+
+            </div>
             <div className={'form-group'}>
                 <label>Search Spotify for a Song</label>
                 <Search clickFunction={setSelectedAlbum} clickFunctionArgs={[setPostAlbum]} />
