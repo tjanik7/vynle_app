@@ -5,10 +5,17 @@ import {Link, useNavigate} from "react-router-dom"
 import {useEffect} from "react"
 import Search from "../search/Search"
 
+function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
+    console.log('in da callback func')
+    console.log(`newAlbum is ${newAlbum}`)
+    setPostAlbum(newAlbum)
+}
+
 function Form(props) {
     // Set default values for the form fields
     const [postBody, setPostBody] = useState('')
     const [postSong, setPostSong] = useState('')
+    const [postAlbum, setPostAlbum] = useState('')
 
     const navigate = useNavigate()
 
@@ -24,7 +31,6 @@ function Form(props) {
         }
     })
 
-    // Define onSubmit (see if this also works with 'const' instead of 'let')
     let onSubmit = e => {
         e.preventDefault()
 
@@ -33,7 +39,7 @@ function Form(props) {
             'song': postSong
         }
 
-        // Needs to be accessed via props, cannot just import it and call it
+        // Needs to be accessed via props, cannot just import it and call it due to the way React works
         props.addPost(post)
 
     }
@@ -68,7 +74,7 @@ function Form(props) {
             </form>
             <div className={'form-group'}>
                 <label>Search Spotify for a Song</label>
-                <Search/>
+                <Search clickFunction={setSelectedAlbum} clickFunctionArgs={[setPostAlbum]} />
             </div>
         </div>
     )

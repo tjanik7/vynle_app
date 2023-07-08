@@ -49,6 +49,13 @@ class Search extends Component {
         this.timerReset(e.target.value)
     }
 
+    configureClickFunction = (func, firstArg, args) => {
+        if (args) { // Only use spread operator if extra args are specified
+            return () => func(firstArg, ...args)
+        }
+        return () => func(firstArg)
+    }
+
     render() {
         const { q } = this.state
         return (
@@ -71,11 +78,13 @@ class Search extends Component {
                         <Col className={'dropdown-column'}>
                             {this.props.albums.map(result => (
                                 <DropdownRow key={result.id} dataKey={result.id} media={result.name}
-                                             artist={result.artists[0].name}
-                                             img={result.images[1].url}
-                                             clickFunction={() => this.props.clickFunction(
-                                                 result.id, ...this.props.clickFunctionArgs
-                                             )}
+                                     artist={result.artists[0].name}
+                                     img={result.images[1].url}
+                                     clickFunction={this.configureClickFunction(
+                                         this.props.clickFunction,
+                                         result.id,
+                                         this.props.clickFunctionArgs)
+                                    }
                                 />
                             ))}
                         </Col>

@@ -13,6 +13,8 @@ class CoverArt extends Component {
 
     onClickHandler = e => {
         this.props.setSearchVisibility(true)
+
+        // May need to figure out how to generalize this
         this.props.setSelectedIndex(this.props.ind)
     }
 
