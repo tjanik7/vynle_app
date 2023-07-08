@@ -1,14 +1,24 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getAlbumData } from '../../actions/profile'
 import { setSearchVisibility } from '../../actions/spotifySearch'
 import './css/CoverArt.css'
 
 class CoverArt extends Component {
     static propTypes = {
         handleClick: PropTypes.func,
-        getAlbumData: PropTypes.func.isRequired,
+        albumData: PropTypes.object,
+        /*
+        albumData takes the form:
+        {
+            albumID: str,
+            data: {
+                artist: str,
+                img: str (url for image),
+                name: str (name of album),
+            }
+        }
+        */
     }
 
     render() {
@@ -22,7 +32,11 @@ class CoverArt extends Component {
                     className={'album-art-img'}
                     onClick={() => {
                         this.props.setSearchVisibility(true)
-                        this.props.handleClick()
+
+                        // Only call callback func if it exists
+                        if (this.props.handleClick) {
+                            this.props.handleClick()
+                        }
                     }}
                 />
             </Fragment>
@@ -32,4 +46,4 @@ class CoverArt extends Component {
 
 const mapStateToProps = state => ({})
 
-export default connect(mapStateToProps, { getAlbumData, setSearchVisibility })(CoverArt)
+export default connect(mapStateToProps, { setSearchVisibility })(CoverArt)

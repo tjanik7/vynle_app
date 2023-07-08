@@ -1,3 +1,4 @@
+// Actions for profile
 import { tokenConfig } from './auth'
 import { GET_ALBUM_DATA, GET_FAV_ALBUMS, MARK_NOT_FETCHED, SET_FAV_ALBUM } from './types'
 import axios from 'axios'

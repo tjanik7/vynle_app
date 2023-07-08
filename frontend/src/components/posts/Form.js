@@ -4,6 +4,7 @@ import {connect} from "react-redux"
 import {Link, useNavigate} from "react-router-dom"
 import {useEffect} from "react"
 import Search from "../search/Search"
+import CoverArt from "../cover_art/CoverArt"
 
 function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
     console.log('in da callback func')
@@ -73,7 +74,7 @@ function Form(props) {
                 </div>
             </form>
             <div>
-
+                <CoverArt/>
             </div>
             <div className={'form-group'}>
                 <label>Search Spotify for a Song</label>
