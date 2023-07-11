@@ -97,7 +97,6 @@ class GetFavoriteAlbums(APIView):
             return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some err conditions
 
 
-
 class SearchSpotify(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
 

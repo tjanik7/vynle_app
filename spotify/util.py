@@ -119,18 +119,26 @@ def get_spotify_albums(user, album_ids, img_size='m'):
     ret = []
 
     for album_id in album_ids:
-        url = f'https://api.spotify.com/v1/albums/{album_id}'
-        response_obj = get(url, headers=headers)
+        if album_id:
+            url = f'https://api.spotify.com/v1/albums/{album_id}'
+            response_obj = get(url, headers=headers)
 
-        if response_obj.status_code:  # If OK response
-            response = response_obj.json()
+            if response_obj.status_code:  # If OK response
+                response = response_obj.json()
 
+                ret.append({
+                    'name': response['name'],  # Name of album
+                    'artist': response['artists'][0]['name'],  # Name of first artist listed
+                    'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
+                })
+            else:
+                return None
+
+        else:  # No album to request, so return empty album obj
             ret.append({
-                'name': response['name'],  # Name of album
-                'artist': response['artists'][0]['name'],  # Name of first artist listed
-                'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
+                'name': '',
+                'artist': '',
+                'img': '',
             })
-        else:
-            return None
 
     return ret
