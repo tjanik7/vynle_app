@@ -15,6 +15,9 @@ function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be p
 }
 
 function Form(props) {
+    // Switch to only using local state now rather than the (global) redux store
+    const [searchVisibility, setSearchVisibility] = useState(false)
+
     // Set default values for the form fields
     const [postBody, setPostBody] = useState('')
     const [postSong, setPostSong] = useState('')
@@ -34,7 +37,6 @@ function Form(props) {
         if (props.submissionStatus === 'submitted') { // TODO: Check for err conditions / notify user post is submitting
             navigate('/')
         }
-        console.log('setting up')
 
         
         // Clean up function - i.e. what componentWillUnmount used to be
@@ -42,7 +44,6 @@ function Form(props) {
             // Set postSubmissionStatus to the empty string
             props.clearPostSubmissionStatus()
             props.setSearchVisibility(false)
-            console.log('cleaning up')
         }
     })
 
@@ -88,11 +89,11 @@ function Form(props) {
                 </div>
             </form>
             <div className={'post-form-cover-art-container'}>
-                <CoverArt albumData={postAlbum}/>
+                <CoverArt albumData={postAlbum} handleClick={() => {setSearchVisibility(true)}} />
             </div>
             <div className={'form-group'}>
                 <label>Search Spotify for a Song</label>
-                {props.isSearchVisible && <Search clickFunction={setSelectedAlbum} clickFunctionArgs={[setPostAlbum]} />}
+                {searchVisibility && <Search clickFunction={setSelectedAlbum} clickFunctionArgs={[setPostAlbum]} />}
             </div>
         </div>
     )

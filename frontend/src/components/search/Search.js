@@ -17,6 +17,8 @@ class Search extends Component {
     static propTypes = {
         albums: PropTypes.array,
         search: PropTypes.func.isRequired,
+        clickFunction: PropTypes.func.isRequired,
+        clickFunctionArgs: PropTypes.array,
     }
 
     componentWillUnmount() {
