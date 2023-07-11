@@ -17,6 +17,9 @@ class Search extends Component {
     static propTypes = {
         albums: PropTypes.array,
         search: PropTypes.func.isRequired,
+        clickFunction: PropTypes.func.isRequired,
+        clickFunctionArgs: PropTypes.array,
+        clearSearchVisibility: PropTypes.func.isRequired, // Sets visibility state to false
     }
 
     componentWillUnmount() {
@@ -49,11 +52,17 @@ class Search extends Component {
         this.timerReset(e.target.value)
     }
 
-    configureClickFunction = (func, firstArg, args) => {
+    configureClickFunction = (func, firstArg, clearVisibility, args) => {
         if (args) { // Only use spread operator if extra args are specified
-            return () => func(firstArg, ...args)
+            return () => {
+                func(firstArg, ...args)
+                clearVisibility()
+            }
+        }  // NEED TO SIMPLIFY THESE
+        return () => {
+            func(firstArg)
+            clearVisibility()
         }
-        return () => func(firstArg)
     }
 
     transformAlbumObj = (album) => {
@@ -65,7 +74,7 @@ class Search extends Component {
             albumID: album.id,
             data: {
                 name: album.name,
-                artist: album.artists[0].name,
+                artist: album["artists"][0].name,
                 img: album.images[1].url, // Currently grabbing medium size image
             }
         }
@@ -97,7 +106,8 @@ class Search extends Component {
                                      img={result.images[1].url}
                                      clickFunction={this.configureClickFunction(
                                          this.props.clickFunction,
-                                         this.transformAlbumObj(result), // line used to be result.id
+                                         this.transformAlbumObj(result),
+                                         this.props.clearSearchVisibility,
                                          this.props.clickFunctionArgs
                                      )}
                                 />
