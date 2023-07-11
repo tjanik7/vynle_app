@@ -20,18 +20,19 @@ class SpotifyProfile extends Component {
         isSearchVisible: PropTypes.bool.isRequired,
     }
 
+    makeSearchVisible = () => {
+        this.state.searchDisplayed = true
+    }
+
     componentDidMount() {
         this.props.getCurrentUserSpotifyProfile()
         this.props.getFavAlbums()
     }
 
     componentWillUnmount() {
-        this.props.setSearchVisibility(false)
+        //this.props.setSearchVisibility(false)
+        this.state.searchDisplayed = false
     }
-
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     //console.log(this.fetchedAllAlbums())
-    // }
 
     fetchedAllAlbums() { // Returns bool specifying if done loading
         const albums = this.props.favoriteAlbums
@@ -54,6 +55,7 @@ class SpotifyProfile extends Component {
                         albumData={this.props.favoriteAlbums[i]}
                         handleClick={() => {
                             this.props.setSelectedIndex(i)
+                            this.makeSearchVisible()
                         }}
                     />
                 </Col>
@@ -79,9 +81,11 @@ class SpotifyProfile extends Component {
                             {this.generateAlbumTags()}
                         </Row>
                     </Container>
-                    {this.props.isSearchVisible ?
-                        <Search clickFunction={this.props.setFavAlbum} clickFunctionArgs={[this.props.selectedIndex]} />
-                        : null}
+                    {this.state.searchDisplayed && <Search
+                        clickFunction={this.props.setFavAlbum}
+                        clearSearchVisibility={() => {this.state.searchDisplayed = false}}
+                        clickFunctionArgs={[this.props.selectedIndex]}
+                    />}
                 </div>
             </Fragment>
         )

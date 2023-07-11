@@ -6,11 +6,10 @@ import {useEffect} from "react"
 import Search from "../search/Search"
 import CoverArt from "../cover_art/CoverArt"
 import './css/Form.css'
-import { setSearchVisibility } from "../../actions/spotifySearch"
 
 function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
     console.log('in da callback func')
-    console.log(`newAlbum is ${newAlbum}`)
+    console.log(`newAlbum is ${newAlbum.data.name}`)
     //setPostAlbum(newAlbum)
 }
 
@@ -43,7 +42,7 @@ function Form(props) {
         return function cleanup() {
             // Set postSubmissionStatus to the empty string
             props.clearPostSubmissionStatus()
-            props.setSearchVisibility(false)
+            //props.setSearchVisibility(false)
         }
     })
 
@@ -93,7 +92,11 @@ function Form(props) {
             </div>
             <div className={'form-group'}>
                 <label>Search Spotify for a Song</label>
-                {searchVisibility && <Search clickFunction={setSelectedAlbum} clickFunctionArgs={[setPostAlbum]} />}
+                {searchVisibility && <Search
+                    clickFunction={setSelectedAlbum}
+                    clickFunctionArgs={[setPostAlbum]}
+                    clearSearchVisibility={() =>{setSearchVisibility(false)}}
+                />}
             </div>
         </div>
     )
@@ -107,5 +110,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
     addPost,
     clearPostSubmissionStatus,
-    setSearchVisibility,
 })(Form)
