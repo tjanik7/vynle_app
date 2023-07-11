@@ -85,11 +85,11 @@ function Form(props) {
                     <Link to={'/'} className={'btn btn-secondary my-2'}>Cancel</Link>
                 </div>
             </form>
+            <label>Search Spotify for a Song</label>
             <div className={'post-form-cover-art-container'}>
                 <CoverArt albumData={postAlbum} handleClick={() => {setSearchVisibility(true)}} />
             </div>
             <div className={'form-group'}>
-                <label>Search Spotify for a Song</label>
                 {searchVisibility && <Search
                     clickFunction={setSelectedAlbum}
                     clickFunctionArgs={[setPostAlbum]}
