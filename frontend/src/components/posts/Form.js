@@ -5,6 +5,8 @@ import {Link, useNavigate} from "react-router-dom"
 import {useEffect} from "react"
 import Search from "../search/Search"
 import CoverArt from "../cover_art/CoverArt"
+import './css/Form.css'
+import { setSearchVisibility } from "../../actions/spotifySearch"
 
 function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
     console.log('in da callback func')
@@ -32,11 +34,15 @@ function Form(props) {
         if (props.submissionStatus === 'submitted') { // TODO: Check for err conditions / notify user post is submitting
             navigate('/')
         }
+        console.log('setting up')
 
-        // Clean up function - i.e. what componentWillUnmount use to be
+        
+        // Clean up function - i.e. what componentWillUnmount used to be
         return function cleanup() {
             // Set postSubmissionStatus to the empty string
             props.clearPostSubmissionStatus()
+            props.setSearchVisibility(false)
+            console.log('cleaning up')
         }
     })
 
@@ -81,12 +87,12 @@ function Form(props) {
                     <Link to={'/'} className={'btn btn-secondary my-2'}>Cancel</Link>
                 </div>
             </form>
-            <div>
-                <CoverArt albumData={postAlbum} />
+            <div className={'post-form-cover-art-container'}>
+                <CoverArt albumData={postAlbum}/>
             </div>
             <div className={'form-group'}>
                 <label>Search Spotify for a Song</label>
-                <Search clickFunction={setSelectedAlbum} clickFunctionArgs={[setPostAlbum]} />
+                {props.isSearchVisible && <Search clickFunction={setSelectedAlbum} clickFunctionArgs={[setPostAlbum]} />}
             </div>
         </div>
     )
@@ -94,6 +100,11 @@ function Form(props) {
 
 const mapStateToProps = state => ({
     submissionStatus: state.posts.submissionStatus,
+    isSearchVisible: state.spotifySearch.isVisible,
 })
 
-export default connect(mapStateToProps, {addPost, clearPostSubmissionStatus})(Form)
+export default connect(mapStateToProps, {
+    addPost,
+    clearPostSubmissionStatus,
+    setSearchVisibility,
+})(Form)

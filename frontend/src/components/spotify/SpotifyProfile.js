@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getCurrentUserSpotifyProfile } from '../../actions/spotify'
-import {setSelectedIndex} from "../../actions/spotifySearch"
+import { setSearchVisibility, setSelectedIndex } from "../../actions/spotifySearch"
 import Search from '../search/Search'
 import CoverArt from '../cover_art/CoverArt'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -25,9 +25,13 @@ class SpotifyProfile extends Component {
         this.props.getFavAlbums()
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        //console.log(this.fetchedAllAlbums())
+    componentWillUnmount() {
+        this.props.setSearchVisibility(false)
     }
+
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     //console.log(this.fetchedAllAlbums())
+    // }
 
     fetchedAllAlbums() { // Returns bool specifying if done loading
         const albums = this.props.favoriteAlbums
@@ -96,4 +100,5 @@ export default connect(mapStateToProps, {
     setFavAlbum,
     setSelectedIndex,
     getFavAlbums,
+    setSearchVisibility,
 })(SpotifyProfile)
