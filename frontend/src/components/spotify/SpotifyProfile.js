@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getCurrentUserSpotifyProfile } from '../../actions/spotify'
+import { setSearchVisibility, setSelectedIndex } from "../../actions/spotifySearch"
 import Search from '../search/Search'
 import CoverArt from '../cover_art/CoverArt'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -19,13 +20,18 @@ class SpotifyProfile extends Component {
         isSearchVisible: PropTypes.bool.isRequired,
     }
 
+    makeSearchVisible = () => {
+        this.state.searchDisplayed = true
+    }
+
     componentDidMount() {
         this.props.getCurrentUserSpotifyProfile()
         this.props.getFavAlbums()
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        //console.log(this.fetchedAllAlbums())
+    componentWillUnmount() {
+        //this.props.setSearchVisibility(false)
+        this.state.searchDisplayed = false
     }
 
     fetchedAllAlbums() { // Returns bool specifying if done loading
@@ -46,8 +52,11 @@ class SpotifyProfile extends Component {
             rows.push(
                 <Col key={i}>
                     <CoverArt
-                        ind={i}
                         albumData={this.props.favoriteAlbums[i]}
+                        handleClick={() => {
+                            this.props.setSelectedIndex(i)
+                            this.makeSearchVisible()
+                        }}
                     />
                 </Col>
             )
@@ -72,9 +81,11 @@ class SpotifyProfile extends Component {
                             {this.generateAlbumTags()}
                         </Row>
                     </Container>
-                    {this.props.isSearchVisible ?
-                        <Search clickFunction={this.props.setFavAlbum} clickFunctionArgs={[this.props.selectedIndex]} />
-                        : null}
+                    {this.state.searchDisplayed && <Search
+                        clickFunction={this.props.setFavAlbum}
+                        clearSearchVisibility={() => {this.state.searchDisplayed = false}}
+                        clickFunctionArgs={[this.props.selectedIndex]}
+                    />}
                 </div>
             </Fragment>
         )
@@ -91,5 +102,7 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
     getCurrentUserSpotifyProfile,
     setFavAlbum,
+    setSelectedIndex,
     getFavAlbums,
+    setSearchVisibility,
 })(SpotifyProfile)

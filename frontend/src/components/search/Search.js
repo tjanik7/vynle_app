@@ -17,6 +17,9 @@ class Search extends Component {
     static propTypes = {
         albums: PropTypes.array,
         search: PropTypes.func.isRequired,
+        clickFunction: PropTypes.func.isRequired,
+        clickFunctionArgs: PropTypes.array,
+        clearSearchVisibility: PropTypes.func.isRequired, // Sets visibility state to false
     }
 
     componentWillUnmount() {
@@ -49,6 +52,34 @@ class Search extends Component {
         this.timerReset(e.target.value)
     }
 
+    configureClickFunction = (func, firstArg, clearVisibility, args) => {
+        if (args) { // Only use spread operator if extra args are specified
+            return () => {
+                func(firstArg, ...args)
+                clearVisibility()
+            }
+        }  // NEED TO SIMPLIFY THESE
+        return () => {
+            func(firstArg)
+            clearVisibility()
+        }
+    }
+
+    transformAlbumObj = (album) => {
+        if(!album) {
+            return {}
+        }
+
+        return {
+            albumID: album.id,
+            data: {
+                name: album.name,
+                artist: album["artists"][0].name,
+                img: album.images[1].url, // Currently grabbing medium size image
+            }
+        }
+    }
+
     render() {
         const { q } = this.state
         return (
@@ -71,11 +102,14 @@ class Search extends Component {
                         <Col className={'dropdown-column'}>
                             {this.props.albums.map(result => (
                                 <DropdownRow key={result.id} dataKey={result.id} media={result.name}
-                                             artist={result.artists[0].name}
-                                             img={result.images[1].url}
-                                             clickFunction={() => this.props.clickFunction(
-                                                 result.id, ...this.props.clickFunctionArgs
-                                             )}
+                                     artist={result.artists[0].name}
+                                     img={result.images[1].url}
+                                     clickFunction={this.configureClickFunction(
+                                         this.props.clickFunction,
+                                         this.transformAlbumObj(result),
+                                         this.props.clearSearchVisibility,
+                                         this.props.clickFunctionArgs
+                                     )}
                                 />
                             ))}
                         </Col>

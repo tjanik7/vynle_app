@@ -1,9 +1,10 @@
+// Actions for profile
 import { tokenConfig } from './auth'
 import { GET_ALBUM_DATA, GET_FAV_ALBUMS, MARK_NOT_FETCHED, SET_FAV_ALBUM } from './types'
 import axios from 'axios'
 
 
-export const setFavAlbum = (album_id, ind) => (dispatch, getState) => {
+export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
     const albumData = getState().profile.favoriteAlbums[ind]
 
     // Mark album in state as not fetched to induce loading animation
@@ -16,7 +17,11 @@ export const setFavAlbum = (album_id, ind) => (dispatch, getState) => {
     })
 
     const headers = tokenConfig(getState)
-    const params = { album_id, ind }
+    const params = {
+        album_id: albumObj.albumID,
+        ind: ind,
+    }
+
     axios.post('/spotify/set-fav-album', params, headers)
         .then(res => {
             dispatch({
@@ -38,7 +43,7 @@ export const getFavAlbums = () => (dispatch, getState) => {
                     albums: res.data,
                 }
             })
-        })
+        }).catch(err => console.log(err))
 }
 
 export const getAlbumData = (ind) => (dispatch, getState) => {

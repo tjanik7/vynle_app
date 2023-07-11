@@ -1,3 +1,5 @@
+// NO LONGER USING THIS COMPONENT
+
 import React, { Component } from 'react'
 import './css/SlidingSwitch.css'
 import PropTypes from 'prop-types'

@@ -4,11 +4,29 @@ import {connect} from "react-redux"
 import {Link, useNavigate} from "react-router-dom"
 import {useEffect} from "react"
 import Search from "../search/Search"
+import CoverArt from "../cover_art/CoverArt"
+import './css/Form.css'
+
+function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
+    setPostAlbum(newAlbum)
+}
 
 function Form(props) {
+    // Switch to only using local state now rather than the (global) redux store
+    const [searchVisibility, setSearchVisibility] = useState(false)
+
     // Set default values for the form fields
     const [postBody, setPostBody] = useState('')
     const [postSong, setPostSong] = useState('')
+
+    const [postAlbum, setPostAlbum] = useState({
+        albumID: '',
+        data: {
+            artist: '',
+            img: '',
+            name: '',
+        }
+    })
 
     const navigate = useNavigate()
 
@@ -17,14 +35,15 @@ function Form(props) {
             navigate('/')
         }
 
-        // Clean up function - i.e. what componentWillUnmount use to be
+        
+        // Clean up function - i.e. what componentWillUnmount used to be
         return function cleanup() {
             // Set postSubmissionStatus to the empty string
             props.clearPostSubmissionStatus()
+            //props.setSearchVisibility(false)
         }
     })
 
-    // Define onSubmit (see if this also works with 'const' instead of 'let')
     let onSubmit = e => {
         e.preventDefault()
 
@@ -33,7 +52,7 @@ function Form(props) {
             'song': postSong
         }
 
-        // Needs to be accessed via props, cannot just import it and call it
+        // Needs to be accessed via props, cannot just import it and call it due to the way React works
         props.addPost(post)
 
     }
@@ -66,9 +85,16 @@ function Form(props) {
                     <Link to={'/'} className={'btn btn-secondary my-2'}>Cancel</Link>
                 </div>
             </form>
+            <label>Search Spotify for a Song</label>
+            <div className={'post-form-cover-art-container'}>
+                <CoverArt albumData={postAlbum} handleClick={() => {setSearchVisibility(true)}} />
+            </div>
             <div className={'form-group'}>
-                <label>Search Spotify for a Song</label>
-                <Search/>
+                {searchVisibility && <Search
+                    clickFunction={setSelectedAlbum}
+                    clickFunctionArgs={[setPostAlbum]}
+                    clearSearchVisibility={() =>{setSearchVisibility(false)}}
+                />}
             </div>
         </div>
     )
@@ -76,6 +102,10 @@ function Form(props) {
 
 const mapStateToProps = state => ({
     submissionStatus: state.posts.submissionStatus,
+    isSearchVisible: state.spotifySearch.isVisible,
 })
 
-export default connect(mapStateToProps, {addPost, clearPostSubmissionStatus})(Form)
+export default connect(mapStateToProps, {
+    addPost,
+    clearPostSubmissionStatus,
+})(Form)

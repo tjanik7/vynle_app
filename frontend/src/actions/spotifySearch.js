@@ -1,3 +1,5 @@
+// Actions for <Search/>
+
 import axios from 'axios'
 import { tokenConfig } from './auth'
 import {
