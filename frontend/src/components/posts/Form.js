@@ -8,9 +8,7 @@ import CoverArt from "../cover_art/CoverArt"
 import './css/Form.css'
 
 function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
-    console.log('in da callback func')
-    console.log(`newAlbum is ${newAlbum.data.name}`)
-    //setPostAlbum(newAlbum)
+    setPostAlbum(newAlbum)
 }
 
 function Form(props) {
