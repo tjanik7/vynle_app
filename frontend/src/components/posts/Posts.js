@@ -27,7 +27,12 @@ class Posts extends Component {
                 {this.props.posts.map(post => (
                     <Row key={post.id} className={'justify-content-md-center'}>
                         <Col md={8}>
-                            <Post username={post.user.username} body={post.body} song={post.song}/>
+                            <Post
+                                username={post.user.username}
+                                body={post.body}
+                                song={post.song}
+                                album={post.album}
+                            />
                         </Col>
                     </Row>
                 ))}
