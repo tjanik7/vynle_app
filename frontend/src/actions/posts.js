@@ -1,4 +1,4 @@
-// this is the file where requests are made
+// post actions
 import axios from 'axios'
 import { tokenConfig } from './auth'
 
@@ -6,7 +6,7 @@ import { GET_POSTS, DELETE_POST, ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS }
 
 // GET POSTS
 export const getPosts = () => (dispatch, getState) => {
-    axios.get('/api/posts/', tokenConfig(getState))
+    axios.get('/api/get-posts', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_POSTS,

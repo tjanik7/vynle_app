@@ -54,6 +54,7 @@ class SetFavAlbum(APIView):
             return Response(album_obj, status=status.HTTP_200_OK)
 
 
+# Accepts user and index as args and returns fav album at that index
 class GetAlbum(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
 

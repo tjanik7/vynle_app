@@ -134,11 +134,12 @@ def get_spotify_albums(user, album_ids, img_size='m'):
             else:
                 return None
 
-        else:  # No album to request, so return empty album obj
-            ret.append({
-                'name': '',
-                'artist': '',
-                'img': '',
-            })
+        else:  # No album to request, so append empty album obj
+            # ret.append({
+            #     'name': '',
+            #     'artist': '',
+            #     'img': '',
+            # })
+            ret.append(None)  # Revert to above code if this breaks something
 
     return ret
