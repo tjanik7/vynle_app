@@ -2,14 +2,16 @@
 import axios from 'axios'
 import { tokenConfig } from './auth'
 
-import { GET_POSTS, DELETE_POST, ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS } from './types'
+import { GOT_POSTS, GET_POSTS, DELETE_POST, ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS } from './types'
 
 // GET POSTS
 export const getPosts = () => (dispatch, getState) => {
+    dispatch({type: GET_POSTS})  // Marks state as loading
+
     axios.get('/api/get-posts', tokenConfig(getState))
         .then(res => {
             dispatch({
-                type: GET_POSTS,
+                type: GOT_POSTS,
                 payload: res.data
             })
         }).catch(err => console.log(err))

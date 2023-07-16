@@ -19,6 +19,11 @@ class Posts extends Component {
     render() {
         return (
             <Container>
+                {this.props.postsLoading && <div className={'spinner-layer'}>
+                    <div className={'spinner-border'} role={'status'}>
+                        <span className={'visually-hidden'}>Loading...</span>
+                    </div>
+                </div>}
                 <Row className={'justify-content-md-center'}>
                     <Col md={4}>
                         <h2>Posts</h2>
@@ -44,7 +49,8 @@ class Posts extends Component {
 // necessary to connect props being passed in from reducer to the internal react state of this component
 // map redux state to the props of this component
 const mapStateToProps = state => ({
-    posts: state.posts.posts // storing the attribute 'posts' from the posts reducer
+    postsLoading: state.posts.postsLoading,
+    posts: state.posts.posts, // storing the attribute 'posts' from the posts reducer
     // of the redux state in this.props.posts
     // the name of the prop we want to store this in is specified on the LHS of this line
 })

@@ -22,10 +22,12 @@ class Post extends Component {
         }
 
         return (
-            <div className={'post-form-cover-art-container'} >
-                <CoverArt albumData={album} />
-                <p>{albumData.name}</p>
-                <p>{albumData.artist}</p>
+            <div>
+                <div className={'post-form-cover-art-container'}>
+                    <CoverArt albumData={album} />
+                </div>
+                <p className={'card-text'}>{albumData.name}</p>
+                <p className={'card-text'}>{albumData.artist}</p>
             </div>
         )
     }
