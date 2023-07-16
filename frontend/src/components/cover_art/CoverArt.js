@@ -3,21 +3,22 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './css/CoverArt.css'
 
+/*
+    albumData takes the form:
+    {
+        albumID: str,
+        data: {
+            artist: str,
+            img: str (url for image),
+            name: str (name of album),
+        }
+    }
+*/
+
 class CoverArt extends Component {
     static propTypes = {
         handleClick: PropTypes.func,
         albumData: PropTypes.object,
-        /*
-        albumData takes the form:
-        {
-            albumID: str,
-            data: {
-                artist: str,
-                img: str (url for image),
-                name: str (name of album),
-            }
-        }
-        */
     }
 
     render() {
