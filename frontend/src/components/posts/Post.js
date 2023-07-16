@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CoverArt from "../cover_art/CoverArt"
-import './css/Form.css'
 import './css/Post.css'
 import { connect } from "react-redux"
+import FormattedRelease from "../FormattedRelease/FormattedRelease"
 
 class Post extends Component {
     static propTypes = {
@@ -13,51 +12,35 @@ class Post extends Component {
         albumData: PropTypes.object,
     }
 
-    formatAlbum = (albumData) => {
+    formatAlbum = albumData => {
         if (!albumData) {
             return null
         }
 
-        const album = { // Reformat for <CoverArt/>
-            albumID: '',
-            data: albumData,
-        }
-
         return (
             <div>
-                <div className={'post-form-cover-art-container'}>
-                    <CoverArt albumData={album} />
-                </div>
-                <p className={'card-text'}>{albumData.name}</p>
-                <p className={'card-text'}>{albumData.artist}</p>
+                <FormattedRelease releaseData={albumData}/>
             </div>
         )
     }
-
-    // state = {
-    //     albumData: {
-    //         albumID: '',
-    //         data: {
-    //             name: '',
-    //             artist: '',
-    //             img: '',
-    //         }
-    //     }
-    // }
 
     render() {
         const albumData = this.props.albumData
 
         return (
-            <div className={'card border-light mb-3'} style={{ maxWidth: 30 + 'rem' }}>
-                <div className={'card-header'}>
-                    <h3>{this.props.username}</h3>
+            <>
+                <div id={'username-field'}>
+                    <h4>{this.props.username}</h4>
                 </div>
-                <div className={'card-body'}>
-                    <p className={'card-text'}>{this.props.body}</p>
-                    {this.formatAlbum(albumData)}
+                <div className={'post-container'}>
+                    <div className={'item'}>
+                        {this.formatAlbum(albumData)}
+                    </div>
+                    <div className={'item'}>
+                        <p>{this.props.body}</p>
+                    </div>
                 </div>
-            </div>
+            </>
         )
     }
 }

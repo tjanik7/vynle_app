@@ -24,11 +24,6 @@ class Posts extends Component {
                         <span className={'visually-hidden'}>Loading...</span>
                     </div>
                 </div>}
-                <Row className={'justify-content-md-center'}>
-                    <Col md={4}>
-                        <h2>Posts</h2>
-                    </Col>
-                </Row>
                 {!this.props.postsLoading && this.props.posts.length === 0 && <h4>No posts to show</h4>}
                 {this.props.posts.map(post => (
                     <Row key={post.id} className={'justify-content-md-center'}>
