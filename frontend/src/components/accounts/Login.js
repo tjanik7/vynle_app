@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { login } from '../../actions/auth'
 import { clearErrors } from '../../actions/errors'
 import { getFieldHasErrorObj } from '../helperFunctions'
+import './css/Login.css'
 
 class Login extends Component {
     state = {
@@ -103,7 +104,7 @@ class Login extends Component {
                             <button type="submit" className="btn btn-primary mb-2">
                                 {isLoading ? <span className="spinner-border spinner-border-sm" role="status"
                                       aria-hidden="true"></span>: null}
-                                Login
+                                <span className={'button-text-container'}>Login</span>
                             </button>
                         </div>
                         <p>

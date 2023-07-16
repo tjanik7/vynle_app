@@ -1,8 +1,9 @@
-import { GET_POSTS, DELETE_POST, ADD_POST , CLEAR_SUBMISSION_STATUS} from '../actions/types.js'
+import { GOT_POSTS, GET_POSTS, DELETE_POST, ADD_POST , CLEAR_SUBMISSION_STATUS} from '../actions/types.js'
 
 const initialState = {
     submissionStatus: '',  // One of {'', 'submitting', 'submitted', 'error'}
     posts: [],
+    postsLoading: null,
 }
 
 export default function (state = initialState, action) {
@@ -11,7 +12,13 @@ export default function (state = initialState, action) {
         case GET_POSTS:
             return {
                 ...state,
-                posts: action.payload
+                postsLoading: true,
+            }
+        case GOT_POSTS:
+            return {
+                ...state,
+                postsLoading: false,
+                posts: action.payload,
             }
         case DELETE_POST:
             return {

@@ -49,7 +49,8 @@ function Form(props) {
 
         const post = {
             'body': postBody,
-            'song': postSong
+            'song': postSong,
+            'album': postAlbum.albumID,
         }
 
         // Needs to be accessed via props, cannot just import it and call it due to the way React works
