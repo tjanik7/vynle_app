@@ -29,13 +29,13 @@ class Posts extends Component {
                         <h2>Posts</h2>
                     </Col>
                 </Row>
+                {!this.props.postsLoading && this.props.posts.length === 0 && <h4>No posts to show</h4>}
                 {this.props.posts.map(post => (
                     <Row key={post.id} className={'justify-content-md-center'}>
                         <Col md={8}>
                             <Post
                                 username={post.user.username}
                                 body={post.body}
-                                song={post.song}
                                 albumData={post.album_data}
                             />
                         </Col>

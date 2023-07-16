@@ -17,7 +17,6 @@ function Form(props) {
 
     // Set default values for the form fields
     const [postBody, setPostBody] = useState('')
-    const [postSong, setPostSong] = useState('')
 
     const [postAlbum, setPostAlbum] = useState({
         albumID: '',
@@ -49,7 +48,6 @@ function Form(props) {
 
         const post = {
             'body': postBody,
-            'song': postSong,
             'album': postAlbum.albumID,
         }
 
@@ -69,16 +67,6 @@ function Form(props) {
                         name={'body'}
                         value={postBody}
                         onChange={(e) => setPostBody(e.target.value)}
-                    />
-                </div>
-                <div className={'form-group'}>
-                    <label>Song</label>
-                    <input
-                        className={'form-control'}
-                        type={'text'}
-                        name={'song'}
-                        value={postSong}
-                        onChange={(e) => setPostSong(e.target.value)}
                     />
                 </div>
                 <div className={'form-group'}>
