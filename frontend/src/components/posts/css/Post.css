@@ -1,4 +1,14 @@
-.post-cover-art-container {
-    height: 200px;
-    width: 200px;
+.post-container {
+    margin-bottom: 50px;
+    display: flex;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 25px;
+}
+
+.item {
+    flex: 1;
+}
+
+#username-field {
+    padding-left: 5px;
 }
