@@ -8,7 +8,6 @@ import { connect } from "react-redux"
 class Post extends Component {
     static propTypes = {
         body: PropTypes.string.isRequired,
-        song: PropTypes.string.isRequired,
         album: PropTypes.string,
         username: PropTypes.string.isRequired,
         albumData: PropTypes.object,
@@ -56,7 +55,6 @@ class Post extends Component {
                 </div>
                 <div className={'card-body'}>
                     <p className={'card-text'}>{this.props.body}</p>
-                    <p className={'card-text'}>{this.props.song}</p>
                     {this.formatAlbum(albumData)}
                 </div>
             </div>
