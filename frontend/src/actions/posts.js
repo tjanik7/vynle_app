@@ -4,7 +4,6 @@ import { tokenConfig } from './auth'
 
 import { GOT_POSTS, GET_POSTS, DELETE_POST, ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS } from './types'
 
-// GET POSTS
 export const getPosts = () => (dispatch, getState) => {
     dispatch({type: GET_POSTS})  // Marks state as loading
 
@@ -17,7 +16,6 @@ export const getPosts = () => (dispatch, getState) => {
         }).catch(err => console.log(err))
 }
 
-// DELETE POSTS
 export const deletePost = id => (dispatch, getState) => {
     axios.delete(`/api/posts/${id}/`, tokenConfig(getState))
         .then(res => {

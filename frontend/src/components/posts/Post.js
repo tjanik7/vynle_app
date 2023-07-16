@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CoverArt from "../cover_art/CoverArt"
 import './css/Form.css'
+import './css/Post.css'
+import { connect } from "react-redux"
 
 class Post extends Component {
     static propTypes = {
         body: PropTypes.string.isRequired,
         song: PropTypes.string.isRequired,
+        album: PropTypes.string,
         username: PropTypes.string.isRequired,
         albumData: PropTypes.object,
     }
@@ -32,6 +35,17 @@ class Post extends Component {
         )
     }
 
+    // state = {
+    //     albumData: {
+    //         albumID: '',
+    //         data: {
+    //             name: '',
+    //             artist: '',
+    //             img: '',
+    //         }
+    //     }
+    // }
+
     render() {
         const albumData = this.props.albumData
 
@@ -50,4 +64,5 @@ class Post extends Component {
     }
 }
 
-export default Post
+const mapStateToProps = state => ({})
+export default connect(mapStateToProps, {})(Post)

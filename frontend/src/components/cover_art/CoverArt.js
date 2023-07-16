@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setSearchVisibility } from '../../actions/spotifySearch'
 import './css/CoverArt.css'
 
 /*
@@ -32,8 +31,6 @@ class CoverArt extends Component {
                     alt={'Album'}
                     className={'album-art-img'}
                     onClick={() => {
-                        this.props.setSearchVisibility(true)
-
                         // Only call callback func if it exists
                         if (this.props.handleClick) {
                             this.props.handleClick()
@@ -47,4 +44,4 @@ class CoverArt extends Component {
 
 const mapStateToProps = state => ({})
 
-export default connect(mapStateToProps, { setSearchVisibility })(CoverArt)
+export default connect(mapStateToProps, {})(CoverArt)
