@@ -3,12 +3,50 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .serializers import PostSerializer
-from .models import Post
+from .models import Post, Comment
 
-from spotify.util import get_spotify_albums
+from spotify.util import get_spotify_albums, get_spotify_album
 
-# DIY method for getting all posts (doing this to learn how
-# to write custom endpoints)
+class CreateComment(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        required_params = ['body', 'post_id']
+        missing_params = [param for param in required_params if param not in request.data]
+
+        if missing_params:
+            return Response(
+                f'Error: missing required parameters {missing_params}',
+                status=400,
+            )
+
+        parent_post = Post.objects.get(pk=request.data['post_id'])
+
+        Comment.objects.create(
+            user=request.user,
+            body=request.data['body'],
+            parent_post=parent_post,
+        ).save()
+
+        return Response(status=200)
+
+
+class GetPost(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        post_id = request.query_params['post_id']
+        # TOMORROW: ADD ERROR CASE IN CASE POST_ID NOT PRESENT OR INVALID
+
+        post = Post.objects.get(pk=post_id)
+        post_serialized = PostSerializer(post).data
+        if post_serialized['album']:
+            post_serialized['album_data'] = get_spotify_album(request.user, post_serialized['album'])
+
+        return Response(post_serialized)
+
+
+# Custom version of get posts where it requests album data
 class GetPosts(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

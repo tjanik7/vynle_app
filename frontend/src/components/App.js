@@ -14,6 +14,7 @@ import store from '../store'
 import { loadUser } from '../actions/auth'
 import SpotifyProfile from './spotify/SpotifyProfile'
 import SpotifyRedirect from './spotify/SpotifyRedirect'
+import PostDetail from './posts/PostDetail'
 
 import '../../sass/main.css'
 
@@ -40,10 +41,15 @@ class App extends Component {
                                     <SpotifyProfile/>
                                 </PrivateRoute>} />
                                 <Route path='/' element={<PrivateRoute>
-                                        <Feed/>
-                                    </PrivateRoute>
+                                    <Feed/>
+                                </PrivateRoute>
                                 } />
-                                <Route exact path={'/register'} component={Register}/>
+                                <Route path={'/post/:id'} element={<PrivateRoute>
+                                    <PostDetail/>
+                                </PrivateRoute>
+                                } />
+                                {/*<Route path={'/post/:id'} element={<PostDetail/>} />*/}
+                                <Route path={'/register'} component={Register}/>
                                 <Route path={'/login'} element={<Login/>}/>
                             </Routes>
                         </div>
