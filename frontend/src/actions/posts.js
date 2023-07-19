@@ -5,8 +5,12 @@ import { tokenConfig } from './auth'
 import {
     GOT_POSTS, GET_POSTS, DELETE_POST,
     ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS,
-    GET_POST, GOT_POST,
+    GET_POST, GOT_POST, POST_NOT_FOUND, CLEAR_POST_DETAIL
 } from './types'
+
+export const clearPostDetail = () => (dispatch, getState) => {
+    dispatch({ type: CLEAR_POST_DETAIL })
+}
 
 export const getPost = post_id => (dispatch, getState) => {
     dispatch({type: GET_POST})  // Marks state as loading
@@ -17,7 +21,12 @@ export const getPost = post_id => (dispatch, getState) => {
                 type: GOT_POST,
                 payload: res.data
             })
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            const status = err.response.status
+            if (status === 404) {
+                dispatch({ type: POST_NOT_FOUND })
+            }
+    })
 }
 
 export const getPosts = () => (dispatch, getState) => {

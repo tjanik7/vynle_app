@@ -1,3 +1,5 @@
+export const POST_NOT_FOUND = 'POST_NOT_FOUND'
+export const CLEAR_POST_DETAIL = 'CLEAR_POST_DETAIL'
 export const GOT_POSTS = 'GOT_POSTS'
 export const GET_POSTS = 'GET_POSTS'
 export const GET_POST = 'GET_POST'

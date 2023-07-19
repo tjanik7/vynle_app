@@ -5,7 +5,8 @@ import {
     ADD_POST,
     CLEAR_SUBMISSION_STATUS,
     GOT_POST,
-    GET_POST
+    GET_POST,
+    POST_NOT_FOUND, CLEAR_POST_DETAIL
 } from '../actions/types.js'
 
 const initialState = {
@@ -13,10 +14,22 @@ const initialState = {
     posts: [],
     postsLoading: null,
     postDetail: null,
+    errorStatus: null,
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case CLEAR_POST_DETAIL:
+            return {
+                ...state,
+                errorStatus: null,
+                postDetail: null,
+            }
+        case POST_NOT_FOUND:
+            return {
+                ...state,
+                errorStatus: '404',
+            }
         case GOT_POST:
             return {
                 ...state,

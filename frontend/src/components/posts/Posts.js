@@ -32,6 +32,7 @@ class Posts extends Component {
                                 username={post.user.username}
                                 body={post.body}
                                 albumData={post.album_data}
+                                postID={post.id}
                             />
                         </Col>
                     </Row>
