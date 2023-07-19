@@ -31,7 +31,7 @@ class Header extends Component {
         }
 
         const authLinks = ( // links to show when user is authenticated
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0" id={'vynle-navbar'}>
                 <li className={'nav-item'}>
                     {spotifyLink}
                 </li>
@@ -62,7 +62,7 @@ class Header extends Component {
         )
 
         return (
-            <nav className="navbar navbar-expand-sm navbar-light bg-light">
+            <nav className="navbar fixed-top navbar-fixed-top navbar-expand-sm navbar-light bg-light">
                 <div className={'container'}>
                     <div className="container-fluid">
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">

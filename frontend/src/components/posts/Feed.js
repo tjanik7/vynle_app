@@ -5,6 +5,7 @@ import Posts from './Posts'
 import { getSpotifyAuthStatus } from '../../actions/spotify'
 import PropTypes from 'prop-types'
 import {Link} from "react-router-dom";
+import './css/Feed.css'
 
 class Feed extends Component {
     static propTypes = {
@@ -18,12 +19,10 @@ class Feed extends Component {
 
     render() {
         return (
-            <Fragment>
+            <div id={'landing-page-container'}>
                 <Link to={'/create-post-form'} className="btn btn-primary my-2">Create a Post</Link>
-                <div className={'justify-content-center'}>
-                    <Posts/>
-                </div>
-            </Fragment>
+                <Posts/>
+            </div>
         )
     }
 }

@@ -27,11 +27,12 @@ class Posts extends Component {
                 {!this.props.postsLoading && this.props.posts.length === 0 && <h4>No posts to show</h4>}
                 {this.props.posts.map(post => (
                     <Row key={post.id} className={'justify-content-md-center'}>
-                        <Col md={8}>
+                        <Col md={10}>
                             <Post
                                 username={post.user.username}
                                 body={post.body}
                                 albumData={post.album_data}
+                                postID={post.id}
                             />
                         </Col>
                     </Row>
