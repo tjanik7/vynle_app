@@ -29,7 +29,8 @@ class App extends Component {
                 <Router>
                     <Fragment>
                         <Header/>
-                        <div className={'container'}>
+                        {/* Margin configured below moves everything below the navbar */}
+                        <div className={'container'} style={{marginTop: '75px'}}>
                             <Routes>
                                 <Route path={'/create-post-form'} element={<PrivateRoute>
                                     <Form />
@@ -48,7 +49,6 @@ class App extends Component {
                                     <PostDetail/>
                                 </PrivateRoute>
                                 } />
-                                {/*<Route path={'/post/:id'} element={<PostDetail/>} />*/}
                                 <Route path={'/register'} component={Register}/>
                                 <Route path={'/login'} element={<Login/>}/>
                             </Routes>
