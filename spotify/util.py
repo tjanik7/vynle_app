@@ -126,11 +126,14 @@ def get_spotify_albums(user, album_ids, img_size='m'):
             if response_obj.status_code:  # If OK response
                 response = response_obj.json()
 
-                ret.append({
-                    'name': response['name'],  # Name of album
-                    'artist': response['artists'][0]['name'],  # Name of first artist listed
-                    'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
-                })
+                if 'name' in response and 'artists' in response and 'images' in response:
+                    ret.append({
+                        'name': response['name'],  # Name of album
+                        'artist': response['artists'][0]['name'],  # Name of first artist listed
+                        'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
+                    })
+                else:
+                    raise Exception(f'Keys not found in response: {response}')
             else:
                 return None
 

@@ -36,7 +36,6 @@ class GetPost(APIView):
 
     def get(self, request):
         post_id = request.query_params['post_id']
-        # TOMORROW: ADD ERROR CASE IN CASE POST_ID NOT PRESENT OR INVALID
 
         post = Post.objects.get(pk=post_id)
         post_serialized = PostSerializer(post).data

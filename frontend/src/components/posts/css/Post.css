@@ -3,6 +3,7 @@
     display: flex;
     border-bottom: 1px solid lightgray;
     padding-bottom: 25px;
+    justify-content: space-between;
 }
 
 .item {

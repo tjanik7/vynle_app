@@ -20,9 +20,7 @@ class Feed extends Component {
         return (
             <Fragment>
                 <Link to={'/create-post-form'} className="btn btn-primary my-2">Create a Post</Link>
-                <div className={'justify-content-center'}>
-                    <Posts/>
-                </div>
+                <Posts/>
             </Fragment>
         )
     }
