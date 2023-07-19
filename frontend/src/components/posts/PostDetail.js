@@ -1,19 +1,31 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
 
 import { useParams } from "react-router-dom"
+import { getPost } from "../../actions/posts"
+import Post from "./Post"
 
-function PostDetail() {
+function PostDetail(props) {
     const {id} = useParams()
 
-    return (
+    useEffect(() => {
+        props.getPost(id)
+    }, [id]) // Need empty dep array otherwise it requests infinitely
+
+    return ( // NOW NEED TO HANDLE WHAT TO RENDER IF REQUEST RETURNS A 404
         <>
-            <h1>you made it</h1>
-            <h2>{id}</h2>
+            {!props.loading && props.postDetail && <Post
+                body={props.postDetail.body}
+                albumData={props.postDetail.album_data}
+                username={props.postDetail.user.username}
+            />}
         </>
     )
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+    postDetail: state.posts.postDetail,
+    loading: state.posts.postsLoading,
+})
 
-export default connect(mapStateToProps, {})(PostDetail)
+export default connect(mapStateToProps, {getPost})(PostDetail)

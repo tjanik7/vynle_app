@@ -1,15 +1,30 @@
-import { GOT_POSTS, GET_POSTS, DELETE_POST, ADD_POST , CLEAR_SUBMISSION_STATUS} from '../actions/types.js'
+import {
+    GOT_POSTS,
+    GET_POSTS,
+    DELETE_POST,
+    ADD_POST,
+    CLEAR_SUBMISSION_STATUS,
+    GOT_POST,
+    GET_POST
+} from '../actions/types.js'
 
 const initialState = {
     submissionStatus: '',  // One of {'', 'submitting', 'submitted', 'error'}
     posts: [],
     postsLoading: null,
+    postDetail: null,
 }
 
 export default function (state = initialState, action) {
-    // evaluate action type that is sent via switch block
     switch (action.type) {
-        case GET_POSTS:
+        case GOT_POST:
+            return {
+                ...state,
+                postsLoading: false,
+                postDetail: action.payload,
+            }
+            case GET_POST:
+            case GET_POSTS:
             return {
                 ...state,
                 postsLoading: true,

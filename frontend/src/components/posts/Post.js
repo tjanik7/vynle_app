@@ -37,9 +37,8 @@ function Post(props) {
 
 Post.propTypes = {
     body: PropTypes.string.isRequired,
-    album: PropTypes.string,
     username: PropTypes.string.isRequired,
-    albumData: PropTypes.object,
+    albumData: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({})

@@ -1,3 +1,5 @@
+# urls for posts
+
 from rest_framework import routers
 from .views import PostViewSet, GetPosts, GetPost, CreateComment
 from django.urls import path
