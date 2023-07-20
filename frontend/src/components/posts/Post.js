@@ -17,6 +17,7 @@ function formatAlbum(albumData) {
     )
 }
 
+
 function Post(props) {
     const navigate = useNavigate()
 
@@ -26,7 +27,10 @@ function Post(props) {
             <div id={'username-field'}>
                 <h4>{props.username}</h4>
             </div>
-            <div className={'post-container'} onClick={() => navigate(`/post/${props.postID}`)}>
+            <div className={`post-container ${props.isClickable ? 'post-container-clickable' : ''}`}
+                 onClick={props.isClickable ? // Leave onClick undefined if this is not a clickable <Post/>
+                     () => navigate(`/post/${props.postID}`) : undefined}
+            >
                 <div className={'item'}>
                     {formatAlbum(albumData)}
                 </div>
@@ -43,6 +47,11 @@ Post.propTypes = {
     username: PropTypes.string.isRequired,
     postID: PropTypes.number.isRequired,
     albumData: PropTypes.object,
+    isClickable: PropTypes.bool,
+}
+
+Post.defaultProps = {
+    isClickable: false,
 }
 
 const mapStateToProps = state => ({})

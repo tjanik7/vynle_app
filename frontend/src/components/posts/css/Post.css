@@ -4,6 +4,9 @@
     border-bottom: 1px solid lightgray;
     padding-bottom: 25px;
     justify-content: space-between;
+}
+
+.post-container-clickable {
     cursor: pointer;
 }
 

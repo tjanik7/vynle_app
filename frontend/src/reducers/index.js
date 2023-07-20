@@ -6,6 +6,7 @@ import spotify from './spotify'
 import spotifySearch from './spotifySearch'
 import profile from './profile'
 import { USER_LOGGED_OUT } from '../actions/types'
+import postDetail from "./postDetail"
 
 const appReducer = combineReducers({
     posts,
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
     spotify,
     spotifySearch,
     profile,
+    postDetail,
 })
 
 const rootReducer = (state, action) => {
