@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { useParams } from "react-router-dom"
 import { clearPostDetail, getPost } from "../../actions/postDetail"
 import Post from "./Post"
-import Comment from "./comments/Comment"
+import Comments from "./comments/Comments"
 import CommentCreationForm from "./comments/CommentCreationForm"
 
 function PostDetail(props) {
@@ -26,11 +26,8 @@ function PostDetail(props) {
                     username={props.postDetail.user.username}
                     postID={props.postDetail.id}
                 />
-                <CommentCreationForm/>
-                <Comment
-                    username={'cmullins'}
-                    body={'This is a comment about the above post.'}
-                />
+                <CommentCreationForm postID={props.postDetail.id} />
+                <Comments postID={props.postDetail.id}/>
             </>
             )
 

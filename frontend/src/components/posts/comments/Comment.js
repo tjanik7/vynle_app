@@ -17,4 +17,4 @@ Comment.propTypes = {
     body: PropTypes.string.isRequired,
 }
 
-export default Comment
+export default Comment //NEXT NEED TO FILTER COMMENTS

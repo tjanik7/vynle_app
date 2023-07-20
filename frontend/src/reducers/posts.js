@@ -13,7 +13,6 @@ const initialState = {
     submissionStatus: '',  // One of {'', 'submitting', 'submitted', 'error'}
     posts: [],
     postsLoading: null,
-    postDetail: null,
     errorStatus: null,
 }
 
