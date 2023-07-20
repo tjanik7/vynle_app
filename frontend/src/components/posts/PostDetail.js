@@ -2,8 +2,10 @@ import React, { useEffect } from "react"
 import { connect } from "react-redux"
 
 import { useParams } from "react-router-dom"
-import { clearPostDetail, getPost } from "../../actions/posts"
+import { clearPostDetail, getPost } from "../../actions/postDetail"
 import Post from "./Post"
+import Comments from "./comments/Comments"
+import CommentCreationForm from "./comments/CommentCreationForm"
 
 function PostDetail(props) {
     const {id} = useParams()
@@ -14,30 +16,35 @@ function PostDetail(props) {
         return () => props.clearPostDetail() // Return cleanup function
     }, [id]) // Need empty dep array otherwise it requests infinitely
 
-    let contentToRender = null
-
-    if (!props.postsLoading) {
+    if (props.loading === false) {
         if (props.postDetail) {
-            contentToRender = <Post
-                body={props.postDetail.body}
-                albumData={props.postDetail.album_data}
-                username={props.postDetail.user.username}
-                postID={props.postDetail.id}
-            />
-        } else if (props.errorStatus === '404') {
-            contentToRender = <h2>This post could not be found.</h2>
-        }
-    }
+            return (
+            <>
+                <Post
+                    body={props.postDetail.body}
+                    albumData={props.postDetail.album_data}
+                    username={props.postDetail.user.username}
+                    postID={props.postDetail.id}
+                />
+                <CommentCreationForm postID={props.postDetail.id} />
+                <Comments postID={props.postDetail.id}/>
+            </>
+            )
 
-    return (
-        <>{contentToRender}</>
-    )
+        } else if (props.errorStatus === '404') {
+            return (<h2>This post could not be found.</h2>)
+        } else {
+            return (<h2>There was an error</h2>)
+        }
+    } else {
+        return (<h2>Loading...</h2>)
+    }
 }
 
 const mapStateToProps = state => ({
-    postDetail: state.posts.postDetail,
-    loading: state.posts.postsLoading,
-    errorStatus: state.posts.errorStatus,
+    postDetail: state.postDetail.post,
+    loading: state.postDetail.loading,
+    errorStatus: state.postDetail.errorStatus,
 })
 
 export default connect(mapStateToProps, {

@@ -4,13 +4,24 @@ from rest_framework.response import Response
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from .serializers import PostSerializer
+from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment
 
 from spotify.util import get_spotify_albums, get_spotify_album
 
-class CreateComment(APIView):
+class CommentView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        parent_post_id = request.query_params['post_id']
+
+        all_comments = Comment.objects.filter(parent_post=parent_post_id)
+        comments_ser = CommentSerializer(all_comments, many=True).data
+
+        return Response(
+            comments_ser,
+            status=200
+        )
 
     def post(self, request):
         required_params = ['body', 'post_id']
@@ -24,13 +35,17 @@ class CreateComment(APIView):
 
         parent_post = Post.objects.get(pk=request.data['post_id'])
 
-        Comment.objects.create(
+        new_comment = Comment.objects.create(
             user=request.user,
             body=request.data['body'],
             parent_post=parent_post,
-        ).save()
+        )
+        new_comment.save()
 
-        return Response(status=200)
+        return Response(
+            CommentSerializer(new_comment).data,
+            status=200
+        )
 
 
 class GetPost(APIView):
