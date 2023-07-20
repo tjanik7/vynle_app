@@ -18,7 +18,7 @@ class Header extends Component {
         let spotifyLink
         if (isSpotifyAuthenticated == null) { // status not yet loaded
             spotifyLink = (
-                <Link to={'#'} className={'nav-link disabled'}>Connect with Spotify</Link>
+                <Link to={'/'} className={'nav-link disabled'}>Connect with Spotify</Link>
             )
         } else if (isSpotifyAuthenticated) { // authenticated
             spotifyLink = (
@@ -66,7 +66,7 @@ class Header extends Component {
                 <div className={'container'}>
                     <div className="container-fluid">
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                            <a className="navbar-brand py-0" href="#">
+                            <a className="navbar-brand py-0" href="/">
                                 <img id={'logo-main'} src={'/static/logo/logo_main.svg'} alt={'Vynle Logo'}/>
                             </a>
                             {isAuthenticated ? authLinks : guestLinks}
