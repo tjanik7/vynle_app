@@ -6,7 +6,7 @@ import {
     CLEAR_SUBMISSION_STATUS,
     GOT_POST,
     GET_POST,
-    POST_NOT_FOUND, CLEAR_POST_DETAIL
+    POST_NOT_FOUND, CLEAR_POST_DETAIL, RESET_POSTS_LOADING
 } from '../actions/types.js'
 
 const initialState = {
@@ -19,6 +19,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case RESET_POSTS_LOADING:
+            return {
+                ...state,
+                postsLoading: null,
+            }
         case CLEAR_POST_DETAIL:
             return {
                 ...state,

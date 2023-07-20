@@ -4,6 +4,8 @@ import { connect } from "react-redux"
 import { useParams } from "react-router-dom"
 import { clearPostDetail, getPost } from "../../actions/posts"
 import Post from "./Post"
+import Comment from "./comments/Comment"
+import CommentCreationForm from "./comments/CommentCreationForm"
 
 function PostDetail(props) {
     const {id} = useParams()
@@ -14,24 +16,32 @@ function PostDetail(props) {
         return () => props.clearPostDetail() // Return cleanup function
     }, [id]) // Need empty dep array otherwise it requests infinitely
 
-    let contentToRender = null
-
-    if (!props.postsLoading) {
+    if (props.loading === false) {
         if (props.postDetail) {
-            contentToRender = <Post
-                body={props.postDetail.body}
-                albumData={props.postDetail.album_data}
-                username={props.postDetail.user.username}
-                postID={props.postDetail.id}
-            />
-        } else if (props.errorStatus === '404') {
-            contentToRender = <h2>This post could not be found.</h2>
-        }
-    }
+            return (
+            <>
+                <Post
+                    body={props.postDetail.body}
+                    albumData={props.postDetail.album_data}
+                    username={props.postDetail.user.username}
+                    postID={props.postDetail.id}
+                />
+                <CommentCreationForm/>
+                <Comment
+                    username={'cmullins'}
+                    body={'This is a comment about the above post.'}
+                />
+            </>
+            )
 
-    return (
-        <>{contentToRender}</>
-    )
+        } else if (props.errorStatus === '404') {
+            return (<h2>This post could not be found.</h2>)
+        } else {
+            return (<h2>There was an error</h2>)
+        }
+    } else {
+        return (<h2>Loading...</h2>)
+    }
 }
 
 const mapStateToProps = state => ({

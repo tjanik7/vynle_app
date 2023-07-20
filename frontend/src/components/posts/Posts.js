@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Col, Container, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import { getPosts, deletePost } from '../../actions/posts'
+import { getPosts, deletePost, resetPostsLoading } from '../../actions/posts'
 import Post from './Post'
 
 class Posts extends Component {
@@ -14,6 +14,10 @@ class Posts extends Component {
 
     componentDidMount() {
         this.props.getPosts()
+    }
+
+    componentWillUnmount() {
+        this.props.resetPostsLoading()
     }
 
     render() {
@@ -53,5 +57,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getPosts, deletePost }
+    { getPosts, deletePost, resetPostsLoading }
 )(Posts)
