@@ -37,6 +37,7 @@ class Posts extends Component {
                                 body={post.body}
                                 albumData={post.album_data}
                                 postID={post.id}
+                                isClickable={true}
                             />
                         </Col>
                     </Row>
