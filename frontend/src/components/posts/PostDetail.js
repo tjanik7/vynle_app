@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { connect } from "react-redux"
 
 import { useParams } from "react-router-dom"
-import { clearPostDetail, getPost } from "../../actions/posts"
+import { clearPostDetail, getPost } from "../../actions/postDetail"
 import Post from "./Post"
 import Comment from "./comments/Comment"
 import CommentCreationForm from "./comments/CommentCreationForm"
@@ -45,9 +45,9 @@ function PostDetail(props) {
 }
 
 const mapStateToProps = state => ({
-    postDetail: state.posts.postDetail,
-    loading: state.posts.postsLoading,
-    errorStatus: state.posts.errorStatus,
+    postDetail: state.postDetail.post,
+    loading: state.postDetail.loading,
+    errorStatus: state.postDetail.errorStatus,
 })
 
 export default connect(mapStateToProps, {
