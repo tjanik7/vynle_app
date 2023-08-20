@@ -1,4 +1,11 @@
+const path = require('path');
+
 module.exports = {
+    entry: './src/components/App.js',
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js'
+    },
     module: {
         rules: [
             {
@@ -33,5 +40,9 @@ module.exports = {
                 include: /\.module\.css$/,
             }
         ]
+    },
+    devtool: 'eval-cheap-module-source-map',
+    devServer: {
+        static: path.join(__dirname, 'dist')
     }
 }
