@@ -32,8 +32,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
-    "start": "webpack --mode development",
+    "dev": "webpack --mode development && webpack-dev-server --mode development",
     "build": "webpack --mode production --watch ./src/index.js --output-path ./static/frontend"
   },
   "repository": {

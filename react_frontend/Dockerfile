@@ -15,6 +15,3 @@ RUN npm ci
 
 EXPOSE 3000
 CMD ["npm", "run", "dev"]
-
-# Start the app
-# CMD ["npx", "serve", "build"]
