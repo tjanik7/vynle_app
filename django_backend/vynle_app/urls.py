@@ -5,7 +5,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', include('frontend.urls')),  # frontend urls to be dispatched with react router
+    # path('', include('frontend.urls')),  # frontend urls to be dispatched with react router
     path('api/', include('posts.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),

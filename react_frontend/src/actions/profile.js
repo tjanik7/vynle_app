@@ -1,7 +1,7 @@
 // Actions for profile
 import { tokenConfig } from './auth'
 import { GET_ALBUM_DATA, GET_FAV_ALBUMS, MARK_NOT_FETCHED, SET_FAV_ALBUM } from './types'
-import axios from 'axios'
+import axiosInstance from "../api/axiosInstance"
 
 
 export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
@@ -22,7 +22,7 @@ export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
         ind: ind,
     }
 
-    axios.post('/spotify/set-fav-album', params, headers)
+    axiosInstance.post('/spotify/set-fav-album', params, headers)
         .then(res => {
             dispatch({
                 type: SET_FAV_ALBUM,
@@ -35,7 +35,7 @@ export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
 }
 
 export const getFavAlbums = () => (dispatch, getState) => {
-    axios.get('/spotify/get-fav-albums', tokenConfig(getState))
+    axiosInstance.get('/spotify/get-fav-albums', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_FAV_ALBUMS,
@@ -53,7 +53,7 @@ export const getAlbumData = (ind) => (dispatch, getState) => {
             ind,
         }
     }
-    axios.get('/spotify/get-album', data)
+    axiosInstance.get('/spotify/get-album', data)
         .then(res => {
             dispatch({
                 type: GET_ALBUM_DATA,

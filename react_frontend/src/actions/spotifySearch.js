@@ -1,6 +1,6 @@
 // Actions for <Search/>
 
-import axios from 'axios'
+import axiosInstance from "../api/axiosInstance"
 import { tokenConfig } from './auth'
 import {
     SEND_QUERY,
@@ -17,7 +17,7 @@ export const search = (q) => (dispatch, getState) => {
         headers: tokenConfig(getState).headers,
         params: { q: q }
     }
-    axios.get('/spotify/search-spotify', data)
+    axiosInstance.get('/spotify/search-spotify', data)
         .then(res => {
             dispatch({
                 type: SEND_QUERY,

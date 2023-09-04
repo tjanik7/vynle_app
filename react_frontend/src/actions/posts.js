@@ -1,5 +1,5 @@
 // post actions
-import axios from 'axios'
+import axiosInstance from "../api/axiosInstance"
 import { tokenConfig } from './auth'
 
 import {
@@ -15,7 +15,7 @@ export const resetPostsLoading = () => (dispatch, getState) => {
 export const getPosts = () => (dispatch, getState) => {
     dispatch({type: GET_POSTS})  // Marks state as loading
 
-    axios.get('/api/get-posts', tokenConfig(getState))
+    axiosInstance.get('/api/get-posts', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_POSTS,
@@ -25,7 +25,7 @@ export const getPosts = () => (dispatch, getState) => {
 }
 
 export const deletePost = id => (dispatch, getState) => {
-    axios.delete(`/api/posts/${id}/`, tokenConfig(getState))
+    axiosInstance.delete(`/api/posts/${id}/`, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: DELETE_POST,
@@ -36,7 +36,7 @@ export const deletePost = id => (dispatch, getState) => {
 
 export const addPost = post => (dispatch, getState) => {
 
-    axios.post('/api/posts/', post, tokenConfig(getState))
+    axiosInstance.post('/api/posts/', post, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: ADD_POST,

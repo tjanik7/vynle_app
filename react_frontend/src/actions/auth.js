@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from "../api/axiosInstance"
 import {
     USER_LOADED,
     USER_LOADING,
@@ -17,7 +17,7 @@ export const loadUser = () => (dispatch, getState) => {
     // User loading
     dispatch({ type: USER_LOADING })
 
-    axios
+    axiosInstance
         .get('/users/auth/account', tokenConfig(getState))
         .then(res => {
             dispatch({
@@ -45,7 +45,7 @@ export const login = (email, password) => dispatch => { // getState not needed s
     // identical to {email: email, password: password}
     const body = { email, password }
 
-    axios
+    axiosInstance
         .post('/users/auth/login', body, config)
         .then(res => {
             dispatch({
@@ -79,7 +79,7 @@ export const register = ({ email, password, username, first, last }) => dispatch
     // Request Body
     const body = { email, password, username, first, last }
 
-    axios
+    axiosInstance
         .post('/users/auth/register', body, config)
         .then(res => {
             dispatch({
@@ -104,7 +104,7 @@ export const register = ({ email, password, username, first, last }) => dispatch
 
 // LOGOUT USER
 export const logout = () => (dispatch, getState) => {
-    axios
+    axiosInstance
         .post('/users/auth/logout', null, tokenConfig(getState))
         .then(res => {
             dispatch({

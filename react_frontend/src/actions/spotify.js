@@ -1,10 +1,10 @@
-import axios from 'axios'
+import axiosInstance from "../api/axiosInstance"
 
 import { tokenConfig } from './auth'
 import { GET_SPOTIFY_AUTH_STATUS, GET_SPOTIFY_AUTH_URL, GET_CURRENT_USER_SPOTIFY_PROFILE } from './types'
 
 export const getCurrentUserSpotifyProfile = () => (dispatch, getState) => {
-    axios.get('spotify/get-current-user-spotify-profile', tokenConfig(getState))
+    axiosInstance.get('spotify/get-current-user-spotify-profile', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_CURRENT_USER_SPOTIFY_PROFILE,
@@ -14,7 +14,7 @@ export const getCurrentUserSpotifyProfile = () => (dispatch, getState) => {
 }
 
 export const getSpotifyAuthStatus = () => (dispatch, getState) => {
-    axios.get('/spotify/is-spotify-authenticated', tokenConfig(getState))
+    axiosInstance.get('/spotify/is-spotify-authenticated', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_SPOTIFY_AUTH_STATUS,
@@ -24,7 +24,7 @@ export const getSpotifyAuthStatus = () => (dispatch, getState) => {
 }
 
 export const getSpotifyAuthURL = () => (dispatch, getState) => {
-    axios.get('/spotify/get-auth-url', tokenConfig(getState))
+    axiosInstance.get('/spotify/get-auth-url', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_SPOTIFY_AUTH_URL,

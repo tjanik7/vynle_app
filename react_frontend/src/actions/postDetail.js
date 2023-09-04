@@ -1,5 +1,5 @@
 // postDetail actions
-import axios from "axios"
+import axiosInstance from "../api/axiosInstance"
 import { ADD_COMMENT, CLEAR_POST_DETAIL, GET_POST, GOT_COMMENTS, GOT_POST, POST_NOT_FOUND } from "./types"
 import { tokenConfig } from "./auth"
 
@@ -10,7 +10,7 @@ export const clearPostDetail = () => (dispatch, getState) => {
 export const getPost = post_id => (dispatch, getState) => {
     dispatch({type: GET_POST})  // Marks state as loading
 
-    axios.get(`/api/post?post_id=${post_id}`, tokenConfig(getState))
+    axiosInstance.get(`/api/post?post_id=${post_id}`, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_POST,
@@ -25,7 +25,7 @@ export const getPost = post_id => (dispatch, getState) => {
 }
 
 export const getComments = post_id => (dispatch, getState) => {
-    axios.get(`/api/comment?post_id=${post_id}`, tokenConfig(getState))
+    axiosInstance.get(`/api/comment?post_id=${post_id}`, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_COMMENTS,
@@ -42,7 +42,7 @@ export const addComment = (post_id, body) => (dispatch, getState) => {
         'post_id': post_id,
     }
 
-    axios.post('/api/comment', requestBody, tokenConfig(getState))
+    axiosInstance.post('/api/comment', requestBody, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: ADD_COMMENT,
