@@ -34,8 +34,7 @@ export default function (state = initialState, action) {
         case REGISTER_SUCCESS:
             localStorage.setItem('token', action.payload.token)
             return {
-                //...state,
-                //...action.payload,
+                ...state, // Uncommented this
                 token: action.payload.token,
                 user: action.payload['account'],
                 isAuthenticated: true,

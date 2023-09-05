@@ -49,7 +49,7 @@ class App extends Component {
                                     <PostDetail/>
                                 </PrivateRoute>
                                 } />
-                                <Route path={'/register'} component={Register}/>
+                                <Route path={'/register'} element={<Register/>}/>
                                 <Route path={'/login'} element={<Login/>}/>
                             </Routes>
                         </div>

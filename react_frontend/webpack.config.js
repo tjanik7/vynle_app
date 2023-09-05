@@ -4,7 +4,8 @@ module.exports = {
     entry: './src/components/App.js',
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/' // Specifies the base path for all assets within the app
     },
     module: {
         rules: [
@@ -43,6 +44,8 @@ module.exports = {
     },
     devtool: 'eval-cheap-module-source-map',
     devServer: {
-        static: path.join(__dirname, 'dist')
+        static: path.join(__dirname, 'dist'),
+        historyApiFallback: true // Redirects all get requests to index.html during development
+        // Will later need to configure a server to do this in prod
     }
 }

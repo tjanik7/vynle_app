@@ -8,7 +8,7 @@ const PrivateRoute = ({ children, auth }) => {
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth, // allows for access to the auth object via this.props.auth
+    auth: state.auth, // Allows for access of the auth object via this.props.auth
 });
 
 export default connect(mapStateToProps)(PrivateRoute);
