@@ -4,7 +4,7 @@ from .views import RegisterAPI, LoginAPI, AccountAPI
 from knox import views as knox_views
 
 # defines the API endpoints for user-based requests
-# these views are not directly rendered in the browser; react will get / post to these endpoints
+# these views are not directly rendered in the browser; React will get / post to these endpoints
 urlpatterns = [  # localhost:8000/users/...
     path('auth', include('knox.urls')),
     path('auth/register', RegisterAPI.as_view()),

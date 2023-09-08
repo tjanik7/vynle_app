@@ -105,6 +105,7 @@ def get_spotify_album(user, album_id, img_size='m'):
         return ret
     return None
 
+
 # Same func as above but accepts multiple IDs
 def get_spotify_albums(user, album_ids, img_size='m'):
     size_letter_to_ind = {
