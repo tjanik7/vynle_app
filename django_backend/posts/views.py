@@ -9,6 +9,7 @@ from .models import Post, Comment
 
 from spotify.util import get_spotify_albums, get_spotify_album
 
+
 class CommentView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -73,17 +74,18 @@ class GetPosts(APIView):
     def get(self, request):
         all_posts = Post.objects.all()
 
-        # Fetch data from album URL within post (if one exists)
-        album_urls = [p.album for p in all_posts]
-        album_data_list = get_spotify_albums(request.user, album_urls)
+        if len(all_posts) > 0:
+            # Fetch data from album URL within post (if one exists)
+            album_urls = [p.album for p in all_posts]
+            album_data_list = get_spotify_albums(request.user, album_urls)
 
-        posts_ser = PostSerializer(all_posts, many=True).data
+            posts_ser = PostSerializer(all_posts, many=True).data
 
-        for post, album_data in zip(posts_ser, album_data_list):
-            post['album_data'] = album_data
+            for post, album_data in zip(posts_ser, album_data_list):
+                post['album_data'] = album_data
 
-
-        return Response(posts_ser, status.HTTP_200_OK)
+            return Response(posts_ser, status.HTTP_200_OK)
+        return Response(None, status.HTTP_200_OK)
 
 
 class PostViewSet(viewsets.ModelViewSet):
