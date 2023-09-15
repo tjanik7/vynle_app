@@ -14,7 +14,7 @@ function PostDetail(props) {
         props.getPost(id)
 
         return () => props.clearPostDetail() // Return cleanup function
-    }, [id]) // Need empty dep array otherwise it requests infinitely
+    }, [id]) // Need dep array otherwise it requests infinitely
 
     if (props.loading === false) {
         if (props.postDetail) {
