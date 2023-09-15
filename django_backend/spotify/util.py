@@ -105,44 +105,44 @@ def get_spotify_album(user, album_id, img_size='m'):
         return ret
     return None
 
+
 # Same func as above but accepts multiple IDs
 def get_spotify_albums(user, album_ids, img_size='m'):
-    size_letter_to_ind = {
-        's': 2,
-        'm': 1,
-        'l': 0,
-    }
-    img_size_ind = size_letter_to_ind[img_size]
+    if is_spotify_authenticated(user):
+        size_letter_to_ind = {
+            's': 2,
+            'm': 1,
+            'l': 0,
+        }
+        img_size_ind = size_letter_to_ind[img_size]
 
-    headers = get_header(user)
+        headers = get_header(user)
 
-    ret = []
+        ret = []
 
-    for album_id in album_ids:
-        if album_id:
-            url = f'https://api.spotify.com/v1/albums/{album_id}'
-            response_obj = get(url, headers=headers)
+        for album_id in album_ids:
+            if album_id:
+                url = f'https://api.spotify.com/v1/albums/{album_id}'
+                response_obj = get(url, headers=headers)
 
-            if response_obj.status_code:  # If OK response
-                response = response_obj.json()
+                if response_obj.status_code:  # If OK response
+                    response = response_obj.json()
 
-                if 'name' in response and 'artists' in response and 'images' in response:
-                    ret.append({
-                        'name': response['name'],  # Name of album
-                        'artist': response['artists'][0]['name'],  # Name of first artist listed
-                        'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
-                    })
+                    if 'name' in response and 'artists' in response and 'images' in response:
+                        ret.append({
+                            'name': response['name'],  # Name of album
+                            'artist': response['artists'][0]['name'],  # Name of first artist listed
+                            'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
+                        })
+                    else:
+                        raise Exception(f'Keys not found in response: {response}')
                 else:
-                    raise Exception(f'Keys not found in response: {response}')
+                    return None
+
             else:
-                return None
+                ret.append(None)  # Revert to above code if this breaks something
 
-        else:  # No album to request, so append empty album obj
-            # ret.append({
-            #     'name': '',
-            #     'artist': '',
-            #     'img': '',
-            # })
-            ret.append(None)  # Revert to above code if this breaks something
+        return ret
 
-    return ret
+    # PROB NEED TO CHANGE THIS LATER
+    raise Exception('Unable to pull album data since user is not authenticated with Spotify')
