@@ -1,8 +1,32 @@
+from django.core.exceptions import ObjectDoesNotExist
 from knox.models import AuthToken
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from .models import Account
 from .serializers import RegisterSerializer, AccountSerializer, LoginSerializer
+
+
+class GetOtherProfile(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        username = request.query_params['username']
+
+        try:
+            otherUserAccount = Account.objects.get(username=username)
+        except ObjectDoesNotExist:
+            return Response(
+                f'No user with username {username}',
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        otherUserAccountSer = AccountSerializer(otherUserAccount).data
+        return Response(
+            otherUserAccountSer,
+            status=status.HTTP_200_OK
+        )
 
 
 # API for user to create an account

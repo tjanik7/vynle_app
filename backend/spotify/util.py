@@ -1,8 +1,7 @@
 from datetime import timedelta
+
 from django.utils import timezone
 from requests import post, get
-from rest_framework import status
-
 from spotify.credentials import CLIENT_ID, CLIENT_SECRET
 from spotify.models import SpotifyToken
 
