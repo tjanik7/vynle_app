@@ -140,7 +140,7 @@ def get_spotify_albums(user, album_ids, img_size='m'):
                     return None
 
             else:
-                ret.append(None)  # Revert to above code if this breaks something
+                ret.append(None)
 
         return ret
 

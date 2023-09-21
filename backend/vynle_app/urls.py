@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 from . import settings
 
 urlpatterns = [
-    # path('', include('frontend.urls')),  # frontend urls to be dispatched with react router
     path('api/', include('posts.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),

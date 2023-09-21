@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment
 
-from spotify.util import get_spotify_albums, get_spotify_album
+from spotify.util import get_spotify_albums, get_spotify_album, is_spotify_authenticated
 
 
 class CommentView(APIView):
@@ -72,20 +72,26 @@ class GetPosts(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        all_posts = Post.objects.all()
+        if is_spotify_authenticated(request.user):
+            all_posts = Post.objects.all()
 
-        if len(all_posts) > 0:
-            # Fetch data from album URL within post (if one exists)
-            album_urls = [p.album for p in all_posts]
-            album_data_list = get_spotify_albums(request.user, album_urls)
+            if len(all_posts) > 0:
+                # Fetch data from album URL within post (if one exists)
+                album_urls = [p.album for p in all_posts]
+                album_data_list = get_spotify_albums(request.user, album_urls)
 
-            posts_ser = PostSerializer(all_posts, many=True).data
+                posts_ser = PostSerializer(all_posts, many=True).data
 
-            for post, album_data in zip(posts_ser, album_data_list):
-                post['album_data'] = album_data
+                for post, album_data in zip(posts_ser, album_data_list):
+                    post['album_data'] = album_data
 
-            return Response(posts_ser, status.HTTP_200_OK)
-        return Response(None, status.HTTP_200_OK)
+                return Response(posts_ser, status.HTTP_200_OK)
+            return Response(None, status.HTTP_200_OK)
+        else:
+            return Response(
+                'Please authenticate with Spotify to view Vynle posts',
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
 
 class PostViewSet(viewsets.ModelViewSet):

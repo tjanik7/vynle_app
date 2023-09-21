@@ -68,7 +68,7 @@ export const login = (email, password) => dispatch => { // getState not needed s
     })
 }
 
-// REGISTER USER
+// Create new user account
 export const register = ({ email, password, username, first, last }) => dispatch => {
     const config = {
         headers: {
