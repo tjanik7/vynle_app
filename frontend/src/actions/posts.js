@@ -21,7 +21,16 @@ export const getPosts = () => (dispatch, getState) => {
                 type: GOT_POSTS,
                 payload: res.data
             })
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            if(err.response.status === 401) { // If user not authenticated with Spotify
+                dispatch({
+                    type: GOT_POSTS,
+                    payload: []
+                })
+            } else {
+                console.log(err)
+            }
+        })
 }
 
 export const deletePost = id => (dispatch, getState) => {

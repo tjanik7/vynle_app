@@ -22,18 +22,6 @@ class FavAlbums(models.Model):
         return str(self.profile)
 
 
-# POSSIBLY LOOK INTO DJANGO-ANNOYING AutoOneToOneFIELD
-# TODO: MOVE THIS TO A DIFFERENT FILE https://www.youtube.com/watch?v=Kc1Q_ayAeQk&t=605s - TUTORIAL USED
-def create_or_update_favalbum(sender, instance, created, **kwargs):
-    if created:
-        FavAlbums.objects.create(profile=instance)
-    else:
-        instance.favalbums.save()
-
-
-post_save.connect(create_or_update_favalbum, sender=Profile)
-
-
 class SpotifyToken(models.Model):
     user = models.ForeignKey('users.Account', related_name='spotify_token', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
