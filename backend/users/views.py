@@ -56,9 +56,12 @@ class RegisterAPI(generics.GenericAPIView):
             else:
                 raise Exception(serializer.errors)
 
-            # profile_ser = ProfileSerializer(account=account, **profile_data)
             profile_data['account'] = account.id
+
+            # Calls ProfileSerializer.create(), which also creates a new FavAlbums instance
+            # to associate with this profile instance
             profile_ser = ProfileSerializer(data=profile_data)
+
             if profile_ser.is_valid(raise_exception=True):
                 profile_ser.save()
             else:
