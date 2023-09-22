@@ -1,6 +1,7 @@
 from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 from knox.models import AuthToken
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
