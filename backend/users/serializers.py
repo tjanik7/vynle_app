@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+
+from spotify.models import FavAlbums
 from .models import Account, Profile
 
 
@@ -39,6 +41,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             first=validated_data['first'],
             last=validated_data['last']
         )
+
+        favalbum_instance = FavAlbums.objects.create(profile=profile)
+        favalbum_instance.save()
         return profile
 
 

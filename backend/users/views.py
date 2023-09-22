@@ -34,6 +34,7 @@ class ProfileViewSet(APIView):
         except Profile.DoesNotExist:
             raise Http404
 
+    # Endpoint exposed on GET request
     def get(self, request, username, format=None):
         instance = self._get_object(username)
         serializer = ProfileSerializer(instance)
