@@ -1,7 +1,10 @@
+from django.http import Http404
 from knox.models import AuthToken
 from rest_framework import permissions, generics
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from .models import Profile, Account
 from .serializers import RegisterSerializer, AccountSerializer, LoginSerializer, ProfileSerializer
 
 
@@ -18,6 +21,23 @@ def split_user_data(data):
         # 'birthday': data['birthday'],  # Not implemented yet - needs to be added to frontend form
     }
     return account_data, profile_data
+
+
+class ProfileViewSet(APIView):
+    # Private method used by other methods to retrieve an item from the DB
+    def _get_object(self, username):
+        try:
+            account_instance = Account.objects.get(username=username)
+            print(account_instance.password)
+            profile_instance = Profile.objects.get(account_id=account_instance.id)
+            return profile_instance
+        except Profile.DoesNotExist:
+            raise Http404
+
+    def get(self, request, username, format=None):
+        instance = self._get_object(username)
+        serializer = ProfileSerializer(instance)
+        return Response(serializer.data)
 
 
 # Creates user Account & Profile

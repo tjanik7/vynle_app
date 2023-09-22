@@ -8,7 +8,7 @@ from .models import Post, Comment
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['username', 'first', 'last']
+        fields = ['id', 'username']
 
 
 class PostSerializer(serializers.ModelSerializer):
