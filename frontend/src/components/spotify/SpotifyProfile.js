@@ -30,7 +30,6 @@ class SpotifyProfile extends Component {
     }
 
     componentWillUnmount() {
-        //this.props.setSearchVisibility(false)
         this.state.searchDisplayed = false
     }
 

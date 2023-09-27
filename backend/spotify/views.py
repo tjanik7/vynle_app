@@ -32,7 +32,7 @@ class SetFavAlbum(APIView):
                     {'msg': f"Index must be an int 0 <= ind < {str(SetFavAlbum.ALBUM_LIST_LEN)}"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            if ind < 0 or ind >= SetFavAlbum.ALBUM_LIST_LEN:  # If out index out of range
+            if ind < 0 or ind >= SetFavAlbum.ALBUM_LIST_LEN:  # If index out of range
                 return Response(
                     {'msg': f"Index must be an int 0 <= ind < {str(SetFavAlbum.ALBUM_LIST_LEN)}"},
                     status=status.HTTP_400_BAD_REQUEST
@@ -45,7 +45,7 @@ class SetFavAlbum(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            user_albums = user.profile.favalbums
+            user_albums = user.profile.favorite_albums
 
             setattr(user_albums, 'a' + str(ind), album_id)
 
@@ -67,7 +67,7 @@ class GetAlbum(APIView):
                 return Response('Request must have ind param', status=status.HTTP_400_BAD_REQUEST)
 
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
-            album_id = getattr(user.profile.favalbums, 'a' + ind)
+            album_id = getattr(user.profile.favorite_albums, 'a' + ind)
 
             if len(album_id) == 0:  # Nothing at this index
                 return Response(
@@ -92,7 +92,7 @@ class GetFavoriteAlbums(APIView):
 
         if is_spotify_authenticated(user):
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
-            fav_album_ids = [getattr(user.profile.favalbums, 'a' + str(i)) for i in range(6)]
+            fav_album_ids = [getattr(user.profile.favorite_albums, 'a' + str(i)) for i in range(6)]
             album_objects = get_spotify_albums(user, fav_album_ids)
 
             return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some err conditions

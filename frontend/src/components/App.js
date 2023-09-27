@@ -12,12 +12,12 @@ import PrivateRoute from './common/PrivateRoute'
 import { Provider } from 'react-redux'
 import store from '../store'
 import { loadUser } from '../actions/auth'
-import SpotifyProfile from './spotify/SpotifyProfile'
 import SpotifyRedirect from './spotify/SpotifyRedirect'
 import PostDetail from './posts/PostDetail'
 import ProfileDetail from'./profile/ProfileDetail'
 
 import '../../sass/main.css'
+import ProfileAsFunc from "./spotify/ProfileAsFunc"
 
 class App extends Component {
     componentDidMount() {
@@ -40,7 +40,7 @@ class App extends Component {
                                     <SpotifyRedirect/>
                                 </PrivateRoute>} />
                                 <Route path={'/spotify-profile'} element={<PrivateRoute>
-                                    <SpotifyProfile/>
+                                    <ProfileAsFunc/>
                                 </PrivateRoute>} />
                                 <Route path='/' element={<PrivateRoute>
                                     <Feed/>
