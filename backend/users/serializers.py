@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 
 from spotify.models import FavAlbums
+from spotify.serializers import FavAlbumsSerializer
 from .models import Account, Profile
 
 
@@ -30,6 +31,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    favorite_albums = FavAlbumsSerializer()
+
     class Meta:
         model = Profile
         fields = '__all__'

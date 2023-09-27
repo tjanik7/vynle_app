@@ -4,6 +4,7 @@ from knox import views as knox_views
 
 from .views import RegisterAPI, LoginAPI, AccountAPI, ProfileViewSet
 
+# Prepended with 'users/'
 urlpatterns = [
     path('auth', include('knox.urls')),
     path('auth/register', RegisterAPI.as_view()),

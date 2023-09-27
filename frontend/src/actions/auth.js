@@ -137,3 +137,18 @@ export const tokenConfig = getState => {
     }
     return config
 }
+
+// Similar to tokenConfig but 'token' is directly passed to this function
+export const formatHeader = token => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    // If token, add to headers config
+    if (token) {
+        config.headers['Authorization'] = `Token ${token}`
+    }
+    return config
+}

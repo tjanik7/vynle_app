@@ -38,7 +38,12 @@ class ProfileViewSet(APIView):
     def get(self, request, username, format=None):
         instance = self._get_object(username)
         serializer = ProfileSerializer(instance)
-        return Response(serializer.data)
+
+        # Need to add username to dict since it exists within Account, not Profile
+        profile_data = serializer.data
+        profile_data['username'] = username
+
+        return Response(profile_data)
 
 
 # Creates user Account & Profile

@@ -9,7 +9,7 @@ class FavAlbums(models.Model):
     class Meta:
         verbose_name_plural = 'Fav albums'
 
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True, related_name='favorite_albums')
     # Holds ID of each of user's 6 favorite albums they can select via their profile
     a0 = models.CharField(max_length=22, blank=True)
     a1 = models.CharField(max_length=22, blank=True)
