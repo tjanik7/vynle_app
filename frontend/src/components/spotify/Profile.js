@@ -37,7 +37,7 @@ function generateAlbumTags(props, setSearchDisplayed) {
     return rows
 }
 
-function ProfileAsFunc(props) {
+function Profile(props) {
     const [searchDisplayed, setSearchDisplayed] = useState(false)
 
     useEffect(() => {
@@ -86,4 +86,4 @@ export default connect(mapStateToProps, {
     setFavAlbum,
     setSelectedIndex,
     getFavAlbums,
-})(ProfileAsFunc)
+})(Profile)

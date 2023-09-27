@@ -17,7 +17,7 @@ import PostDetail from './posts/PostDetail'
 import ProfileDetail from'./profile/ProfileDetail'
 
 import '../../sass/main.css'
-import ProfileAsFunc from "./spotify/ProfileAsFunc"
+import Profile from "./spotify/Profile"
 
 class App extends Component {
     componentDidMount() {
@@ -40,7 +40,7 @@ class App extends Component {
                                     <SpotifyRedirect/>
                                 </PrivateRoute>} />
                                 <Route path={'/spotify-profile'} element={<PrivateRoute>
-                                    <ProfileAsFunc/>
+                                    <Profile/>
                                 </PrivateRoute>} />
                                 <Route path='/' element={<PrivateRoute>
                                     <Feed/>
