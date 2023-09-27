@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import FormattedRelease from "../FormattedRelease/FormattedRelease"
+import FormattedRelease from "../formatted_release/FormattedRelease"
 import './css/Post.css'
 import { useNavigate } from "react-router-dom"
 import { connect } from "react-redux"
