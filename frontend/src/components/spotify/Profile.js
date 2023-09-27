@@ -7,6 +7,8 @@ import { getFavAlbums, setFavAlbum } from "../../actions/profile"
 import { setSelectedIndex } from "../../actions/spotifySearch"
 import CoverArt from "../cover_art/CoverArt"
 
+import './css/Profile.css'
+
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     const albums = props.favoriteAlbums
 

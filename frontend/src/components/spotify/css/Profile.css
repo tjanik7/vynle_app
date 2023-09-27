@@ -1,15 +1,3 @@
-/*.spinner-layer {*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    left: 50%;*/
-/*    margin-right: -50%;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    transform: translate(-50%, -50%);*/
-/*    background-color: rgba(0, 0, 0, 0.5);*/
-/*    z-index: 999;*/
-/*}*/
-
 .spinner-layer {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.25);
@@ -20,10 +8,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.text-container {
-    /*background-color: black;*/
 }
 
 .text-header {
