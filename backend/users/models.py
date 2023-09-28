@@ -63,15 +63,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.account)
-
-
-# TODO: MOVE THIS TO A DIFFERENT FILE https://www.youtube.com/watch?v=Kc1Q_ayAeQk&t=605s - TUTORIAL USED
-# Creates Profile object when Account is created
-# def create_or_update_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(account=instance)
-#     else:
-#         instance.profile.save()
-#
-#
-# post_save.connect(create_or_update_profile, sender=Account)

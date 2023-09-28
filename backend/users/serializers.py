@@ -7,9 +7,13 @@ from .models import Account, Profile
 
 
 class AccountSerializer(serializers.ModelSerializer):
+    # Pull first and last name from user's profile when serializing to json
+    first = serializers.CharField(source='profile.first', read_only=True)
+    last = serializers.CharField(source='profile.last', read_only=True)
+
     class Meta:
         model = Account
-        fields = ('id', 'email', 'username')
+        fields = ('id', 'email', 'username', 'first', 'last')
 
 
 # For account creation
