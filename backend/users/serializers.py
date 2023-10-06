@@ -34,9 +34,29 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user_account
 
 
+# Used when retrieving profile objects
 class ProfileSerializer(serializers.ModelSerializer):
     favorite_albums = FavAlbumsSerializer()
 
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+    def create(self, validated_data):
+        profile = Profile.objects.create(
+            account=validated_data['account'],
+            # birthday=  # Implement this later
+            first=validated_data['first'],
+            last=validated_data['last']
+        )
+
+        favalbum_instance = FavAlbums.objects.create(profile=profile)
+        favalbum_instance.save()
+        return profile
+
+
+# Used when registering new users
+class ProfileRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'

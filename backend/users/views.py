@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Profile, Account
-from .serializers import RegisterSerializer, AccountSerializer, LoginSerializer, ProfileSerializer
+from .serializers import RegisterSerializer, AccountSerializer, LoginSerializer, ProfileSerializer, \
+    ProfileRegistrationSerializer
 
 
 # Splits dict of user registration data into Account data and Profile data
@@ -52,6 +53,7 @@ class RegisterAPI(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         try:
+            print('STARTING REGISTER VIEW')
             account_data, profile_data = split_user_data(request.data)
 
             serializer = self.get_serializer(data=account_data)
@@ -63,16 +65,19 @@ class RegisterAPI(generics.GenericAPIView):
 
             profile_data['account'] = account.id
 
-            # Calls ProfileSerializer.create(), which also creates a new FavAlbums instance
+            # Calls ProfileRegistrationSerializer.create(), which also creates a new FavAlbums instance
             # to associate with this profile instance
-            profile_ser = ProfileSerializer(data=profile_data)
+            profile_ser = ProfileRegistrationSerializer(data=profile_data)
 
             if profile_ser.is_valid(raise_exception=True):
+                print('PROFILE SAVED\n\n')
                 profile_ser.save()
             else:
+                print('OH NO\n\n')
                 raise Exception(profile_ser.errors)
         except Exception as e:
-            print(e)
+            raise Exception(e)
+        print('SENDING RESPONSE\n\n')
 
         return Response({
             'account': AccountSerializer(account, context=self.get_serializer_context()).data,

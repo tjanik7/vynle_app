@@ -1,5 +1,5 @@
 # Spotify
-from django.shortcuts import redirect
+from django.http import HttpResponse
 from requests import Request, post, get
 from rest_framework import status, permissions
 from rest_framework.response import Response
@@ -84,6 +84,30 @@ class GetAlbum(APIView):
             # Returns dict with 'name', 'artist', and 'img' keys
             return Response(album_obj, status=status.HTTP_200_OK)
 
+
+class FavoriteAlbumsView(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, format=None):
+        user = request.user
+
+        if is_spotify_authenticated(user):
+            try:
+                target_username = request.query_params.get('username')
+                target_account = Account.objects.get(username=target_username)
+                target_profile = target_account.profile
+            except Account.DoesNotExist:
+                return Response(
+                    "No user exists with this username",
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Retrieve album_id string, i.e. the ID Spotify assigns the release
+            fav_album_ids = [getattr(target_profile.favorite_albums, 'a' + str(i)) for i in range(6)]
+            album_objects = get_spotify_albums(user, fav_album_ids)
+
+            return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some error conditions
+
 class GetFavoriteAlbums(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
 
@@ -95,7 +119,7 @@ class GetFavoriteAlbums(APIView):
             fav_album_ids = [getattr(user.profile.favorite_albums, 'a' + str(i)) for i in range(6)]
             album_objects = get_spotify_albums(user, fav_album_ids)
 
-            return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some err conditions
+            return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some error conditions
 
 
 class SearchSpotify(APIView):
@@ -141,7 +165,7 @@ class AuthURL(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
 
     def get(self, request, format=None):
-        # scopes of spotify data we would like to access from user - found in spotify docs
+        # Scopes of spotify data we would like to access from user - found in spotify docs
         scopes = 'user-top-read'
 
         url = Request('GET', 'https://accounts.spotify.com/authorize', params={
@@ -185,7 +209,7 @@ def spotify_callback(request, format=None):
 
     user = Account.objects.get(id=user_id)
 
-    response = post('https://accounts.spotify.com/api/token', data={  # note that the request is sent on this line
+    response = post('https://accounts.spotify.com/api/token', data={  # Note that the request is sent on this line
         'grant_type': 'authorization_code',
         'code': code,
         'redirect_uri': REDIRECT_URI,
@@ -200,7 +224,7 @@ def spotify_callback(request, format=None):
     error = response.get('error')  # Add error functionality
 
     update_or_create_user_tokens(user, access_token, token_type, expires_in, refresh_token)
-    return redirect('frontend:')
+    return HttpResponse('Tokens updated successfully', status=status.HTTP_200_OK)
 
 
 class IsSpotifyAuthenticated(APIView):

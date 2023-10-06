@@ -1,7 +1,7 @@
 # Spotify
 from django.urls import path
 from .views import AuthURL, spotify_callback, IsSpotifyAuthenticated, GetSpotifyToken, GetCurrentUserSpotifyProfile, \
-    SearchSpotify, GetAlbum, SetFavAlbum, GetFavoriteAlbums
+    SearchSpotify, GetAlbum, SetFavAlbum, GetFavoriteAlbums, FavoriteAlbumsView
 
 urlpatterns = [
     path('get-auth-url', AuthURL.as_view()),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('search-spotify', SearchSpotify.as_view()),
     path('get-album', GetAlbum.as_view()),
     path('set-fav-album', SetFavAlbum.as_view()),
-    path('get-fav-albums', GetFavoriteAlbums.as_view()),
+    path('get-fav-albums', GetFavoriteAlbums.as_view()),  # DELETE THIS ONCE THE ENDPOINT BELOW HAS BEEN IMPLEMENTED
+    path('favorite-albums', FavoriteAlbumsView.as_view())
 ]

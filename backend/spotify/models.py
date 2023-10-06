@@ -7,7 +7,7 @@ from users.models import Profile
 
 class FavAlbums(models.Model):
     class Meta:
-        verbose_name_plural = 'Fav albums'
+        verbose_name_plural = 'favorite albums'
 
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True, related_name='favorite_albums')
     # Holds ID of each of user's 6 favorite albums they can select via their profile
