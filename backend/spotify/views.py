@@ -108,6 +108,7 @@ class FavoriteAlbumsView(APIView):
 
             return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some error conditions
 
+
 class GetFavoriteAlbums(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
 
@@ -168,6 +169,7 @@ class AuthURL(APIView):
         # Scopes of spotify data we would like to access from user - found in spotify docs
         scopes = 'user-top-read'
 
+        # Prepares the url but does not send a reqeust
         url = Request('GET', 'https://accounts.spotify.com/authorize', params={
             'scope': scopes,
             'response_type': 'code',
@@ -182,30 +184,11 @@ class AuthURL(APIView):
         )
 
 
-class GetSpotifyToken(APIView):
-    permission_classes = [permissions.IsAuthenticated, ]
-    serializer_class = SpotifyTokenSerializer
-
-    def get(self, request, format=None):
-        user = request.user
-        spotify_token = SpotifyToken.objects.filter(user=user)
-        if spotify_token:
-            data = SpotifyTokenSerializer(spotify_token[0]).data
-            return Response(
-                {'token': data},
-                status=status.HTTP_200_OK
-            )
-        return Response(
-            {'msg': 'No Spotify token associated with this user'},
-            status=status.HTTP_404_NOT_FOUND
-        )
-
-
 # Callback function which accepts the information returned from the first request to the url generated in 'AuthURL'
 def spotify_callback(request, format=None):
     user_id = request.GET.get('state')
     code = request.GET.get('code')
-    error = request.GET.get('error')  # not yet implemented
+    error = request.GET.get('error')  # Not yet implemented
 
     user = Account.objects.get(id=user_id)
 
@@ -225,6 +208,25 @@ def spotify_callback(request, format=None):
 
     update_or_create_user_tokens(user, access_token, token_type, expires_in, refresh_token)
     return HttpResponse('Tokens updated successfully', status=status.HTTP_200_OK)
+
+
+class GetSpotifyToken(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+    serializer_class = SpotifyTokenSerializer
+
+    def get(self, request, format=None):
+        user = request.user
+        spotify_token = SpotifyToken.objects.filter(user=user)
+        if spotify_token:
+            data = SpotifyTokenSerializer(spotify_token[0]).data
+            return Response(
+                {'token': data},
+                status=status.HTTP_200_OK
+            )
+        return Response(
+            {'msg': 'No Spotify token associated with this user'},
+            status=status.HTTP_404_NOT_FOUND
+        )
 
 
 class IsSpotifyAuthenticated(APIView):

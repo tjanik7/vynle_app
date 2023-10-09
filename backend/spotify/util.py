@@ -14,7 +14,7 @@ def get_user_tokens(user):
 
 
 # Note that SpotifyToken model stores user object rather than session_id (as shown in tutorial)
-# This is because Vynle auth flow uses token auth rather than session auth
+# This is because Vynle auth flow uses tokens rather than sessions
 def update_or_create_user_tokens(user, access_token, token_type, expires_in, refresh_token):
     tokens = get_user_tokens(user)
 
@@ -33,7 +33,7 @@ def update_or_create_user_tokens(user, access_token, token_type, expires_in, ref
             'token_type'
         ])
 
-    else:  # create new tokens
+    else:  # Create new Spotify token
         tokens = SpotifyToken(user=user,
                               access_token=access_token,
                               refresh_token=refresh_token,
@@ -124,7 +124,7 @@ def get_spotify_albums(user, album_ids, img_size='m'):
                 url = f'https://api.spotify.com/v1/albums/{album_id}'
                 response_obj = get(url, headers=headers)
 
-                if response_obj.status_code:  # If OK response
+                if response_obj.status_code == 200:  # If OK response
                     response = response_obj.json()
 
                     if 'name' in response and 'artists' in response and 'images' in response:
@@ -136,7 +136,8 @@ def get_spotify_albums(user, album_ids, img_size='m'):
                     else:
                         raise Exception(f'Keys not found in response: {response}')
                 else:
-                    return None
+                    raise Exception(f'Received status {response_obj.status_code} when requesting album. Reason '
+                                    f'provided is "{response_obj.text}"')
 
             else:
                 ret.append(None)

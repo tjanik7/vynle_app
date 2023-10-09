@@ -11,6 +11,7 @@ import {
     GET_ERRORS,
     USER_LOGGED_OUT,
 } from './types'
+import { useSelector } from "react-redux"
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
@@ -139,7 +140,7 @@ export const tokenConfig = getState => {
 }
 
 // Similar to tokenConfig but 'token' is directly passed to this function
-export const formatHeader = token => {
+export const formatHeader = (token, params=null) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -150,5 +151,9 @@ export const formatHeader = token => {
     if (token) {
         config.headers['Authorization'] = `Token ${token}`
     }
+    if(params) {  // Optionally add query params to config object if supplied
+        config.params = params
+    }
+
     return config
 }

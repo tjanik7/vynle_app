@@ -29,7 +29,6 @@ class ProfileViewSet(APIView):
     def _get_object(self, username):
         try:
             account_instance = Account.objects.get(username=username)
-            print(account_instance.password)
             profile_instance = Profile.objects.get(account_id=account_instance.id)
             return profile_instance
         except Profile.DoesNotExist:
@@ -53,7 +52,6 @@ class RegisterAPI(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            print('STARTING REGISTER VIEW')
             account_data, profile_data = split_user_data(request.data)
 
             serializer = self.get_serializer(data=account_data)
@@ -70,14 +68,11 @@ class RegisterAPI(generics.GenericAPIView):
             profile_ser = ProfileRegistrationSerializer(data=profile_data)
 
             if profile_ser.is_valid(raise_exception=True):
-                print('PROFILE SAVED\n\n')
                 profile_ser.save()
             else:
-                print('OH NO\n\n')
                 raise Exception(profile_ser.errors)
         except Exception as e:
             raise Exception(e)
-        print('SENDING RESPONSE\n\n')
 
         return Response({
             'account': AccountSerializer(account, context=self.get_serializer_context()).data,

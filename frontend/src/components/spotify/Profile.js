@@ -8,6 +8,7 @@ import { setSelectedIndex } from "../../actions/spotifySearch"
 import CoverArt from "../cover_art/CoverArt"
 
 import './css/Profile.css'
+import { useParams } from "react-router-dom"
 
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     const albums = props.favoriteAlbums
@@ -40,15 +41,19 @@ function generateAlbumTags(props, setSearchDisplayed) {
 }
 
 function Profile(props) {
+    const {username} = useParams()  // Vynle username of profile being viewed
+    const isProfileOwner = username === props.username // Checks if URL matches logged-in user
+
     const [searchDisplayed, setSearchDisplayed] = useState(false)
 
+    // Fetch user's Spotify data on render
     useEffect(() => {
         props.getCurrentUserSpotifyProfile()
-        props.getFavAlbums()
+        props.getFavAlbums(username)
         return () => {
             setSearchDisplayed(false)
         }
-    }, []);
+    }, [props.id]);
 
     return (
             <Fragment>
@@ -77,10 +82,11 @@ function Profile(props) {
 }
 
 const mapStateToProps = state => ({
-    id: state.spotify.id, // User's Spotify username
+    id: state.spotify.id,
     isSearchVisible: state.spotifySearch.isVisible,
     selectedIndex: state.spotifySearch.selectedIndex,
     favoriteAlbums: state.profile.favoriteAlbums,
+    username: state.auth.user.username,
 })
 
 export default connect(mapStateToProps, {

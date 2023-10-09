@@ -26,6 +26,7 @@ class SpotifyToken(models.Model):
     user = models.ForeignKey('users.Account', related_name='spotify_token', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     refresh_token = models.CharField(max_length=150)
-    access_token = models.CharField(max_length=200)
+    # access_token = models.CharField(max_length=200)  # Old version - now using textField since length could change
+    access_token = models.TextField()
     expires_at = models.DateTimeField()
     token_type = models.CharField(max_length=50)

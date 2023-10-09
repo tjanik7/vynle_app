@@ -12,6 +12,6 @@ urlpatterns = [
     path('search-spotify', SearchSpotify.as_view()),
     path('get-album', GetAlbum.as_view()),
     path('set-fav-album', SetFavAlbum.as_view()),
-    path('get-fav-albums', GetFavoriteAlbums.as_view()),  # DELETE THIS ONCE THE ENDPOINT BELOW HAS BEEN IMPLEMENTED
+    # path('get-fav-albums', GetFavoriteAlbums.as_view()),  # DELETE THIS ONCE THE ENDPOINT BELOW HAS BEEN IMPLEMENTED
     path('favorite-albums', FavoriteAlbumsView.as_view())
 ]

@@ -22,7 +22,7 @@ class SpotifyRedirect extends Component {
                     window.location.replace(this.props.url)
                 }
             } else { // auth - should not be possible to reach this code
-                text = 'something went wrong'
+                text = 'Something went wrong'
             }
         } else { // Spotify auth status not yet determined
             text = 'Fetching your Spotify profile...'

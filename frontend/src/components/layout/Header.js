@@ -22,10 +22,10 @@ class Header extends Component {
             )
         } else if (isSpotifyAuthenticated) { // authenticated
             spotifyLink = (
-                <Link to={'/spotify-profile'} className={'nav-link'}>Spotify Profile</Link>
+                <Link to={`/profile/${user.username}`} className={'nav-link'}>Spotify Profile</Link>
             )
         } else {
-            spotifyLink = ( // user is not spotify authenticated
+            spotifyLink = ( // if user is not spotify authenticated
                 <Link to={'/spotify-redirect'} className={'nav-link'}>Connect with Spotify</Link>
             )
         }

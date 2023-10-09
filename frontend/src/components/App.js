@@ -18,6 +18,7 @@ import ProfileDetail from'./profile/ProfileDetail'
 
 import '../../sass/main.css'
 import Profile from "./spotify/Profile"
+import SpotifyCallback from "./spotify/SpotifyCallback"
 
 class App extends Component {
     componentDidMount() {
@@ -39,7 +40,10 @@ class App extends Component {
                                 <Route path={'/spotify-redirect'} element={<PrivateRoute>
                                     <SpotifyRedirect/>
                                 </PrivateRoute>} />
-                                <Route path={'/spotify-profile'} element={<PrivateRoute>
+                                <Route path={'/spotify_callback'} element={<PrivateRoute>
+                                    <SpotifyCallback/>
+                                </PrivateRoute>} />
+                                <Route path={'/profile/:username'} element={<PrivateRoute>
                                     <Profile/>
                                 </PrivateRoute>} />
                                 <Route path='/' element={<PrivateRoute>

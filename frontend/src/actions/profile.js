@@ -34,8 +34,14 @@ export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
         })
 }
 
-export const getFavAlbums = () => (dispatch, getState) => {
-    axiosInstance.get('/spotify/get-fav-albums', tokenConfig(getState))
+export const getFavAlbums = username => (dispatch, getState) => {
+    const queryParams = {
+        'params': {
+            'username': username,
+        },  // Username of user's favorite albums to get
+        'headers': tokenConfig(getState).headers
+    }
+    axiosInstance.get('/spotify/favorite-albums', queryParams)
         .then(res => {
             dispatch({
                 type: GET_FAV_ALBUMS,

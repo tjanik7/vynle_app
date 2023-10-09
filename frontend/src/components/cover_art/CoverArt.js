@@ -27,7 +27,7 @@ class CoverArt extends Component {
         return (
             <Fragment>
                 <img
-                    src={album.data.img ? album.data.img : 'http://localhost:8000/static/img/plus.png'}
+                    src={(album.data && album.data.img) ? album.data.img : 'http://localhost:8000/static/img/plus.png'}
                     alt={'Album'}
                     className={'album-art-img'}
                     onClick={() => {
