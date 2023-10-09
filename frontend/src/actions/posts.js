@@ -15,7 +15,7 @@ export const resetPostsLoading = () => (dispatch, getState) => {
 export const getPosts = () => (dispatch, getState) => {
     dispatch({type: GET_POSTS})  // Marks state as loading
 
-    axiosInstance.get('/posts/get-posts', tokenConfig(getState))
+    axiosInstance.get('/posts/', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_POSTS,

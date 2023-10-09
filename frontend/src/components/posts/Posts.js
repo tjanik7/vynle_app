@@ -35,7 +35,7 @@ class Posts extends Component {
                             <Post
                                 username={post.user.username}
                                 body={post.body}
-                                albumData={post.album_data}
+                                albumData={post.release}
                                 postID={post.id}
                                 isClickable={true}
                             />

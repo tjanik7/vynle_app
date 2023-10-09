@@ -10,7 +10,8 @@ export const clearPostDetail = () => (dispatch, getState) => {
 export const getPost = post_id => (dispatch, getState) => {
     dispatch({type: GET_POST})  // Marks state as loading
 
-    axiosInstance.get(`/posts/post?post_id=${post_id}`, tokenConfig(getState))
+    axiosInstance
+        .get(`/posts/${post_id}`, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_POST,

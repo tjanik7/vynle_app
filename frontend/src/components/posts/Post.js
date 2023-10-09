@@ -21,7 +21,7 @@ function formatAlbum(albumData) {
 function Post(props) {
     const navigate = useNavigate()
 
-    const albumData = props.albumData
+    const release = props.albumData
     return (
         <>
             <div id={'username-field'}>
@@ -32,7 +32,7 @@ function Post(props) {
                      () => navigate(`/post/${props.postID}`) : undefined}
             >
                 <div className={'item'}>
-                    {formatAlbum(albumData)}
+                    {formatAlbum(release)}
                 </div>
                 <div className={'item'}>
                     <p>{props.body}</p>
