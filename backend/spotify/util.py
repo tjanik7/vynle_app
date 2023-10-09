@@ -93,7 +93,7 @@ def get_spotify_album(user, album_id, img_size='m'):
 
     headers = get_header(user)
     response_obj = get(url, headers=headers)
-    if response_obj.status_code:  # If OK response
+    if response_obj.status_code == 200:  # If OK response
         response = response_obj.json()
 
         ret = {
@@ -102,7 +102,10 @@ def get_spotify_album(user, album_id, img_size='m'):
             'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
         }
         return ret
-    return None
+    else:
+        raise Exception(
+            f'Got {response_obj.status_code} response when retrieving album from Spotify. Reason: {response_obj.text}'
+        )
 
 
 # Same func as above but accepts multiple IDs

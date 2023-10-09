@@ -1,13 +1,9 @@
-from rest_framework import viewsets, permissions, status
-from rest_framework.views import APIView
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from django.core.exceptions import ObjectDoesNotExist
-
-from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment
-
-from spotify.util import get_spotify_albums, get_spotify_album, is_spotify_authenticated
+from .serializers import PostSerializer, CommentSerializer
 
 
 class CommentView(APIView):
@@ -47,51 +43,6 @@ class CommentView(APIView):
             CommentSerializer(new_comment).data,
             status=200
         )
-
-
-class GetPost(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        post_id = request.query_params['post_id']
-
-        try:
-            post = Post.objects.get(pk=post_id)
-        except ObjectDoesNotExist:
-            return Response('Unable to find the requested resource', status=404)
-
-        post_serialized = PostSerializer(post).data
-        if post_serialized['album']:
-            post_serialized['album_data'] = get_spotify_album(request.user, post_serialized['album'])
-
-        return Response(post_serialized)
-
-
-# Custom version of get posts where it requests album data
-class GetPosts(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        if is_spotify_authenticated(request.user):
-            all_posts = Post.objects.all()
-
-            if len(all_posts) > 0:
-                # Fetch data from album URL within post (if one exists)
-                album_urls = [p.album for p in all_posts]
-                album_data_list = get_spotify_albums(request.user, album_urls)
-
-                posts_ser = PostSerializer(all_posts, many=True).data
-
-                for post, album_data in zip(posts_ser, album_data_list):
-                    post['album_data'] = album_data
-
-                return Response(posts_ser, status.HTTP_200_OK)
-            return Response(None, status.HTTP_200_OK)
-        else:
-            return Response(
-                'Please authenticate with Spotify to view Vynle posts',
-                status=status.HTTP_401_UNAUTHORIZED
-            )
 
 
 class PostViewSet(viewsets.ModelViewSet):
