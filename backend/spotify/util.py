@@ -1,4 +1,5 @@
 from datetime import timedelta
+import datetime
 
 from django.utils import timezone
 from requests import post, get
@@ -40,13 +41,13 @@ def update_or_create_user_tokens(user, access_token, token_type, expires_in, ref
                               token_type=token_type,
                               expires_at=expires_at,
                               )
-        tokens.save()  # writes to database
+        tokens.save()  # Writes to database
 
 
 def refresh_spotify_token(user):
     refresh_token = get_user_tokens(user).refresh_token
     response = post('https://accounts.spotify.com/api/token', data={
-        'grant_type': 'refresh_token',  # type of token we are sending
+        'grant_type': 'refresh_token',  # The type of token being sent
         'refresh_token': refresh_token,
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
@@ -69,7 +70,7 @@ def is_spotify_authenticated(user):
     tokens = get_user_tokens(user)
     if tokens:
         expiry = tokens.expires_at
-        if expiry <= timezone.now():  # If the 'expiry' DateTime object is in the past
+        if expiry <= timezone.now():  # If token is expired
             refresh_spotify_token(user)
         return True
     return False
@@ -77,11 +78,34 @@ def is_spotify_authenticated(user):
 
 def get_header(user):
     access_token = get_user_tokens(user).access_token
-    return {'Authorization': 'Bearer ' + access_token, }
+    return {
+        'Authorization': 'Bearer ' + access_token,
+    }
 
 
-# Takes in album ID and requests the spotify API for data about the album
-def get_spotify_album(user, album_id, img_size='m'):
+def _request_spotify_release_art(user, release_uri):
+    start_time = datetime.datetime.now()
+
+    url = f'https://api.spotify.com/v1/albums/{release_uri}'
+
+    headers = get_header(user)
+
+    req_start_time = datetime.datetime.now()
+
+    # Send the request
+    response_obj = get(url, headers=headers)
+
+    end_time = datetime.datetime.now()
+
+    if response_obj.status_code == 200:
+        return response_obj.json()
+
+    raise Exception(
+        f'Got {response_obj.status_code} response when retrieving album from Spotify. Reason: {response_obj.text}'
+    )
+
+
+def _transform_release_art_response(response_json, img_size):
     size_letter_to_ind = {
         's': 2,
         'm': 1,
@@ -89,63 +113,39 @@ def get_spotify_album(user, album_id, img_size='m'):
     }
     img_size_ind = size_letter_to_ind[img_size]
 
-    url = f'https://api.spotify.com/v1/albums/{album_id}'
-
-    headers = get_header(user)
-    response_obj = get(url, headers=headers)
-    if response_obj.status_code == 200:  # If OK response
-        response = response_obj.json()
-
-        ret = {
-            'name': response['name'],  # Name of album
-            'artist': response['artists'][0]['name'],  # Name of first artist listed
-            'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
+    if 'name' in response_json and 'artists' in response_json and 'images' in response_json:
+        return {
+            'name': response_json['name'],  # Name of album
+            'artist': response_json['artists'][0]['name'],  # Name of first artist listed
+            'img': response_json['images'][img_size_ind]['url'],  # Medium img - 300x300
         }
-        return ret
-    else:
-        raise Exception(
-            f'Got {response_obj.status_code} response when retrieving album from Spotify. Reason: {response_obj.text}'
-        )
+
+    raise Exception(f'Keys not found in response: {response_json}')
 
 
-# Same func as above but accepts multiple IDs
-def get_spotify_albums(user, album_ids, img_size='m'):
+def get_spotify_album(user, release_uri, many=False, img_size='m'):
     if is_spotify_authenticated(user):
-        size_letter_to_ind = {
-            's': 2,
-            'm': 1,
-            'l': 0,
-        }
-        img_size_ind = size_letter_to_ind[img_size]
+        if not many:
+            assert isinstance(release_uri, str), 'Argument "release_uri" should be str type when many is False'
 
-        headers = get_header(user)
+            response = _request_spotify_release_art(user, release_uri)
+            return _transform_release_art_response(response, img_size)
 
+        # If multiple release URIs expected
+        assert isinstance(release_uri, list), 'Argument "release_uri" should be of type list when many is set to True'
+
+        start_time = datetime.datetime.now()
         ret = []
-
-        for album_id in album_ids:
-            if album_id:
-                url = f'https://api.spotify.com/v1/albums/{album_id}'
-                response_obj = get(url, headers=headers)
-
-                if response_obj.status_code == 200:  # If OK response
-                    response = response_obj.json()
-
-                    if 'name' in response and 'artists' in response and 'images' in response:
-                        ret.append({
-                            'name': response['name'],  # Name of album
-                            'artist': response['artists'][0]['name'],  # Name of first artist listed
-                            'img': response['images'][img_size_ind]['url'],  # Medium img - 300x300
-                        })
-                    else:
-                        raise Exception(f'Keys not found in response: {response}')
-                else:
-                    raise Exception(f'Received status {response_obj.status_code} when requesting album. Reason '
-                                    f'provided is "{response_obj.text}"')
-
+        for uri in release_uri:
+            if uri:
+                response = _request_spotify_release_art(user, uri)
+                ret.append(
+                    _transform_release_art_response(response, img_size)
+                )
             else:
                 ret.append(None)
-
+        end_time = datetime.datetime.now()
         return ret
-
-    # PROB NEED TO CHANGE THIS LATER
-    raise Exception('Unable to pull album data since user is not authenticated with Spotify')
+    else:
+        # PROB NEED TO CHANGE THIS LATER
+        raise Exception('Unable to pull album data since user is not authenticated with Spotify')

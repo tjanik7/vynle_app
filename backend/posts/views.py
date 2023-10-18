@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -51,6 +51,33 @@ class PostViewSet(viewsets.ModelViewSet):
     ]
 
     serializer_class = PostSerializer
+
+    def list(self, request, *args, **kwargs):
+        posts_raw = Post.objects.all()
+        posts_serialized = PostSerializer(posts_raw, many=True, context={
+            'user': request.user
+        })
+        return Response(
+            posts_serialized.data
+        )
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            # The fact that the key is 'pk' is defined by Django, since we are overriding the default implementation
+            post_id = kwargs['pk']
+            post_raw = Post.objects.get(pk=post_id)
+            post = PostSerializer(post_raw, context={
+                'user': request.user
+            })
+            return Response(
+                post.data
+            )
+
+        except Post.DoesNotExist:
+            return Response(
+                'A post with this ID could not be found',
+                status=status.HTTP_404_NOT_FOUND
+            )
 
     def get_queryset(self):
         return Post.objects.all()

@@ -9,8 +9,7 @@ from users.models import Account
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
 from .models import SpotifyToken
 from .serializers import SpotifyTokenSerializer
-from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header, get_spotify_album, \
-    get_spotify_albums
+from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header, get_spotify_album
 
 
 class SetFavAlbum(APIView):
@@ -104,9 +103,11 @@ class FavoriteAlbumsView(APIView):
 
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
             fav_album_ids = [getattr(target_profile.favorite_albums, 'a' + str(i)) for i in range(6)]
-            album_objects = get_spotify_albums(user, fav_album_ids)
+            album_objects = get_spotify_album(user, fav_album_ids, many=True)
 
             return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some error conditions
+        else:
+            raise Exception("User is not authenticated with Spotify")
 
 
 class GetFavoriteAlbums(APIView):
@@ -118,9 +119,11 @@ class GetFavoriteAlbums(APIView):
         if is_spotify_authenticated(user):
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
             fav_album_ids = [getattr(user.profile.favorite_albums, 'a' + str(i)) for i in range(6)]
-            album_objects = get_spotify_albums(user, fav_album_ids)
+            album_objects = get_spotify_album(user, fav_album_ids, many=True)
 
             return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some error conditions
+        else:
+            raise Exception('User is not authenticated with Spotify')
 
 
 class SearchSpotify(APIView):

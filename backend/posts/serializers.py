@@ -22,7 +22,11 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_release(self, post):
         if post.spotify_release_uri:
-            return get_spotify_album(post.user, post.spotify_release_uri)
+            user = self.context.get('user')
+            if user is None:
+                raise Exception('"User" was not set in the post serializer')
+
+            return get_spotify_album(user, post.spotify_release_uri)
         return 'no release for this post'
 
 
