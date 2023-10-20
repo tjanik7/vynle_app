@@ -52,6 +52,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
 
+    # Overriding default method for getting list of multiple posts
     def list(self, request, *args, **kwargs):
         posts_raw = Post.objects.all()
         posts_serialized = PostSerializer(posts_raw, many=True, context={
@@ -61,6 +62,7 @@ class PostViewSet(viewsets.ModelViewSet):
             posts_serialized.data
         )
 
+    # Overriding default method for getting one post
     def retrieve(self, request, *args, **kwargs):
         try:
             # The fact that the key is 'pk' is defined by Django, since we are overriding the default implementation

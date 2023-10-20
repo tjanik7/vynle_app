@@ -27,7 +27,19 @@ class PostSerializer(serializers.ModelSerializer):
                 raise Exception('"User" was not set in the post serializer')
 
             return get_spotify_album(user, post.spotify_release_uri)
-        return 'no release for this post'
+        return 'No release for this post'
+
+    def serialize_one(self, obj):
+        pass
+
+    def serialize_many(self, queryset):
+        pass
+
+    # Overriding method that is called implicitly when converting data to serialized form
+    def to_representation(self, instance):
+        if self.many:
+            return self.serialize_many(instance)
+        return self.serialize_one(instance)
 
 
 class CommentSerializer(serializers.ModelSerializer):
