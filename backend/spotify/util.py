@@ -95,6 +95,7 @@ def _request_spotify_release_art(user, release_uri):
 
     if isinstance(release_uri, str):
         url = base_url + f'/{release_uri}'
+        many = False
 
     elif isinstance(release_uri, list):
         if not release_uri:
@@ -102,6 +103,7 @@ def _request_spotify_release_art(user, release_uri):
             return []
 
         url = base_url + '?ids=' + ','.join(release_uri)
+        many = True
 
     else:
         raise TypeError('"release_uri" should be type list or str')
@@ -110,6 +112,9 @@ def _request_spotify_release_art(user, release_uri):
     response_obj = get(url, headers=headers)
 
     if response_obj.status_code == 200:
+        if many:
+            return response_obj.json()['albums']
+
         return response_obj.json()
 
     raise Exception(
@@ -118,11 +123,14 @@ def _request_spotify_release_art(user, release_uri):
 
 
 def _transform_release_art_response(response_json, img_size):
+    assert isinstance(response_json, dict)
+
     size_letter_to_ind = {
         's': 2,
         'm': 1,
         'l': 0,
     }
+
     img_size_ind = size_letter_to_ind[img_size]
 
     if 'name' in response_json and 'artists' in response_json and 'images' in response_json:
