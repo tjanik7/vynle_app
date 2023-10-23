@@ -19,8 +19,8 @@ function Form(props) {
     const [postBody, setPostBody] = useState('')
 
     const [postAlbum, setPostAlbum] = useState({
-        albumID: '',
-        data: {
+        spotify_release_uri: '',
+        release: {
             artist: '',
             img: '',
             name: '',
@@ -39,7 +39,6 @@ function Form(props) {
         return function cleanup() {
             // Set postSubmissionStatus to the empty string
             props.clearPostSubmissionStatus()
-            //props.setSearchVisibility(false)
         }
     })
 
@@ -48,7 +47,7 @@ function Form(props) {
 
         const post = {
             'body': postBody,
-            'album': postAlbum.albumID,
+            'spotify_release_uri': postAlbum.spotify_release_uri,
         }
 
         // Needs to be accessed via props, cannot just import it and call it due to the way React works

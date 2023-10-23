@@ -82,5 +82,14 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Post.objects.all()
 
-    def perform_create(self, serializer):  # allows for user to be assigned to post when it is created
+    def get_serializer_context(self):
+        # Add any context data you need to pass to the serializer
+        context = super(PostViewSet, self).get_serializer_context()
+        context['user'] = self.request.user
+        return context
+
+    def perform_create(self, serializer):  # Allows for user to be assigned to post when it is created
         serializer.save(user=self.request.user)
+        # serializer.save(user=self.request.user, context={
+        #     'user': self.request.user,
+        # })

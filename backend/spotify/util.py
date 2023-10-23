@@ -123,7 +123,10 @@ def _request_spotify_release_art(user, release_uri):
 
 
 def _transform_release_art_response(response_json, img_size):
-    assert isinstance(response_json, dict)
+    if response_json is None:
+        return None
+
+    assert isinstance(response_json, dict), f'Expected type dict but got {type(response_json).__name}'
 
     size_letter_to_ind = {
         's': 2,

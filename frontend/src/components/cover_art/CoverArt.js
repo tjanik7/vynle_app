@@ -6,8 +6,8 @@ import './css/CoverArt.css'
 /*
     albumData takes the form:
     {
-        albumID: str,
-        data: {
+        spotify_release_uri: str,
+        release: {
             artist: str,
             img: str (url for image),
             name: str (name of album),
@@ -22,12 +22,12 @@ class CoverArt extends Component {
     }
 
     render() {
-        const album = this.props.albumData
+        const release = this.props.albumData.release
 
         return (
             <Fragment>
                 <img
-                    src={album?.data?.img ? album.data.img : 'http://localhost:8000/static/img/plus.png'}
+                    src={release?.img ? release.img : 'http://localhost:8000/static/img/plus.png'}
                     alt={'Album'}
                     className={'album-art-img'}
                     onClick={() => {
