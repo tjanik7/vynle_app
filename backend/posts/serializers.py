@@ -27,7 +27,48 @@ class PostSerializer(serializers.ModelSerializer):
                 raise Exception('"User" was not set in the post serializer')
 
             return get_spotify_album(user, post.spotify_release_uri)
-        return 'no release for this post'
+        return 'No release for this post'
+
+
+# For use within PostListSerializer, since the 'release' field needs to be serialized manually in this case
+# to avoid sending a request to Spotify for each post
+class PostSerializerWithoutRelease(serializers.ModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Post
+        # Note that the 'release' field does not need to be manually excluded, since it is not actually a part
+        # of the model in the first place
+        fields = '__all__'
+
+
+def serialize_multiple_posts(post_instance_list, user):
+    spotify_uris = [post.spotify_release_uri for post in post_instance_list]
+    release_dict_list = get_spotify_album(user, spotify_uris)
+
+    ret = []
+    for post_instance, release_dict_serialized in zip(post_instance_list, release_dict_list):
+        post_serialized = PostSerializerWithoutRelease(post_instance).data
+        post_serialized['release'] = release_dict_serialized
+        ret.append(post_serialized)
+
+    return ret
+
+    # ############### Example of serialized post ###############
+    # {
+    #     "id": 55,
+    #     "user": {
+    #         "id": 1,
+    #         "username": "tjanik7"
+    #     },
+    #     "release": {
+    #         "name": "Minecraft - Volume Alpha",
+    #         "artist": "C418",
+    #         "img": "https://i.scdn.co/image/ab67616d00001e02aaeb5c9fb6131977995b7f0e"
+    #     },
+    #     "body": "minecraft",
+    #     "spotify_release_uri": "3Gt7rOjcZQoHCfnKl5AkK7"
+    # }
 
 
 class CommentSerializer(serializers.ModelSerializer):

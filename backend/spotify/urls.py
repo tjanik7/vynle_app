@@ -1,7 +1,8 @@
 # Spotify
 from django.urls import path
+
 from .views import AuthURL, spotify_callback, IsSpotifyAuthenticated, GetSpotifyToken, GetCurrentUserSpotifyProfile, \
-    SearchSpotify, GetAlbum, SetFavAlbum, GetFavoriteAlbums, FavoriteAlbumsView
+    SearchSpotify, GetAlbum, SetFavAlbum, FavoriteAlbumsView
 
 urlpatterns = [
     path('get-auth-url', AuthURL.as_view()),

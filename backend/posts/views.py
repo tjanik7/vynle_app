@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from .serializers import PostSerializer, CommentSerializer, serialize_multiple_posts
 
 
 class CommentView(APIView):
@@ -52,15 +52,15 @@ class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
 
+    # Overriding default method for getting list of multiple posts
     def list(self, request, *args, **kwargs):
         posts_raw = Post.objects.all()
-        posts_serialized = PostSerializer(posts_raw, many=True, context={
-            'user': request.user
-        })
-        return Response(
-            posts_serialized.data
-        )
 
+        posts_serialized = serialize_multiple_posts(posts_raw, request.user)
+
+        return Response(posts_serialized)
+
+    # Overriding default method for getting one post
     def retrieve(self, request, *args, **kwargs):
         try:
             # The fact that the key is 'pk' is defined by Django, since we are overriding the default implementation
@@ -82,5 +82,14 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Post.objects.all()
 
-    def perform_create(self, serializer):  # allows for user to be assigned to post when it is created
+    def get_serializer_context(self):
+        # Add any context data you need to pass to the serializer
+        context = super(PostViewSet, self).get_serializer_context()
+        context['user'] = self.request.user
+        return context
+
+    def perform_create(self, serializer):  # Allows for user to be assigned to post when it is created
         serializer.save(user=self.request.user)
+        # serializer.save(user=self.request.user, context={
+        #     'user': self.request.user,
+        # })

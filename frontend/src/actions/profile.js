@@ -18,7 +18,7 @@ export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
 
     const headers = tokenConfig(getState)
     const params = {
-        album_id: albumObj.albumID,
+        album_id: albumObj.spotify_release_uri,
         ind: ind,
     }
 

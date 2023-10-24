@@ -1,5 +1,4 @@
 from datetime import timedelta
-import datetime
 
 from django.utils import timezone
 from requests import post, get
@@ -84,20 +83,38 @@ def get_header(user):
 
 
 def _request_spotify_release_art(user, release_uri):
-    start_time = datetime.datetime.now()
+    """
+    Requests release data from Spotify
+    @param user: 'user' object sent with request from the frontend
+    @param release_uri: Either str representing one release URI or list specifying multiple
+    @return: If one URI specified: dict; If multiple: list of dicts
+    """
 
-    url = f'https://api.spotify.com/v1/albums/{release_uri}'
-
+    base_url = 'https://api.spotify.com/v1/albums'
     headers = get_header(user)
 
-    req_start_time = datetime.datetime.now()
+    if isinstance(release_uri, str):
+        url = base_url + f'/{release_uri}'
+        many = False
+
+    elif isinstance(release_uri, list):
+        if not release_uri:
+            # Return empty list if no IDs supplied
+            return []
+
+        url = base_url + '?ids=' + ','.join(release_uri)
+        many = True
+
+    else:
+        raise TypeError('"release_uri" should be type list or str')
 
     # Send the request
     response_obj = get(url, headers=headers)
 
-    end_time = datetime.datetime.now()
-
     if response_obj.status_code == 200:
+        if many:
+            return response_obj.json()['albums']
+
         return response_obj.json()
 
     raise Exception(
@@ -106,11 +123,17 @@ def _request_spotify_release_art(user, release_uri):
 
 
 def _transform_release_art_response(response_json, img_size):
+    if response_json is None:
+        return None
+
+    assert isinstance(response_json, dict), f'Expected type dict but got {type(response_json).__name}'
+
     size_letter_to_ind = {
         's': 2,
         'm': 1,
         'l': 0,
     }
+
     img_size_ind = size_letter_to_ind[img_size]
 
     if 'name' in response_json and 'artists' in response_json and 'images' in response_json:
@@ -123,29 +146,24 @@ def _transform_release_art_response(response_json, img_size):
     raise Exception(f'Keys not found in response: {response_json}')
 
 
-def get_spotify_album(user, release_uri, many=False, img_size='m'):
+def get_spotify_album(user, release_uri, img_size='m'):
+    """
+    Calls helper funcs which make the request then transforms the response data
+    @param user: 'user' object from request
+    @param release_uri: str or list
+    @param img_size: one of {s,m,l}
+    @return: dict or list
+    """
     if is_spotify_authenticated(user):
-        if not many:
-            assert isinstance(release_uri, str), 'Argument "release_uri" should be str type when many is False'
-
-            response = _request_spotify_release_art(user, release_uri)
+        response = _request_spotify_release_art(user, release_uri)
+        if isinstance(response, dict):
             return _transform_release_art_response(response, img_size)
 
-        # If multiple release URIs expected
-        assert isinstance(release_uri, list), 'Argument "release_uri" should be of type list when many is set to True'
+        elif isinstance(response, list):
+            return [_transform_release_art_response(response_item, img_size) for response_item in response]
 
-        start_time = datetime.datetime.now()
-        ret = []
-        for uri in release_uri:
-            if uri:
-                response = _request_spotify_release_art(user, uri)
-                ret.append(
-                    _transform_release_art_response(response, img_size)
-                )
-            else:
-                ret.append(None)
-        end_time = datetime.datetime.now()
-        return ret
-    else:
-        # PROB NEED TO CHANGE THIS LATER
-        raise Exception('Unable to pull album data since user is not authenticated with Spotify')
+        raise TypeError(
+            f'Return value from _transform_release_art_response expected to be str or list. Got type {type(response)}.'
+        )
+
+    raise Exception('Unable to pull album data since user is not authenticated with Spotify')
