@@ -3,22 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './css/CoverArt.css'
 
-/*
-    albumData takes the form:
-    {
-        spotify_release_uri: str,
-        release: {
-            artist: str,
-            img: str (url for image),
-            name: str (name of album),
-        }
-    }
-*/
-
 class CoverArt extends Component {
     static propTypes = {
         handleClick: PropTypes.func,
         albumData: PropTypes.object,
+        isClickable: PropTypes.bool,
     }
 
     render() {
@@ -29,10 +18,10 @@ class CoverArt extends Component {
                 <img
                     src={release?.img ? release.img : 'http://localhost:8000/static/img/plus.png'}
                     alt={'Album'}
-                    className={'album-art-img'}
+                    className={'album-art-img ' + (this.props.isClickable ? 'clickable' : null)}
                     onClick={() => {
-                        // Only call callback func if it exists
-                        if (this.props.handleClick) {
+                        // Only call callback func if it exists and is clickable
+                        if (this.props.isClickable && this.props.handleClick) {
                             this.props.handleClick()
                         }
                     }}
@@ -40,6 +29,10 @@ class CoverArt extends Component {
             </Fragment>
         )
     }
+}
+
+CoverArt.defaultProps = {
+    isClickable: true,
 }
 
 const mapStateToProps = state => ({})

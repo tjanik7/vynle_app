@@ -21,7 +21,7 @@ function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     return true
 }
 
-function generateAlbumTags(props, setSearchDisplayed) {
+function generateAlbumTags(props, setSearchDisplayed, isClickable) {
     const rows = []
 
     for (let i = 0; i < 6; i++) {  // Generates JSX tags for album art
@@ -29,6 +29,7 @@ function generateAlbumTags(props, setSearchDisplayed) {
             <Col key={i}>
                 <CoverArt
                     albumData={props.favoriteAlbums[i]}
+                    isClickable={isClickable}
                     handleClick={() => {
                         props.setSelectedIndex(i)
                         setSearchDisplayed(true)
@@ -46,7 +47,8 @@ function Profile(props) {
 
     const [searchDisplayed, setSearchDisplayed] = useState(false)
 
-    // Fetch user's Spotify data on render
+
+    // Fetch Spotify data on render (by username of profile)
     useEffect(() => {
         props.getCurrentUserSpotifyProfile()
         props.getFavAlbums(username)
@@ -65,10 +67,9 @@ function Profile(props) {
                     </div>
                 </div>}
                 <div>
-                    <p>Authenticated with Spotify as {props.id}</p>
                     <Container>
                         <Row xs={6}>
-                            {generateAlbumTags(props, setSearchDisplayed)}
+                            {generateAlbumTags(props, setSearchDisplayed, isProfileOwner)}
                         </Row>
                     </Container>
                     {searchDisplayed && <Search
