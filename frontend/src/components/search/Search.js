@@ -71,11 +71,11 @@ class Search extends Component {
         }
 
         return {
-            albumID: album.id,
-            data: {
+            spotify_release_uri: album.id,
+            release: {
                 name: album.name,
                 artist: album["artists"][0].name,
-                img: album.images[1].url, // Currently grabbing medium size image
+                img: album.images[1].url, // Extract medium sized image
             }
         }
     }

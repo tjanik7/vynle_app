@@ -1,13 +1,10 @@
 from rest_framework import viewsets, permissions, status
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from django.core.exceptions import ObjectDoesNotExist
-
-from .serializers import PostSerializer, CommentSerializer
+from spotify.Exceptions import UserNotSpotifyAuthenticatedError
 from .models import Post, Comment
-
-from spotify.util import get_spotify_albums, get_spotify_album, is_spotify_authenticated
+from .serializers import PostSerializer, CommentSerializer, serialize_multiple_posts
 
 
 class CommentView(APIView):
@@ -49,51 +46,6 @@ class CommentView(APIView):
         )
 
 
-class GetPost(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        post_id = request.query_params['post_id']
-
-        try:
-            post = Post.objects.get(pk=post_id)
-        except ObjectDoesNotExist:
-            return Response('Unable to find the requested resource', status=404)
-
-        post_serialized = PostSerializer(post).data
-        if post_serialized['album']:
-            post_serialized['album_data'] = get_spotify_album(request.user, post_serialized['album'])
-
-        return Response(post_serialized)
-
-
-# Custom version of get posts where it requests album data
-class GetPosts(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        if is_spotify_authenticated(request.user):
-            all_posts = Post.objects.all()
-
-            if len(all_posts) > 0:
-                # Fetch data from album URL within post (if one exists)
-                album_urls = [p.album for p in all_posts]
-                album_data_list = get_spotify_albums(request.user, album_urls)
-
-                posts_ser = PostSerializer(all_posts, many=True).data
-
-                for post, album_data in zip(posts_ser, album_data_list):
-                    post['album_data'] = album_data
-
-                return Response(posts_ser, status.HTTP_200_OK)
-            return Response(None, status.HTTP_200_OK)
-        else:
-            return Response(
-                'Please authenticate with Spotify to view Vynle posts',
-                status=status.HTTP_401_UNAUTHORIZED
-            )
-
-
 class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [
         permissions.IsAuthenticated,
@@ -101,8 +53,52 @@ class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
 
+    # Overriding default method for getting list of multiple posts
+    def list(self, request, *args, **kwargs):
+        posts_raw = Post.objects.all()
+
+        try:
+            posts_serialized = serialize_multiple_posts(posts_raw, request.user)
+        except UserNotSpotifyAuthenticatedError:
+            return Response(
+                data={
+                    'reason': 'not Spotify authenticated'
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        return Response(posts_serialized)
+
+    # Overriding default method for getting one post
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            # The fact that the key is 'pk' is defined by Django, since we are overriding the default implementation
+            post_id = kwargs['pk']
+            post_raw = Post.objects.get(pk=post_id)
+            post = PostSerializer(post_raw, context={
+                'user': request.user
+            })
+            return Response(
+                post.data
+            )
+
+        except Post.DoesNotExist:
+            return Response(
+                'A post with this ID could not be found',
+                status=status.HTTP_404_NOT_FOUND
+            )
+
     def get_queryset(self):
         return Post.objects.all()
 
-    def perform_create(self, serializer):  # allows for user to be assigned to post when it is created
+    def get_serializer_context(self):
+        # Add any context data you need to pass to the serializer
+        context = super(PostViewSet, self).get_serializer_context()
+        context['user'] = self.request.user
+        return context
+
+    def perform_create(self, serializer):  # Allows for user to be assigned to post when it is created
         serializer.save(user=self.request.user)
+        # serializer.save(user=self.request.user, context={
+        #     'user': self.request.user,
+        # })

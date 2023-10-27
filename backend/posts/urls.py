@@ -1,17 +1,15 @@
-# urls for posts
+# URLs for posts
 
-from rest_framework import routers
-from .views import PostViewSet, GetPosts, GetPost, CommentView
 from django.urls import path
+from rest_framework import routers
+
+from .views import PostViewSet, CommentView
 
 router = routers.DefaultRouter()
-router.register('posts', PostViewSet, 'posts')
+router.register(viewset=PostViewSet, basename='posts', prefix='')
 
 urlpatterns = router.urls
 
 urlpatterns += [
-    # May want to rename this later, but need to make sure it won't conflict with above default endpoints
-    path('get-posts', GetPosts.as_view()),
-    path('post', GetPost.as_view()),
     path('comment', CommentView.as_view())
 ]
