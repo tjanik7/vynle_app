@@ -22,6 +22,7 @@ function Post(props) {
     const navigate = useNavigate()
 
     const release = props.albumData
+
     return (
         <>
             <div id={'username-field'}>

@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
                 raise Exception('"User" was not set in the post serializer')
 
             return get_spotify_album(user, post.spotify_release_uri)
-        return 'No release for this post'
+        return None
 
 
 # For use within PostListSerializer, since the 'release' field needs to be serialized manually in this case
