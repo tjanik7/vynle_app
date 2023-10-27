@@ -1,3 +1,4 @@
+// posts reducer
 import {
     GOT_POSTS,
     GET_POSTS,
@@ -6,7 +7,7 @@ import {
     CLEAR_SUBMISSION_STATUS,
     GOT_POST,
     GET_POST,
-    POST_NOT_FOUND, CLEAR_POST_DETAIL, RESET_POSTS_LOADING
+    POST_NOT_FOUND, CLEAR_POST_DETAIL, RESET_POSTS_LOADING, SPOTIFY_UNAUTHORIZED
 } from '../actions/types.js'
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
     posts: [],
     postsLoading: null,
     errorStatus: null,
+    spotifyUnauthorized: false,
 }
 
 export default function (state = initialState, action) {
@@ -28,6 +30,12 @@ export default function (state = initialState, action) {
                 ...state,
                 errorStatus: null,
                 postDetail: null,
+            }
+        case SPOTIFY_UNAUTHORIZED:  // If user has yet to link their Spotify account
+            return {
+                ...state,
+                spotifyUnauthorized: true,
+                postsLoading: false,
             }
         case POST_NOT_FOUND:
             return {

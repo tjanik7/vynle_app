@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from spotify.Exceptions import UserNotSpotifyAuthenticatedError
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer, serialize_multiple_posts
 
@@ -56,7 +57,15 @@ class PostViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         posts_raw = Post.objects.all()
 
-        posts_serialized = serialize_multiple_posts(posts_raw, request.user)
+        try:
+            posts_serialized = serialize_multiple_posts(posts_raw, request.user)
+        except UserNotSpotifyAuthenticatedError:
+            return Response(
+                data={
+                    'reason': 'not Spotify authenticated'
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
         return Response(posts_serialized)
 
