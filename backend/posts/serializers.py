@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from spotify.Exceptions import UserNotSpotifyAuthenticatedError
 from spotify.util import get_spotify_album
 from users.models import Account
 from .models import Post, Comment
@@ -44,7 +45,11 @@ class PostSerializerWithoutRelease(serializers.ModelSerializer):
 
 def serialize_multiple_posts(post_instance_list, user):
     spotify_uris = [post.spotify_release_uri for post in post_instance_list]
-    release_dict_list = get_spotify_album(user, spotify_uris)
+
+    try:
+        release_dict_list = get_spotify_album(user, spotify_uris)
+    except UserNotSpotifyAuthenticatedError:
+        return []
 
     ret = []
     for post_instance, release_dict_serialized in zip(post_instance_list, release_dict_list):

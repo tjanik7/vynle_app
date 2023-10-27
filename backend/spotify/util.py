@@ -2,6 +2,8 @@ from datetime import timedelta
 
 from django.utils import timezone
 from requests import post, get
+
+from spotify.Exceptions import UserNotSpotifyAuthenticatedError
 from spotify.credentials import CLIENT_ID, CLIENT_SECRET
 from spotify.models import SpotifyToken
 
@@ -166,4 +168,4 @@ def get_spotify_album(user, release_uri, img_size='m'):
             f'Return value from _transform_release_art_response expected to be str or list. Got type {type(response)}.'
         )
 
-    raise Exception('Unable to pull album data since user is not authenticated with Spotify')
+    raise UserNotSpotifyAuthenticatedError('Unable to pull album data since user is not authenticated with Spotify')

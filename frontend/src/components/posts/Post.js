@@ -26,7 +26,12 @@ function Post(props) {
     return (
         <>
             <div id={'username-field'}>
-                <h4>{props.username}</h4>
+                <h4
+                    onClick={() => {navigate(`/profile/${props.username}`)}}
+                    className={'post-container-clickable'}
+                >
+                    {props.username}
+                </h4>
             </div>
             <div className={`post-container ${props.isClickable ? 'post-container-clickable' : ''}`}
                  onClick={props.isClickable ? // Leave onClick undefined if this is not a clickable <Post/>
