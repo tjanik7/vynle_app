@@ -6,7 +6,8 @@ class Post(models.Model):
     user = models.ForeignKey(Account, related_name='posts', on_delete=models.CASCADE, null=True)
     body = models.TextField(max_length=150)
 
-    album = models.TextField(max_length=32, blank=True)
+    # Spotify's unique ID for the release
+    spotify_release_uri = models.TextField(max_length=32, blank=True)
 
 
 class Comment(models.Model):

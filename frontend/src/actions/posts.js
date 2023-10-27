@@ -5,7 +5,7 @@ import { tokenConfig } from './auth'
 import {
     GOT_POSTS, GET_POSTS, DELETE_POST,
     ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS,
-    RESET_POSTS_LOADING
+    RESET_POSTS_LOADING, SPOTIFY_UNAUTHORIZED
 } from './types'
 
 export const resetPostsLoading = () => (dispatch, getState) => {
@@ -15,17 +15,24 @@ export const resetPostsLoading = () => (dispatch, getState) => {
 export const getPosts = () => (dispatch, getState) => {
     dispatch({type: GET_POSTS})  // Marks state as loading
 
-    axiosInstance.get('/api/get-posts', tokenConfig(getState))
+    axiosInstance.get('/posts/', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_POSTS,
                 payload: res.data
             })
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            if(err.response.status === 401) { // If user not authenticated with Spotify
+                dispatch({type: SPOTIFY_UNAUTHORIZED})
+
+            } else {
+                console.log(err)
+            }
+        })
 }
 
 export const deletePost = id => (dispatch, getState) => {
-    axiosInstance.delete(`/api/posts/${id}/`, tokenConfig(getState))
+    axiosInstance.delete(`/posts/${id}/`, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: DELETE_POST,
@@ -36,7 +43,7 @@ export const deletePost = id => (dispatch, getState) => {
 
 export const addPost = post => (dispatch, getState) => {
 
-    axiosInstance.post('/api/posts/', post, tokenConfig(getState))
+    axiosInstance.post('/posts/', post, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: ADD_POST,

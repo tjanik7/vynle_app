@@ -5,9 +5,9 @@ const initialState = {
     // single static object
     favoriteAlbums: new Array(6).fill(null).map(() => (
         {
-            albumID: '',
+            spotify_release_uri: '',
             fetched: false, // Update to true when response received (even if user has no album has been set at index)
-            data: {
+            release: {
                 name: null,
                 artist: null,
                 img: null,
@@ -25,9 +25,9 @@ export default function (state = initialState, action) {
             let arr = []
             for (const newAlbum of newAlbums) {
                 arr.push({
-                    albumID: '',
+                    spotify_release_uri: '',
                     fetched: true,
-                    data: newAlbum,
+                    release: newAlbum,
                 })
             }
 
@@ -39,9 +39,9 @@ export default function (state = initialState, action) {
             favoriteAlbums = [...state.favoriteAlbums]
 
             favoriteAlbums[action.payload.ind] = {
-                albumID: '',
+                spotify_release_uri: '',
                 fetched: false,
-                data: {  // Keep this is old album data, so it doesn't disappear during load
+                release: {  // Keep this is old album data, so it doesn't disappear during load
                     name: action.payload.album.name,
                     artist: action.payload.album.artist,
                     img: action.payload.album.img,
@@ -57,9 +57,9 @@ export default function (state = initialState, action) {
             favoriteAlbums = [...state.favoriteAlbums]
 
             favoriteAlbums[action.payload.ind] = {
-                albumID: '',
+                spotify_release_uri: '',
                 fetched: true,
-                data: {
+                release: {
                     name: action.payload.album.name,
                     artist: action.payload.album.artist,
                     img: action.payload.album.img,

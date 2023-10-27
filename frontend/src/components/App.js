@@ -12,11 +12,13 @@ import PrivateRoute from './common/PrivateRoute'
 import { Provider } from 'react-redux'
 import store from '../store'
 import { loadUser } from '../actions/auth'
-import SpotifyProfile from './spotify/SpotifyProfile'
 import SpotifyRedirect from './spotify/SpotifyRedirect'
 import PostDetail from './posts/PostDetail'
+import ProfileDetail from'./profile/ProfileDetail'
 
 import '../../sass/main.css'
+import Profile from "./spotify/Profile"
+import SpotifyCallback from "./spotify/SpotifyCallback"
 
 class App extends Component {
     componentDidMount() {
@@ -38,8 +40,11 @@ class App extends Component {
                                 <Route path={'/spotify-redirect'} element={<PrivateRoute>
                                     <SpotifyRedirect/>
                                 </PrivateRoute>} />
-                                <Route path={'/spotify-profile'} element={<PrivateRoute>
-                                    <SpotifyProfile/>
+                                <Route path={'/spotify_callback'} element={<PrivateRoute>
+                                    <SpotifyCallback/>
+                                </PrivateRoute>} />
+                                <Route path={'/profile/:username'} element={<PrivateRoute>
+                                    <Profile/>
                                 </PrivateRoute>} />
                                 <Route path='/' element={<PrivateRoute>
                                     <Feed/>
@@ -47,6 +52,10 @@ class App extends Component {
                                 } />
                                 <Route path={'/post/:id'} element={<PrivateRoute>
                                     <PostDetail/>
+                                </PrivateRoute>
+                                } />
+                                <Route path={'/user/:username'} element={<PrivateRoute>
+                                    <ProfileDetail/>
                                 </PrivateRoute>
                                 } />
                                 <Route path={'/register'} element={<Register/>}/>

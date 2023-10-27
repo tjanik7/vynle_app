@@ -22,7 +22,7 @@ function PostDetail(props) {
             <>
                 <Post
                     body={props.postDetail.body}
-                    albumData={props.postDetail.album_data}
+                    albumData={props.postDetail.release}
                     username={props.postDetail.user.username}
                     postID={props.postDetail.id}
                 />

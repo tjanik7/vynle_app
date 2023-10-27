@@ -1,19 +1,22 @@
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
 
 from . import settings
 
+
+def create_path_str(suffix, path_prefix='api'):
+    return path_prefix + '/' + suffix
+
+
 urlpatterns = [
-    # path('', include('frontend.urls')),  # frontend urls to be dispatched with react router
-    path('api/', include('posts.urls')),
+    # API endpoints
+    path(create_path_str('posts/'), include('posts.urls')),
+    path(create_path_str('users/'), include('users.urls')),
+    path(create_path_str('spotify/'), include('spotify.urls')),
+
+    # Additional endpoints needed for debugging
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('spotify/', include('spotify.urls')),
-    # Tells server to look in /static/img/favicon.ico for icon
-    # path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
-    path('', TemplateView.as_view(template_name='index.html')),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
 
