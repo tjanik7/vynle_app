@@ -53,7 +53,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
 
-    # Overriding default method for getting list of multiple posts
+    # Overriding default method for getting list posts
     def list(self, request, *args, **kwargs):
         posts_raw = Post.objects.all()
 

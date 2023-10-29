@@ -1,6 +1,6 @@
 from django.http import Http404
 from knox.models import AuthToken
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -91,6 +91,32 @@ class LoginAPI(generics.GenericAPIView):
             'account': AccountSerializer(account, context=self.get_serializer_context()).data,
             'token': AuthToken.objects.create(account)[1]  # associates new token with specified account
         })
+
+
+class FollowUser(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            follower = Account.objects.get(username=request.user).profile
+            followee = Account.objects.get(pk=user_id).profile
+
+        except Account.DoesNotExist:
+            return Response(
+                {'error': 'User account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if follower == followee:
+            return Response(
+                'You cannot follow yourself',
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        follower.followers.add(followee)
+        follower.save()
+
+        return Response()
 
 
 # Retrieve a user via their auth token
