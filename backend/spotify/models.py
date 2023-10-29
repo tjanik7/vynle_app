@@ -20,6 +20,11 @@ class FavAlbums(models.Model):
     def __str__(self):
         return str(self.profile)
 
+    def get_id_list(self):
+        return [
+            self.a0, self.a1, self.a2, self.a3, self.a4, self.a5,
+        ]
+
 
 class SpotifyToken(models.Model):
     user = models.ForeignKey('users.Account', related_name='spotify_token', on_delete=models.CASCADE, null=True)
