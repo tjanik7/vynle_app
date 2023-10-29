@@ -36,8 +36,8 @@ class ProfileViewSet(APIView):
 
     # Endpoint exposed on GET request
     def get(self, request, username, format=None):
-        instance = self._get_object(username)
-        serializer = ProfileSerializer(instance)
+        profile_instance = self._get_object(username)
+        serializer = ProfileSerializer(profile_instance)
 
         # Need to add username to dict since it exists within Account, not Profile
         profile_data = serializer.data

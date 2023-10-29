@@ -11,7 +11,6 @@ import {
     GET_ERRORS,
     USER_LOGGED_OUT,
 } from './types'
-import { useSelector } from "react-redux"
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {

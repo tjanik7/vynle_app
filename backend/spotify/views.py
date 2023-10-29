@@ -102,8 +102,8 @@ class FavoriteAlbumsView(APIView):
                 )
 
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
-            fav_album_ids = [getattr(target_profile.favorite_albums, 'a' + str(i)) for i in range(6)]
-            album_objects = get_spotify_album(user, fav_album_ids)
+            fav_album_id_list = [getattr(target_profile.favorite_albums, 'a' + str(i)) for i in range(6)]
+            album_objects = get_spotify_album(user, fav_album_id_list)
 
             return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some error conditions
         else:
