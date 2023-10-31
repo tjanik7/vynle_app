@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import SpotifyToken, FavAlbums
-from .util import get_spotify_album
+from spotify.utils.release_request import get_spotify_album
 
 
 class FavAlbumsSerializer(serializers.ModelSerializer):

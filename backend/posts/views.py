@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from spotify.Exceptions import UserNotSpotifyAuthenticatedError
+from spotify.exceptions import UserNotSpotifyAuthenticatedError
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer, serialize_multiple_posts
 

@@ -9,7 +9,8 @@ from users.models import Account
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
 from .models import SpotifyToken
 from .serializers import SpotifyTokenSerializer
-from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header, get_spotify_album
+from spotify.utils.release_request import get_spotify_album
+from .utils.tokens import update_or_create_user_tokens, is_spotify_authenticated, get_header
 
 
 class SetFavAlbum(APIView):
