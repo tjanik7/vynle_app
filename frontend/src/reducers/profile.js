@@ -1,4 +1,6 @@
-import { GET_ALBUM_DATA, GET_FAV_ALBUMS, MARK_NOT_FETCHED, SET_FAV_ALBUM } from '../actions/types'
+import { GET_ALBUM_DATA, GOT_USER_PROFILE, MARK_NOT_FETCHED, SET_FAV_ALBUM } from '../actions/types'
+
+// Holds data for whichever profile the user is viewing in the profile detail view
 
 const initialState = {
     // Must be init'd with map rather than fill since using fill to init an array of objects creates a
@@ -13,15 +15,23 @@ const initialState = {
                 img: null,
             },
         }
-    ))
+    )),
+    username: null,
+    name: {
+        first: null,
+        last: null,
+    },
+    is_following: null,
+    user_id: null,
+
 }
 
 export default function (state = initialState, action) {
     let favoriteAlbums // Declare before case statement since a variable can only be declared once
 
     switch (action.type) {
-        case GET_FAV_ALBUMS:  // Retrieves all 6 albums from backend
-            const newAlbums = action.payload.albums
+        case GOT_USER_PROFILE:
+            const newAlbums = action.payload['favorite_albums']
             let arr = []
             for (const newAlbum of newAlbums) {
                 arr.push({
@@ -34,6 +44,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 favoriteAlbums: arr,
+                username: action.payload.username,
+                name: {
+                    first: action.payload['first'],  // .first may be a reserved word, so using []
+                    last: action.payload['last'],
+                },
+                is_following: action.payload.is_following,
+                user_id: action.payload.user_id,
             }
         case MARK_NOT_FETCHED:
             favoriteAlbums = [...state.favoriteAlbums]

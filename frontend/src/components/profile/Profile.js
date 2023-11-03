@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap"
 import Search from "../search/Search"
 import { connect } from "react-redux"
 import { getCurrentUserSpotifyProfile } from "../../actions/spotify"
-import { getFavAlbums, setFavAlbum } from "../../actions/profile"
+import { getUserProfile, setFavAlbum } from "../../actions/profile"
 import { setSelectedIndex } from "../../actions/spotifySearch"
 import CoverArt from "../cover_art/CoverArt"
 
@@ -11,7 +11,7 @@ import './css/Profile.css'
 import { useParams } from "react-router-dom"
 
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
-    const albums = props.favoriteAlbums
+    const albums = props.profile.favoriteAlbums
 
     for (const album of albums) {
         if (!album.fetched) {
@@ -28,7 +28,7 @@ function generateAlbumTags(props, setSearchDisplayed, isClickable) {
         rows.push(
             <Col key={i}>
                 <CoverArt
-                    albumData={props.favoriteAlbums[i]}
+                    albumData={props.profile.favoriteAlbums[i]}
                     isClickable={isClickable}
                     handleClick={() => {
                         props.setSelectedIndex(i)
@@ -51,11 +51,19 @@ function Profile(props) {
     // Fetch Spotify data on render (by username of profile)
     useEffect(() => {
         props.getCurrentUserSpotifyProfile()
-        props.getFavAlbums(username)
+        props.getUserProfile(username)
+
         return () => {
             setSearchDisplayed(false)
         }
     }, [props.id]);
+
+    const followButton = !isProfileOwner ?
+                        <button type={'button'}
+                                className={'btn btn-'  + (props.profile.is_following ? 'secondary' : 'primary') + ' m-3'}>
+                            {props.profile.is_following ? 'Following' : 'Follow'}
+                        </button>
+                        : null
 
     return (
             <Fragment>
@@ -67,9 +75,7 @@ function Profile(props) {
                     </div>
                 </div>}
                 <div>
-                    {!isProfileOwner ?
-                        <button type={'button'} className={'btn btn-primary m-3'}>Follow</button>
-                        : null}
+                    {followButton}
                     <Container>
                         <Row xs={6}>
                             {generateAlbumTags(props, setSearchDisplayed, isProfileOwner)}
@@ -89,7 +95,7 @@ const mapStateToProps = state => ({
     id: state.spotify.id,
     isSearchVisible: state.spotifySearch.isVisible,
     selectedIndex: state.spotifySearch.selectedIndex,
-    favoriteAlbums: state.profile.favoriteAlbums,
+    profile: state.profile,
     username: state.auth.user.username,
 })
 
@@ -97,5 +103,5 @@ export default connect(mapStateToProps, {
     getCurrentUserSpotifyProfile,
     setFavAlbum,
     setSelectedIndex,
-    getFavAlbums,
+    getUserProfile,
 })(Profile)
