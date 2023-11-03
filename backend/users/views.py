@@ -9,21 +9,6 @@ from .serializers import RegisterSerializer, AccountSerializer, LoginSerializer,
     ProfileRegistrationSerializer
 
 
-# Splits dict of user registration data into Account data and Profile data
-def split_user_data(data):
-    account_data = {
-        'email': data['email'],
-        'username': data['username'],
-        'password': data['password'],
-    }
-    profile_data = {
-        'first': data['first'],
-        'last': data['last'],
-        # 'birthday': data['birthday'],  # Not implemented yet - needs to be added to frontend form
-    }
-    return account_data, profile_data
-
-
 class ProfileViewSet(APIView):
     # Private method used by other methods to retrieve an item from the DB
     def _get_object(self, username):
@@ -36,14 +21,26 @@ class ProfileViewSet(APIView):
 
     # Endpoint exposed on GET request
     def get(self, request, username, format=None):
-        profile_instance = self._get_object(username)
-        serializer = ProfileSerializer(profile_instance)
+        target_profile = self._get_object(username)
+        current_profile = request.user.profile
 
-        # Need to add username to dict since it exists within Account, not Profile
-        profile_data = serializer.data
-        profile_data['username'] = username
+        # Examine whether this user follows the user they are requesting
+        is_following = target_profile in current_profile.following.all()
 
-        return Response(profile_data)
+        serializer = ProfileSerializer(target_profile, context={
+            'user': request.user
+        })
+
+        profile_serialized = serializer.data
+
+        profile_serialized['is_following'] = is_following
+        profile_serialized['favorite_albums'] = profile_serialized['favorite_albums']['data_list']
+
+        # Moves Profile PK from key 'account' to 'id' for a more intuitive response
+        # The serializer returns the PK under 'account' because the user's Profile and Account have different PKs
+        profile_serialized['id'] = profile_serialized.pop('account')
+
+        return Response(profile_serialized)
 
 
 # Creates user Account & Profile
@@ -52,7 +49,7 @@ class RegisterAPI(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            account_data, profile_data = split_user_data(request.data)
+            account_data, profile_data = _split_user_data(request.data)
 
             serializer = self.get_serializer(data=account_data)
             serializer.is_valid(raise_exception=True)
@@ -98,7 +95,7 @@ class FollowUser(generics.GenericAPIView):
 
     def post(self, request, user_id):
         try:
-            follower = Account.objects.get(username=request.user).profile
+            follower = request.user.profile
             followee = Account.objects.get(pk=user_id).profile
 
         except Account.DoesNotExist:
@@ -113,7 +110,7 @@ class FollowUser(generics.GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        follower.followers.add(followee)
+        follower.following.add(followee)
         follower.save()
 
         return Response()
@@ -128,3 +125,19 @@ class AccountAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+def _split_user_data(data):
+    # Splits dict of user registration data into Account data and Profile data
+
+    account_data = {
+        'email': data['email'],
+        'username': data['username'],
+        'password': data['password'],
+    }
+    profile_data = {
+        'first': data['first'],
+        'last': data['last'],
+        # 'birthday': data['birthday'],  # Not implemented yet - needs to be added to frontend form
+    }
+    return account_data, profile_data

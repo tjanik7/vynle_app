@@ -99,6 +99,3 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):  # Allows for user to be assigned to post when it is created
         serializer.save(user=self.request.user)
-        # serializer.save(user=self.request.user, context={
-        #     'user': self.request.user,
-        # })
