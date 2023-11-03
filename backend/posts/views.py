@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from spotify.Exceptions import UserNotSpotifyAuthenticatedError
+from spotify.exceptions import UserNotSpotifyAuthenticatedError
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer, serialize_multiple_posts
 
@@ -53,7 +53,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
 
-    # Overriding default method for getting list of multiple posts
+    # Overriding default method for getting list posts
     def list(self, request, *args, **kwargs):
         posts_raw = Post.objects.all()
 
@@ -99,6 +99,3 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):  # Allows for user to be assigned to post when it is created
         serializer.save(user=self.request.user)
-        # serializer.save(user=self.request.user, context={
-        #     'user': self.request.user,
-        # })

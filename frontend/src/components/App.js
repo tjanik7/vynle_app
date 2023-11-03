@@ -14,10 +14,9 @@ import store from '../store'
 import { loadUser } from '../actions/auth'
 import SpotifyRedirect from './spotify/SpotifyRedirect'
 import PostDetail from './posts/PostDetail'
-import ProfileDetail from'./profile/ProfileDetail'
 
 import '../../sass/main.css'
-import Profile from "./spotify/Profile"
+import Profile from "./profile/Profile"
 import SpotifyCallback from "./spotify/SpotifyCallback"
 
 class App extends Component {
@@ -52,10 +51,6 @@ class App extends Component {
                                 } />
                                 <Route path={'/post/:id'} element={<PrivateRoute>
                                     <PostDetail/>
-                                </PrivateRoute>
-                                } />
-                                <Route path={'/user/:username'} element={<PrivateRoute>
-                                    <ProfileDetail/>
                                 </PrivateRoute>
                                 } />
                                 <Route path={'/register'} element={<Register/>}/>

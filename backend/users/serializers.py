@@ -37,10 +37,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 # Used when retrieving profile objects
 class ProfileSerializer(serializers.ModelSerializer):
     favorite_albums = FavAlbumsSerializer()
+    username = serializers.CharField(source='account.username')
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        exclude = ('following', 'id')
 
     def create(self, validated_data):
         profile = Profile.objects.create(

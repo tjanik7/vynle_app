@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from spotify.util import get_spotify_album
+from spotify.utils.release_request import get_spotify_album
 from users.models import Account
 from .models import Post, Comment
 

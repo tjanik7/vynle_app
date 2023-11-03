@@ -67,6 +67,9 @@ function Profile(props) {
                     </div>
                 </div>}
                 <div>
+                    {!isProfileOwner ?
+                        <button type={'button'} className={'btn btn-primary m-3'}>Follow</button>
+                        : null}
                     <Container>
                         <Row xs={6}>
                             {generateAlbumTags(props, setSearchDisplayed, isProfileOwner)}

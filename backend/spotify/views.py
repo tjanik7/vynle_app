@@ -9,7 +9,8 @@ from users.models import Account
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
 from .models import SpotifyToken
 from .serializers import SpotifyTokenSerializer
-from .util import update_or_create_user_tokens, is_spotify_authenticated, get_header, get_spotify_album
+from spotify.utils.release_request import get_spotify_album
+from .utils.tokens import update_or_create_user_tokens, is_spotify_authenticated, get_header
 
 
 class SetFavAlbum(APIView):
@@ -102,8 +103,8 @@ class FavoriteAlbumsView(APIView):
                 )
 
             # Retrieve album_id string, i.e. the ID Spotify assigns the release
-            fav_album_ids = [getattr(target_profile.favorite_albums, 'a' + str(i)) for i in range(6)]
-            album_objects = get_spotify_album(user, fav_album_ids)
+            fav_album_id_list = [getattr(target_profile.favorite_albums, 'a' + str(i)) for i in range(6)]
+            album_objects = get_spotify_album(user, fav_album_id_list)
 
             return Response(album_objects, status=status.HTTP_200_OK)  # Will need to add some error conditions
         else:
