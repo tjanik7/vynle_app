@@ -1,7 +1,8 @@
 // postDetail actions
 import axiosInstance from "../api/axiosInstance"
 import { ADD_COMMENT, CLEAR_POST_DETAIL, GET_POST, GOT_COMMENTS, GOT_POST, POST_NOT_FOUND } from "./types"
-import { tokenConfig } from "./auth"
+
+import { tokenConfig } from "../api/tokenConfig"
 
 export const clearPostDetail = () => (dispatch, getState) => {
     dispatch({ type: CLEAR_POST_DETAIL })

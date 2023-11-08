@@ -1,7 +1,28 @@
 // Actions for profile
-import { tokenConfig } from './auth'
-import { GOT_USER_PROFILE, MARK_NOT_FETCHED, SET_FAV_ALBUM } from './types'
+import { FOLLOWED_USER, GOT_USER_PROFILE, MARK_NOT_FETCHED, SET_FAV_ALBUM, UNFOLLOWED_USER } from './types'
 import axiosInstance from "../api/axiosInstance"
+import { tokenConfig } from "../api/tokenConfig"
+import AxiosInstance from "../api/axiosInstance"
+
+export const followUser = (user_id) => (dispatch, getState) => {
+    AxiosInstance
+        .post(`/users/follow/${user_id}/`, null, tokenConfig(getState))
+        .then(res => {
+            dispatch({type: FOLLOWED_USER})
+        }).catch(err => {
+            console.log(err)
+    })
+}
+
+export const unfollowUser = (user_id) => (dispatch, getState) => {
+    AxiosInstance
+        .post(`/users/unfollow/${user_id}/`, null, tokenConfig(getState))
+        .then(res => {
+            dispatch({type: UNFOLLOWED_USER})
+        }).catch(err => {
+            console.log(err)
+    })
+}
 
 
 export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {

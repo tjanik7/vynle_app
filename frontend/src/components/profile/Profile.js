@@ -3,12 +3,14 @@ import { Col, Container, Row } from "react-bootstrap"
 import Search from "../search/Search"
 import { connect } from "react-redux"
 import { getCurrentUserSpotifyProfile } from "../../actions/spotify"
-import { getUserProfile, setFavAlbum } from "../../actions/profile"
+import { followUser, getUserProfile, setFavAlbum, unfollowUser } from "../../actions/profile"
 import { setSelectedIndex } from "../../actions/spotifySearch"
 import CoverArt from "../cover_art/CoverArt"
 
 import './css/Profile.css'
 import { useParams } from "react-router-dom"
+import AxiosInstance from "../../api/axiosInstance"
+import { formatHeader } from "../../api/formatHeader"
 
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     const albums = props.profile.favoriteAlbums
@@ -58,12 +60,25 @@ function Profile(props) {
         }
     }, [props.id]);
 
-    const followButton = !isProfileOwner ?
-                        <button type={'button'}
-                                className={'btn btn-'  + (props.profile.is_following ? 'secondary' : 'primary') + ' m-3'}>
-                            {props.profile.is_following ? 'Following' : 'Follow'}
-                        </button>
-                        : null
+    let followButton = null
+
+    if(!isProfileOwner) {
+        if(props.profile.is_following) { // If already following user
+            followButton = <button
+                type={'button'}
+                onClick={() => {
+                    props.unfollowUser(props.profile.user_id)
+                }}
+                className={'btn btn-secondary m-3'}>Following</button>
+        } else { // If not following
+            followButton = <button
+                type={'button'}
+                onClick={() => {
+                    props.followUser(props.profile.user_id)
+                }}
+                className={'btn btn-primary m-3'}>Follow</button>
+        }
+    }
 
     return (
             <Fragment>
@@ -93,6 +108,7 @@ function Profile(props) {
 
 const mapStateToProps = state => ({
     id: state.spotify.id,
+    authToken: state.auth.token,
     isSearchVisible: state.spotifySearch.isVisible,
     selectedIndex: state.spotifySearch.selectedIndex,
     profile: state.profile,
@@ -104,4 +120,6 @@ export default connect(mapStateToProps, {
     setFavAlbum,
     setSelectedIndex,
     getUserProfile,
+    followUser,
+    unfollowUser,
 })(Profile)

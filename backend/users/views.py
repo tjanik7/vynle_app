@@ -110,8 +110,36 @@ class FollowUser(generics.GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        follower.following.add(followee)
-        follower.save()
+        if followee not in follower.following.all():
+            follower.following.add(followee)
+            follower.save()
+
+        return Response()
+
+
+class UnfollowUser(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            follower = request.user.profile
+            followee = Account.objects.get(pk=user_id).profile
+
+        except Account.DoesNotExist:
+            return Response(
+                {'error': 'User account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if follower == followee:
+            return Response(
+                'You cannot unfollow yourself',
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if followee in follower.following.all():
+            follower.following.remove(followee)
+            follower.save()
 
         return Response()
 

@@ -1,7 +1,6 @@
 // Actions for <Search/>
 
 import axiosInstance from "../api/axiosInstance"
-import { tokenConfig } from './auth'
 import {
     SEND_QUERY,
     UPDATE_SELECTION,
@@ -10,6 +9,7 @@ import {
     SEARCH_INVISIBLE,
     SET_SELECTED_INDEX,
 } from './types'
+import { tokenConfig } from "../api/tokenConfig"
 
 // Make a search query using the Spotify API
 export const search = (q) => (dispatch, getState) => {
