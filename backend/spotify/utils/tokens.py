@@ -20,6 +20,9 @@ def update_or_create_user_tokens(user, access_token, token_type, expires_in, ref
 
     tokens = get_user_tokens(user)
 
+    if expires_in is None:
+        raise Exception('func update_or_create_user_tokens() got argument "None" for expires_in')
+
     # Take the current time and add the amount of time it takes for the token to expire (usually 3600sec)
     expires_at = timezone.now() + timedelta(seconds=expires_in)
 
@@ -52,11 +55,17 @@ def _refresh_spotify_token(user):
         'refresh_token': refresh_token,
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
-    }).json()
+    })
 
-    access_token = response.get('access_token')
-    token_type = response.get('token_type')
-    expires_in = response.get('expires_in')
+    if response.status_code != 200:
+        raise Exception(f"Got {response.status_code} status code with reason {response.text} when trying to refresh "
+                        f"user's Spotify token")
+
+    response_data = response.json()
+
+    access_token = response_data.get('access_token')
+    token_type = response_data.get('token_type')
+    expires_in = response_data.get('expires_in')
 
     update_or_create_user_tokens(
         user,
