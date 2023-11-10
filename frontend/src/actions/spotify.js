@@ -1,8 +1,8 @@
 // Spotify actions
 import axiosInstance from "../api/axiosInstance"
 
-import { tokenConfig } from './auth'
 import { GET_SPOTIFY_AUTH_STATUS, GET_SPOTIFY_AUTH_URL, GET_CURRENT_USER_SPOTIFY_PROFILE } from './types'
+import { tokenConfig } from "../api/tokenConfig"
 
 export const getCurrentUserSpotifyProfile = () => (dispatch, getState) => {
     axiosInstance.get('spotify/get-current-user-spotify-profile', tokenConfig(getState))

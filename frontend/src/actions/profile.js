@@ -1,7 +1,28 @@
 // Actions for profile
-import { tokenConfig } from './auth'
-import { GET_ALBUM_DATA, GET_FAV_ALBUMS, MARK_NOT_FETCHED, SET_FAV_ALBUM } from './types'
+import { FOLLOWED_USER, GOT_USER_PROFILE, MARK_NOT_FETCHED, SET_FAV_ALBUM, UNFOLLOWED_USER } from './types'
 import axiosInstance from "../api/axiosInstance"
+import { tokenConfig } from "../api/tokenConfig"
+import AxiosInstance from "../api/axiosInstance"
+
+export const followUser = (user_id) => (dispatch, getState) => {
+    AxiosInstance
+        .post(`/users/follow/${user_id}/`, null, tokenConfig(getState))
+        .then(res => {
+            dispatch({type: FOLLOWED_USER})
+        }).catch(err => {
+            console.log(err)
+    })
+}
+
+export const unfollowUser = (user_id) => (dispatch, getState) => {
+    AxiosInstance
+        .post(`/users/unfollow/${user_id}/`, null, tokenConfig(getState))
+        .then(res => {
+            dispatch({type: UNFOLLOWED_USER})
+        }).catch(err => {
+            console.log(err)
+    })
+}
 
 
 export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
@@ -34,39 +55,14 @@ export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
         })
 }
 
-export const getFavAlbums = username => (dispatch, getState) => {
-    const queryParams = {
-        'params': {
-            'username': username,
-        },  // Username of user's favorite albums to get
-        'headers': tokenConfig(getState).headers
-    }
-    axiosInstance.get('/spotify/favorite-albums', queryParams)
+export const getUserProfile = username => (dispatch, getState) => {
+    axiosInstance.get(`/users/${username}`, tokenConfig(getState))
         .then(res => {
             dispatch({
-                type: GET_FAV_ALBUMS,
-                payload: {
-                    albums: res.data,
-                }
+                type: GOT_USER_PROFILE,
+                payload: res.data,
             })
-        }).catch(err => console.log(err))
-}
-
-export const getAlbumData = (ind) => (dispatch, getState) => {
-    const data = {
-        headers: tokenConfig(getState).headers,
-        params: {
-            ind,
-        }
-    }
-    axiosInstance.get('/spotify/get-album', data)
-        .then(res => {
-            dispatch({
-                type: GET_ALBUM_DATA,
-                payload: {
-                    album: res.data,
-                    ind: ind,
-                }
-            })
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            console.log(err)
+        })
 }

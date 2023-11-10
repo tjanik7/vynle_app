@@ -1,12 +1,12 @@
 // post actions
 import axiosInstance from "../api/axiosInstance"
-import { tokenConfig } from './auth'
 
 import {
     GOT_POSTS, GET_POSTS, DELETE_POST,
     ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS,
     RESET_POSTS_LOADING, SPOTIFY_UNAUTHORIZED
 } from './types'
+import { tokenConfig } from "../api/tokenConfig"
 
 export const resetPostsLoading = () => (dispatch, getState) => {
     dispatch({ type: RESET_POSTS_LOADING })

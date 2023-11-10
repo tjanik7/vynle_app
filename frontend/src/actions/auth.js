@@ -1,16 +1,17 @@
 import axiosInstance from "../api/axiosInstance"
 import {
+    AUTH_ERROR,
+    GET_ERRORS,
+    LOGIN_FAIL,
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+    REGISTER_FAIL,
+    REGISTER_SUCCESS,
     USER_LOADED,
     USER_LOADING,
-    AUTH_ERROR,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT_SUCCESS,
-    REGISTER_SUCCESS,
-    REGISTER_FAIL,
-    GET_ERRORS,
     USER_LOGGED_OUT,
 } from './types'
+import { tokenConfig } from "../api/tokenConfig"
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
@@ -117,42 +118,4 @@ export const logout = () => (dispatch, getState) => {
     })
 
     dispatch({ type: USER_LOGGED_OUT })
-}
-
-// Setup config with token (helper function)
-export const tokenConfig = getState => {
-    // Get token from state
-    const token = getState().auth.token
-
-    // Headers
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    }
-
-    // If token, add to headers config
-    if (token) {
-        config.headers['Authorization'] = `Token ${token}`
-    }
-    return config
-}
-
-// Similar to tokenConfig but 'token' is directly passed to this function
-export const formatHeader = (token, params=null) => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    }
-
-    // If token, add to headers config
-    if (token) {
-        config.headers['Authorization'] = `Token ${token}`
-    }
-    if(params) {  // Optionally add query params to config object if supplied
-        config.params = params
-    }
-
-    return config
 }

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import AxiosInstance from "../../api/axiosInstance"
 import { useSelector } from "react-redux"
-import { formatHeader } from "../../actions/auth"
 import { useLocation, useNavigate } from "react-router-dom"
+import { formatHeader } from "../../api/formatHeader"
 
 function SpotifyCallback() {
     const navigate = useNavigate()
