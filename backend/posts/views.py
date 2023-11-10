@@ -55,7 +55,9 @@ class PostViewSet(viewsets.ModelViewSet):
 
     # Overriding default method for getting list posts
     def list(self, request, *args, **kwargs):
-        posts_raw = Post.objects.all()
+        user = request.user
+        followed_users = user.profile.following.all()
+        posts_raw = Post.objects.filter(user__profile__in=followed_users)
 
         try:
             posts_serialized = serialize_multiple_posts(posts_raw, request.user)
