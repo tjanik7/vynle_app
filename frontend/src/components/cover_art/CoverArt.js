@@ -13,6 +13,16 @@ class CoverArt extends Component {
     render() {
         const release = this.props.albumData.release
 
+        // If no art is set, and it is not clickable (meaning they are not the owner of this profile)
+        // Could always replace this with a different 'default album image' down the road
+        if(!release?.img && !this.props.isClickable) {
+            return (
+                <Fragment>
+                    <div className={'no-art-set'}></div>
+                </Fragment>
+            )
+        }
+
         return (
             <Fragment>
                 <img
