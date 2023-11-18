@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap"
 import Search from "../search/Search"
 import { connect } from "react-redux"
 import { getCurrentUserSpotifyProfile } from "../../actions/spotify"
-import { followUser, getUserProfile, setFavAlbum, unfollowUser } from "../../actions/profile"
+import { followUser, getUserPosts, getUserProfile, setFavAlbum, unfollowUser } from "../../actions/profile"
 import { setSelectedIndex } from "../../actions/spotifySearch"
 import CoverArt from "../cover_art/CoverArt"
 
@@ -48,12 +48,15 @@ function Profile(props) {
     const isProfileOwner = username === props.username // Checks if URL matches logged-in user
 
     const [searchDisplayed, setSearchDisplayed] = useState(false)
+    const [posts, setPosts] = useState([])
 
 
     // Fetch Spotify data on render (by username of profile)
     useEffect(() => {
         props.getCurrentUserSpotifyProfile()
         props.getUserProfile(username)
+
+        getUserPosts(username, setPosts, props.authToken)
 
         return () => {
             setSearchDisplayed(false)

@@ -3,6 +3,7 @@ import { FOLLOWED_USER, GOT_USER_PROFILE, MARK_NOT_FETCHED, SET_FAV_ALBUM, UNFOL
 import axiosInstance from "../api/axiosInstance"
 import { tokenConfig } from "../api/tokenConfig"
 import AxiosInstance from "../api/axiosInstance"
+import { formatHeader } from "../api/formatHeader"
 
 export const followUser = (user_id) => (dispatch, getState) => {
     AxiosInstance
@@ -65,4 +66,15 @@ export const getUserProfile = username => (dispatch, getState) => {
         }).catch(err => {
             console.log(err)
         })
+}
+
+// Keep in mind this is not using redux
+export const getUserPosts = (username, setPosts, token) => {
+    axiosInstance.get(`/posts/user-posts/${username}`, formatHeader(token))
+        .then(res => {
+            setPosts(res.data)
+            console.log('successfully set posts')
+        }).catch(err => {
+            console.log(err)
+    })
 }
