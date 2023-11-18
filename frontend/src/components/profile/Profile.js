@@ -9,8 +9,7 @@ import CoverArt from "../cover_art/CoverArt"
 
 import './css/Profile.css'
 import { useParams } from "react-router-dom"
-import AxiosInstance from "../../api/axiosInstance"
-import { formatHeader } from "../../api/formatHeader"
+import Posts from "../posts/Posts"
 
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     const albums = props.profile.favoriteAlbums
@@ -105,6 +104,7 @@ function Profile(props) {
                         clickFunctionArgs={[props.selectedIndex]}
                     />}
                 </div>
+                <Posts posts={posts}/>
             </Fragment>
         )
 }
