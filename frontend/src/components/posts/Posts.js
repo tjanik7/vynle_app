@@ -12,21 +12,18 @@ class Posts extends Component {
         deletePost: PropTypes.func.isRequired,
     }
 
-    componentDidMount() {
-        this.props.getPosts()
-    }
-
     componentWillUnmount() {
         this.props.resetPostsLoading()
     }
 
     render() {
+        const posts = this.props.posts
         let message = null
 
         if (!this.props.postsLoading) {
             if(this.props.spotifyUnauthorized) {
                 message = <h4>Please link a Spotify account to view posts.</h4>
-            } else if(this.props.posts.length === 0) {
+            } else if(posts.length === 0) {
                 message = <h4>No posts to show.</h4>
             }
         }
@@ -39,7 +36,7 @@ class Posts extends Component {
                     </div>
                 </div>}
                 {message}
-                {this.props.posts.map(post => (
+                {posts.map(post => (
                     <Row key={post.id} className={'justify-content-md-center'}>
                         <Col md={10}>
                             <Post
@@ -62,9 +59,6 @@ class Posts extends Component {
 const mapStateToProps = state => ({
     postsLoading: state.posts.postsLoading,
     spotifyUnauthorized: state.posts.spotifyUnauthorized,
-    posts: state.posts.posts, // storing the attribute 'posts' from the posts reducer
-    // of the redux state in this.props.posts
-    // the name of the prop we want to store this in is specified on the LHS of this line
 })
 
 export default connect(

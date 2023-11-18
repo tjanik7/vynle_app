@@ -52,7 +52,7 @@ class UserPostViewSet(APIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
 
-    # This does not appear to be used but it is required to be defined
+    # This does not appear to be used, but it is required to be defined
     queryset = Post.objects.all()
 
     def get(self, request, username):
