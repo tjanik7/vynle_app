@@ -95,7 +95,7 @@ function Profile(props) {
 
     return (
             <Fragment>
-                <h3>{username}</h3>
+                <h3 className={'mb-3'}>{username}</h3>
                 {!fetchedAllAlbums(props) && <div className={'spinner-layer'}>
                     <div className={'text-container'}>
                         <div className="spinner-border" role="status">
