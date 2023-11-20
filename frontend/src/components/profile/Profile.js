@@ -45,6 +45,15 @@ function generateAlbumTags(props, setSearchDisplayed, isClickable) {
 
 function Profile(props) {
     const {username} = useParams()  // Vynle username of profile being viewed
+
+    if(props.profileNotFound) {
+        return (
+            <Fragment>
+                <h2>Could not find user "{username}"</h2>
+            </Fragment>
+        )
+    }
+
     const isProfileOwner = username === props.username // Checks if URL matches logged-in user
 
     const [searchDisplayed, setSearchDisplayed] = useState(false)
@@ -86,6 +95,7 @@ function Profile(props) {
 
     return (
             <Fragment>
+                <h3>{username}</h3>
                 {!fetchedAllAlbums(props) && <div className={'spinner-layer'}>
                     <div className={'text-container'}>
                         <div className="spinner-border" role="status">
@@ -120,6 +130,7 @@ const mapStateToProps = state => ({
     selectedIndex: state.spotifySearch.selectedIndex,
     profile: state.profile,
     username: state.auth.user.username,
+    profileNotFound: state.profile.not_found,
 })
 
 export default connect(mapStateToProps, {

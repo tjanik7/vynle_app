@@ -4,7 +4,7 @@ import {
     GOT_USER_PROFILE,
     MARK_NOT_FETCHED,
     SET_FAV_ALBUM,
-    UNFOLLOWED_USER
+    UNFOLLOWED_USER, USER_PROFILE_NOT_FOUND
 } from '../actions/types'
 
 // Holds data for whichever profile the user is viewing in the profile detail view
@@ -30,7 +30,7 @@ const initialState = {
     },
     is_following: null,
     user_id: null,
-
+    not_found: false, // Used to indicate a 404 error
 }
 
 export default function (state = initialState, action) {
@@ -58,6 +58,7 @@ export default function (state = initialState, action) {
                 },
                 is_following: action.payload.is_following,
                 user_id: action.payload['id'],
+                not_found: false,
             }
         case MARK_NOT_FETCHED:
             favoriteAlbums = [...state.favoriteAlbums]
@@ -74,6 +75,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 favoriteAlbums: favoriteAlbums,
+            }
+        case USER_PROFILE_NOT_FOUND:
+            return {
+                ...state,
+                not_found: true,
             }
         case FOLLOWED_USER:
             return {
