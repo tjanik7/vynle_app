@@ -3,13 +3,14 @@ import { Col, Container, Row } from "react-bootstrap"
 import Search from "../search/Search"
 import { connect } from "react-redux"
 import { getCurrentUserSpotifyProfile } from "../../actions/spotify"
-import { followUser, getUserPosts, getUserProfile, setFavAlbum, unfollowUser } from "../../actions/profile"
+import { followUser, getUserProfile, setFavAlbum, unfollowUser } from "../../actions/profile"
 import { setSelectedIndex } from "../../actions/spotifySearch"
 import CoverArt from "../cover_art/CoverArt"
 
 import './css/Profile.css'
 import { useParams } from "react-router-dom"
 import Posts from "../posts/Posts"
+import { getUserPosts } from "../../actions/posts"
 
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     const albums = props.profile.favoriteAlbums
@@ -47,7 +48,8 @@ function Profile(props) {
     const isProfileOwner = username === props.username // Checks if URL matches logged-in user
 
     const [searchDisplayed, setSearchDisplayed] = useState(false)
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState(null)
+    let post_resp_status = 200
 
 
     // Fetch Spotify data on render (by username of profile)
@@ -55,7 +57,7 @@ function Profile(props) {
         props.getCurrentUserSpotifyProfile()
         props.getUserProfile(username)
 
-        getUserPosts(username, setPosts, props.authToken)
+        post_resp_status = getUserPosts(username, setPosts, props.authToken)
 
         return () => {
             setSearchDisplayed(false)
@@ -104,7 +106,9 @@ function Profile(props) {
                         clickFunctionArgs={[props.selectedIndex]}
                     />}
                 </div>
-                <Posts posts={posts}/>
+                <div className={'mt-5'}>
+                    <Posts posts={posts} httpStatus={post_resp_status}/>
+                </div>
             </Fragment>
         )
 }

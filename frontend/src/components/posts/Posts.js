@@ -7,9 +7,10 @@ import Post from './Post'
 
 class Posts extends Component {
     static propTypes = {
-        posts: PropTypes.array.isRequired,
+        posts: PropTypes.array, // Can be null
         getPosts: PropTypes.func.isRequired,
         deletePost: PropTypes.func.isRequired,
+        httpStatus: PropTypes.number.isRequired,
     }
 
     componentWillUnmount() {
@@ -20,12 +21,37 @@ class Posts extends Component {
         const posts = this.props.posts
         let message = null
 
-        if (!this.props.postsLoading) {
-            if(this.props.spotifyUnauthorized) {
+        if (posts != null) {
+            if (this.props.httpStatus === 401) {
                 message = <h4>Please link a Spotify account to view posts.</h4>
-            } else if(posts.length === 0) {
+            } else if (posts.length === 0) {
                 message = <h4>No posts to show.</h4>
             }
+        }
+
+        // if (!this.props.postsLoading) {
+        //     if(this.props.spotifyUnauthorized) {
+        //         message = <h4>Please link a Spotify account to view posts.</h4>
+        //     } else if(posts.length === 0) {
+        //         message = <h4>No posts to show.</h4>
+        //     }
+        // }
+
+        let postsJsx = null
+        if (posts) {
+            postsJsx = posts.map(post => (
+                <Row key={post.id} className={'justify-content-md-center'}>
+                    <Col md={10}>
+                        <Post
+                            username={post.user.username}
+                            body={post.body}
+                            albumData={post.release}
+                            postID={post.id}
+                            isClickable={true}
+                        />
+                    </Col>
+                </Row>
+            ))
         }
 
         return (
@@ -36,19 +62,7 @@ class Posts extends Component {
                     </div>
                 </div>}
                 {message}
-                {posts.map(post => (
-                    <Row key={post.id} className={'justify-content-md-center'}>
-                        <Col md={10}>
-                            <Post
-                                username={post.user.username}
-                                body={post.body}
-                                albumData={post.release}
-                                postID={post.id}
-                                isClickable={true}
-                            />
-                        </Col>
-                    </Row>
-                ))}
+                {postsJsx}
             </Container>
         )
     }
@@ -63,5 +77,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getPosts, deletePost, resetPostsLoading }
+    {getPosts, deletePost, resetPostsLoading}
 )(Posts)

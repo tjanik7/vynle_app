@@ -23,7 +23,9 @@ class Feed extends Component {
         return (
             <div id={'landing-page-container'}>
                 <Link to={'/create-post-form'} className="btn btn-primary my-2">Create a Post</Link>
-                <Posts posts={this.props.posts}/>
+                <div className={'mt-3'}>
+                    <Posts posts={this.props.posts} httpStatus={200}/>
+                </div>
             </div>
         )
     }
