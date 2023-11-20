@@ -11,6 +11,7 @@ class Posts extends Component {
         getPosts: PropTypes.func.isRequired,
         deletePost: PropTypes.func.isRequired,
         httpStatus: PropTypes.number.isRequired,
+        noPostsMessage: PropTypes.string, // Text to show if no posts are passed as prop
     }
 
     componentWillUnmount() {
@@ -25,17 +26,13 @@ class Posts extends Component {
             if (this.props.httpStatus === 401) {
                 message = <h4>Please link a Spotify account to view posts.</h4>
             } else if (posts.length === 0) {
-                message = <h4>No posts to show.</h4>
+                if (this.props.noPostsMessage) {
+                    message = <h4>{this.props.noPostsMessage}</h4>
+                } else {
+                    message = <h4>No posts to show.</h4>
+                }
             }
         }
-
-        // if (!this.props.postsLoading) {
-        //     if(this.props.spotifyUnauthorized) {
-        //         message = <h4>Please link a Spotify account to view posts.</h4>
-        //     } else if(posts.length === 0) {
-        //         message = <h4>No posts to show.</h4>
-        //     }
-        // }
 
         let postsJsx = null
         if (posts) {

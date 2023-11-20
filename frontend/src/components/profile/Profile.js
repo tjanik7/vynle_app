@@ -117,7 +117,11 @@ function Profile(props) {
                     />}
                 </div>
                 <div className={'mt-5'}>
-                    <Posts posts={posts} httpStatus={post_resp_status}/>
+                    <Posts
+                        posts={posts}
+                        httpStatus={post_resp_status}
+                        noPostsMessage={'This user hasn\'t posted yet.'}
+                    />
                 </div>
             </Fragment>
         )

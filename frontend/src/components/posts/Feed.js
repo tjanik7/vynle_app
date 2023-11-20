@@ -19,12 +19,16 @@ class Feed extends Component {
         this.props.getPosts()
     }
 
+
     render() {
+        const httpStatus = this.props.spotifyUnauthorizedError ? 401 : 200
+        const posts = this.props.postsLoading ? null : this.props.posts
+
         return (
             <div id={'landing-page-container'}>
                 <Link to={'/create-post-form'} className="btn btn-primary my-2">Create a Post</Link>
                 <div className={'mt-3'}>
-                    <Posts posts={this.props.posts} httpStatus={200}/>
+                    <Posts posts={posts} httpStatus={httpStatus}/>
                 </div>
             </div>
         )
@@ -34,6 +38,8 @@ class Feed extends Component {
 const mapStateToProps = state => ({
     isSpotifyAuthenticated: state.spotify.isSpotifyAuthenticated,
     posts: state.posts.posts,
+    spotifyUnauthorizedError: state.posts.spotifyUnauthorized,
+    postsLoading: state.posts.postsLoading,
 })
 
 export default connect(mapStateToProps, { getSpotifyAuthStatus, getPosts })(Feed)
