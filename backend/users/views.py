@@ -16,12 +16,17 @@ class ProfileViewSet(APIView):
             account_instance = Account.objects.get(username=username)
             profile_instance = Profile.objects.get(account_id=account_instance.id)
             return profile_instance
-        except Profile.DoesNotExist:
+
+        except (Account.DoesNotExist, Profile.DoesNotExist):
             raise Http404
 
     # Endpoint exposed on GET request
     def get(self, request, username, format=None):
-        target_profile = self._get_object(username)
+        try:
+            target_profile = self._get_object(username)
+        except Http404:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         current_profile = request.user.profile
 
         # Examine whether this user follows the user they are requesting

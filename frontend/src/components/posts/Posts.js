@@ -7,13 +7,11 @@ import Post from './Post'
 
 class Posts extends Component {
     static propTypes = {
-        posts: PropTypes.array.isRequired,
+        posts: PropTypes.array, // Can be null
         getPosts: PropTypes.func.isRequired,
         deletePost: PropTypes.func.isRequired,
-    }
-
-    componentDidMount() {
-        this.props.getPosts()
+        httpStatus: PropTypes.number.isRequired,
+        noPostsMessage: PropTypes.string, // Text to show if no posts are passed as prop
     }
 
     componentWillUnmount() {
@@ -21,14 +19,36 @@ class Posts extends Component {
     }
 
     render() {
+        const posts = this.props.posts
         let message = null
 
-        if (!this.props.postsLoading) {
-            if(this.props.spotifyUnauthorized) {
+        if (posts != null) {
+            if (this.props.httpStatus === 401) {
                 message = <h4>Please link a Spotify account to view posts.</h4>
-            } else if(this.props.posts.length === 0) {
-                message = <h4>No posts to show.</h4>
+            } else if (posts.length === 0) {
+                if (this.props.noPostsMessage) {
+                    message = <h4>{this.props.noPostsMessage}</h4>
+                } else {
+                    message = <h4>No posts to show.</h4>
+                }
             }
+        }
+
+        let postsJsx = null
+        if (posts) {
+            postsJsx = posts.map(post => (
+                <Row key={post.id} className={'justify-content-md-center'}>
+                    <Col md={10}>
+                        <Post
+                            username={post.user.username}
+                            body={post.body}
+                            albumData={post.release}
+                            postID={post.id}
+                            isClickable={true}
+                        />
+                    </Col>
+                </Row>
+            ))
         }
 
         return (
@@ -39,19 +59,7 @@ class Posts extends Component {
                     </div>
                 </div>}
                 {message}
-                {this.props.posts.map(post => (
-                    <Row key={post.id} className={'justify-content-md-center'}>
-                        <Col md={10}>
-                            <Post
-                                username={post.user.username}
-                                body={post.body}
-                                albumData={post.release}
-                                postID={post.id}
-                                isClickable={true}
-                            />
-                        </Col>
-                    </Row>
-                ))}
+                {postsJsx}
             </Container>
         )
     }
@@ -62,12 +70,9 @@ class Posts extends Component {
 const mapStateToProps = state => ({
     postsLoading: state.posts.postsLoading,
     spotifyUnauthorized: state.posts.spotifyUnauthorized,
-    posts: state.posts.posts, // storing the attribute 'posts' from the posts reducer
-    // of the redux state in this.props.posts
-    // the name of the prop we want to store this in is specified on the LHS of this line
 })
 
 export default connect(
     mapStateToProps,
-    { getPosts, deletePost, resetPostsLoading }
+    {getPosts, deletePost, resetPostsLoading}
 )(Posts)

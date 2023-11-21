@@ -9,8 +9,8 @@ import CoverArt from "../cover_art/CoverArt"
 
 import './css/Profile.css'
 import { useParams } from "react-router-dom"
-import AxiosInstance from "../../api/axiosInstance"
-import { formatHeader } from "../../api/formatHeader"
+import Posts from "../posts/Posts"
+import { getUserPosts } from "../../actions/posts"
 
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     const albums = props.profile.favoriteAlbums
@@ -45,15 +45,28 @@ function generateAlbumTags(props, setSearchDisplayed, isClickable) {
 
 function Profile(props) {
     const {username} = useParams()  // Vynle username of profile being viewed
+
+    if(props.profileNotFound) {
+        return (
+            <Fragment>
+                <h2>Could not find user "{username}"</h2>
+            </Fragment>
+        )
+    }
+
     const isProfileOwner = username === props.username // Checks if URL matches logged-in user
 
     const [searchDisplayed, setSearchDisplayed] = useState(false)
+    const [posts, setPosts] = useState(null)
+    let post_resp_status = 200
 
 
     // Fetch Spotify data on render (by username of profile)
     useEffect(() => {
         props.getCurrentUserSpotifyProfile()
         props.getUserProfile(username)
+
+        post_resp_status = getUserPosts(username, setPosts, props.authToken)
 
         return () => {
             setSearchDisplayed(false)
@@ -82,6 +95,7 @@ function Profile(props) {
 
     return (
             <Fragment>
+                <h3 className={'mb-3'}>{username}</h3>
                 {!fetchedAllAlbums(props) && <div className={'spinner-layer'}>
                     <div className={'text-container'}>
                         <div className="spinner-border" role="status">
@@ -102,6 +116,13 @@ function Profile(props) {
                         clickFunctionArgs={[props.selectedIndex]}
                     />}
                 </div>
+                <div className={'mt-5'}>
+                    <Posts
+                        posts={posts}
+                        httpStatus={post_resp_status}
+                        noPostsMessage={'This user hasn\'t posted yet.'}
+                    />
+                </div>
             </Fragment>
         )
 }
@@ -113,6 +134,7 @@ const mapStateToProps = state => ({
     selectedIndex: state.spotifySearch.selectedIndex,
     profile: state.profile,
     username: state.auth.user.username,
+    profileNotFound: state.profile.not_found,
 })
 
 export default connect(mapStateToProps, {

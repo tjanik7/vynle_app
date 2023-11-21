@@ -1,8 +1,15 @@
 // Actions for profile
-import { FOLLOWED_USER, GOT_USER_PROFILE, MARK_NOT_FETCHED, SET_FAV_ALBUM, UNFOLLOWED_USER } from './types'
+import {
+    FOLLOWED_USER,
+    GOT_USER_PROFILE,
+    MARK_NOT_FETCHED,
+    SET_FAV_ALBUM,
+    UNFOLLOWED_USER,
+    USER_PROFILE_NOT_FOUND
+} from './types'
 import axiosInstance from "../api/axiosInstance"
-import { tokenConfig } from "../api/tokenConfig"
 import AxiosInstance from "../api/axiosInstance"
+import { tokenConfig } from "../api/tokenConfig"
 
 export const followUser = (user_id) => (dispatch, getState) => {
     AxiosInstance
@@ -63,6 +70,12 @@ export const getUserProfile = username => (dispatch, getState) => {
                 payload: res.data,
             })
         }).catch(err => {
+            if(err.response.status === 404) {
+                dispatch({
+                    type: USER_PROFILE_NOT_FOUND,
+                })
+            }
+
             console.log(err)
         })
 }

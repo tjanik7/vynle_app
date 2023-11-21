@@ -2,11 +2,17 @@
 import axiosInstance from "../api/axiosInstance"
 
 import {
-    GOT_POSTS, GET_POSTS, DELETE_POST,
-    ADD_POST, GET_ERRORS, CLEAR_SUBMISSION_STATUS,
-    RESET_POSTS_LOADING, SPOTIFY_UNAUTHORIZED
+    ADD_POST,
+    CLEAR_SUBMISSION_STATUS,
+    DELETE_POST,
+    GET_ERRORS,
+    GET_POSTS,
+    GOT_POSTS,
+    RESET_POSTS_LOADING,
+    SPOTIFY_UNAUTHORIZED
 } from './types'
 import { tokenConfig } from "../api/tokenConfig"
+import { formatHeader } from "../api/formatHeader"
 
 export const resetPostsLoading = () => (dispatch, getState) => {
     dispatch({ type: RESET_POSTS_LOADING })
@@ -29,6 +35,21 @@ export const getPosts = () => (dispatch, getState) => {
                 console.log(err)
             }
         })
+}
+
+// Keep in mind this is not using redux
+export const getUserPosts = (username, setPosts, token) => {
+    let resp_code = null
+    // Gets posts by a certain user (used within Profile component)
+    axiosInstance.get(`/posts/user-posts/${username}`, formatHeader(token))
+        .then(res => {
+            setPosts(res.data)
+            resp_code = res.status
+        }).catch(err => {
+        console.log(err)
+        resp_code = err.response.status
+    })
+    return resp_code
 }
 
 export const deletePost = id => (dispatch, getState) => {
