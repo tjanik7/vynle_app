@@ -8,13 +8,15 @@ class CoverArt extends Component {
         handleClick: PropTypes.func,
         albumData: PropTypes.object,
         isClickable: PropTypes.bool,
+        fontSize: PropTypes.number,
+        displayReleaseInfoText: PropTypes.bool,
     }
 
     render() {
         const release = this.props.albumData.release
 
         // If no art is set, and it is not clickable (meaning they are not the owner of this profile)
-        if(!release?.img && !this.props.isClickable) {
+        if (!release?.img && !this.props.isClickable) {
             return (
                 <Fragment>
                     <div className={'no-art-set'}></div>
@@ -22,12 +24,27 @@ class CoverArt extends Component {
             )
         }
 
+        const fontSize = this.props.fontSize ? this.props.fontSize.toString() + 'px' : '12px'
+        const textStyle = {
+            fontSize: fontSize,
+        }
+
+        let releaseInfoText = null
+        if (this.props.displayReleaseInfoText) {
+            releaseInfoText = (
+                <div className={'release-info'} style={textStyle}>
+                    <p className={'info-line release-name'}>{release.name}</p>
+                    <p className={'info-line'}>{release.artist}</p>
+                </div>
+            )
+        }
+
         return (
-            <Fragment>
+            <div className={'release-container'}>
                 <img
                     src={release?.img ? release.img : 'http://localhost:8000/static/img/plus.png'}
                     alt={'Album'}
-                    className={'album-art-img ' + (this.props.isClickable ? 'clickable' : null)}
+                    className={'album-art-img img-edge-curve ' + (this.props.isClickable ? 'clickable' : null)}
                     onClick={() => {
                         // Only call callback func if it exists and is clickable
                         if (this.props.isClickable && this.props.handleClick) {
@@ -35,13 +52,15 @@ class CoverArt extends Component {
                         }
                     }}
                 />
-            </Fragment>
+                {releaseInfoText}
+            </div>
         )
     }
 }
 
 CoverArt.defaultProps = {
     isClickable: true,
+    displayReleaseInfoText: true,
 }
 
 const mapStateToProps = state => ({})
