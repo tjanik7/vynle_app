@@ -1,8 +1,8 @@
-import React, {useState} from "react"
-import {addPost, clearPostSubmissionStatus} from "../../actions/posts"
-import {connect} from "react-redux"
-import {Link, useNavigate} from "react-router-dom"
-import {useEffect} from "react"
+import React, { useState } from "react"
+import { addPost, clearPostSubmissionStatus } from "../../actions/posts"
+import { connect } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 import Search from "../search/Search"
 import CoverArt from "../cover_art/CoverArt"
 import './css/Form.css'
@@ -34,7 +34,7 @@ function Form(props) {
             navigate('/')
         }
 
-        
+
         // Clean up function - i.e. what componentWillUnmount used to be
         return function cleanup() {
             // Set postSubmissionStatus to the empty string
@@ -69,19 +69,25 @@ function Form(props) {
                     />
                 </div>
                 <div className={'form-group'}>
+                    <label>Search Spotify for a Song</label>
+                    <div className={'post-form-cover-art-container'}>
+                        <CoverArt albumData={postAlbum} handleClick={() => {
+                            setSearchVisibility(true)
+                        }}/>
+                    </div>
+                </div>
+                <div className={'form-group'}>
                     <button type={'submit'} className={'btn btn-primary my-2'}>Submit</button>
                     <Link to={'/'} className={'btn btn-secondary my-2'}>Cancel</Link>
                 </div>
             </form>
-            <label>Search Spotify for a Song</label>
-            <div className={'post-form-cover-art-container'}>
-                <CoverArt albumData={postAlbum} handleClick={() => {setSearchVisibility(true)}} />
-            </div>
             <div className={'form-group'}>
                 {searchVisibility && <Search
                     clickFunction={setSelectedAlbum}
                     clickFunctionArgs={[setPostAlbum]}
-                    clearSearchVisibility={() =>{setSearchVisibility(false)}}
+                    clearSearchVisibility={() => {
+                        setSearchVisibility(false)
+                    }}
                 />}
             </div>
         </div>

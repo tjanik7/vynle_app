@@ -3,6 +3,8 @@ import PropTypes from "prop-types"
 
 import './css/FormattedRelease.css'
 
+/* Displays Spotify release art with release name and artist name listed below */
+
 function getFormattedJSX(releaseData) {
     if (!releaseData) {
         return null
