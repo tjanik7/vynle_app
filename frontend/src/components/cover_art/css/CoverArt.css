@@ -14,31 +14,36 @@
 
 .release-container {
     border-radius: 10px;
-    overflow: hidden;
+    /*overflow: hidden;*/
+    position: relative;
 }
 
 .img-edge-curve {
     border-radius: 10px;
 }
 
-.release-info {
+.release-info-sliding-box {
     color: rgba(0, 0, 0, 70%);
     background-color: rgba(0, 0, 0, 5%);
     padding: 2px 15px;
-    transform: translateY(-100%);
-    transition: transform 500ms ease-in-out;
-    position: relative;
+    top: 0;
+    bottom: auto;
+    transition: height 500ms ease-in-out;
+    position: absolute;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    z-index: -5;
+    z-index: -15;
+    width: 100%;
+    height: 100%;
 }
 
-.album-art-img:hover + .release-info {
-    transform: translateY(0);
+.release-info-aligner {
+    position: absolute;
+    bottom: 0;
 }
 
-.album-art-img:hover ~ .release-container {
-    background-color: yellow;
+.album-art-img:hover + .release-info-sliding-box {
+    height: 150%;
 }
 
 .info-line {

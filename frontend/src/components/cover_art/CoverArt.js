@@ -32,9 +32,11 @@ class CoverArt extends Component {
         let releaseInfoText = null
         if (this.props.displayReleaseInfoText) {
             releaseInfoText = (
-                <div className={'release-info'} style={textStyle}>
-                    <p className={'info-line release-name'}>{release.name}</p>
-                    <p className={'info-line'}>{release.artist}</p>
+                <div className={'release-info-sliding-box'} style={textStyle}>
+                    <div className={'release-info-aligner'}>
+                        <p className={'info-line release-name'}>{release.name}</p>
+                        <p className={'info-line'}>{release.artist}</p>
+                    </div>
                 </div>
             )
         }
