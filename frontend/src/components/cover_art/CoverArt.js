@@ -10,10 +10,30 @@ class CoverArt extends Component {
         isClickable: PropTypes.bool,
         fontSize: PropTypes.number,
         displayReleaseInfoText: PropTypes.bool,
+        ind: PropTypes.number.isRequired,
+    }
+
+    handleHover(ind) {
+        const slider = document.getElementById('sliding-box-' + ind)
+        const sliderHeight = slider.offsetHeight
+        const releaseInfoAligner = document.getElementById('release-info-aligner-' + ind)
+
+        // slider.style.height = String(sliderHeight + releaseInfoAligner.offsetHeight) + 'px'
+        slider.style.height = String(
+            document.getElementById('release-img-' + ind).offsetHeight + releaseInfoAligner.offsetHeight
+        ) + 'px'
+    }
+
+    resetHover(ind) {
+        const img = document.getElementById('release-img-' + ind)
+        const imgHeight = img.offsetHeight
+
+        document.getElementById('sliding-box-' + ind).style.height = imgHeight.toString() + 'px'
     }
 
     render() {
         const release = this.props.albumData.release
+        const ind = this.props.ind.toString()
 
         // If no art is set, and it is not clickable (meaning they are not the owner of this profile)
         if (!release?.img && !this.props.isClickable) {
@@ -32,8 +52,11 @@ class CoverArt extends Component {
         let releaseInfoText = null
         if (this.props.displayReleaseInfoText) {
             releaseInfoText = (
-                <div className={'release-info-sliding-box'} style={textStyle}>
-                    <div className={'release-info-aligner'}>
+                <div className={'release-info-sliding-box'}
+                     id={'sliding-box-' + ind}
+                     style={textStyle}
+                >
+                    <div id={'release-info-aligner-' + ind} className={'release-info-aligner'}>
                         <p className={'info-line release-name'}>{release.name}</p>
                         <p className={'info-line'}>{release.artist}</p>
                     </div>
@@ -46,6 +69,9 @@ class CoverArt extends Component {
                 <img
                     src={release?.img ? release.img : 'http://localhost:8000/static/img/plus.png'}
                     alt={'Album'}
+                    id={'release-img-' + ind}
+                    onMouseOver={() => {this.handleHover(this.props.ind)}}
+                    onMouseOut={() => {this.resetHover(ind)}}
                     className={'album-art-img img-edge-curve ' + (this.props.isClickable ? 'clickable' : null)}
                     onClick={() => {
                         // Only call callback func if it exists and is clickable
