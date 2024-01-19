@@ -24,7 +24,7 @@ function fetchedAllAlbums(props) { // Returns bool specifying if done loading
 function Profile(props) {
     const {username} = useParams()  // Vynle username of profile being viewed
 
-    if(props.profileNotFound) {
+    if (props.profileNotFound) {
         return (
             <Fragment>
                 <h2>Could not find user "{username}"</h2>
@@ -48,8 +48,8 @@ function Profile(props) {
 
     let followButton = null
 
-    if(!isProfileOwner) {
-        if(props.profile.is_following) { // If already following user
+    if (!isProfileOwner) {
+        if (props.profile.is_following) { // If already following user
             followButton = <button
                 type={'button'}
                 onClick={() => {
@@ -67,10 +67,13 @@ function Profile(props) {
     }
 
     return (
-            <Fragment>
-                <h3 className={'mb-3'}>{username}</h3>
-                {followButton}
-                <FavoriteAlbums isProfileOwner={isProfileOwner}/>
+        <Fragment>
+            <h3 className={'mb-3'}>{username}</h3>
+            {followButton}
+            <div style={{position: 'relative'}}>
+                <div style={{zIndex: 1}}>
+                    <FavoriteAlbums isProfileOwner={isProfileOwner}/>
+                </div>
                 {!fetchedAllAlbums(props) && <div className={'spinner-layer'}>
                     <div className={'text-container'}>
                         <div className="spinner-border" role="status">
@@ -78,15 +81,16 @@ function Profile(props) {
                         </div>
                     </div>
                 </div>}
-                <div className={'mt-5'}>
+                <div className={'mt-5'} style={{zIndex: 0}}>
                     <Posts
                         posts={posts}
                         httpStatus={post_resp_status}
                         noPostsMessage={'This user hasn\'t posted yet.'}
                     />
                 </div>
-            </Fragment>
-        )
+            </div>
+        </Fragment>
+    )
 }
 
 const mapStateToProps = state => ({
