@@ -45,6 +45,7 @@
 .info-line {
     line-height: 1.1;
     width: 100%;
+    overflow-wrap: break-word;
     padding: 5px 0;
     margin: 0;
 }
