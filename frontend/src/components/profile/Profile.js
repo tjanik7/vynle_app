@@ -32,6 +32,9 @@ function generateAlbumTags(props, setSearchDisplayed, isClickable) {
                 <CoverArt
                     albumData={props.profile.favoriteAlbums[i]}
                     isClickable={isClickable}
+                    fontSize={11}
+                    ind={i}
+                    displayReleaseInfoText={true}
                     handleClick={() => {
                         props.setSelectedIndex(i)
                         setSearchDisplayed(true)
