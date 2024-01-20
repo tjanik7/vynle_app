@@ -70,8 +70,8 @@ function Profile(props) {
         <Fragment>
             <h3 className={'mb-3'}>{username}</h3>
             {followButton}
-            <div style={{position: 'relative'}}>
-                <div style={{zIndex: 1}}>
+            <div id={'top-level-container'}>
+                <div id={'favorite-albums-container'}>
                     <FavoriteAlbums isProfileOwner={isProfileOwner}/>
                 </div>
                 {!fetchedAllAlbums(props) && <div className={'spinner-layer'}>
@@ -81,7 +81,7 @@ function Profile(props) {
                         </div>
                     </div>
                 </div>}
-                <div className={'mt-5'} style={{zIndex: 0}}>
+                <div id={'posts-container'} className={'mt-5'}>
                     <Posts
                         posts={posts}
                         httpStatus={post_resp_status}
