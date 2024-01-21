@@ -106,6 +106,7 @@ class Search extends Component {
                                 name={'q'}
                                 onChange={this.onSearchbarChange}
                                 value={q}
+                                autoComplete={'off'}
                                 placeholder={'Search...'}
                             />
                         </div>
