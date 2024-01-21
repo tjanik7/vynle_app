@@ -14,3 +14,18 @@
     color: black;
     text-align: center;
 }
+
+#top-level-container{
+    position: relative;
+    z-index: 0;
+}
+
+#favorite-albums-container{
+    position: relative;
+    z-index: 3;
+}
+
+#posts-container{
+    position: relative;
+    z-index: 0;
+}

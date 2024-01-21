@@ -1,19 +1,18 @@
-.release-container-fr {
+.release-container {
     display: inline-block;
     background-color: rgba(0, 0, 0, 3%);
     border-radius: 10px;
-    overflow: hidden;
 }
 
-.image-container-fr {
+.image-container {
     border-radius: 10px;
 }
 
-.release-info-fr {
+.release-info {
     color: rgba(0, 0, 0, 70%);
     padding: 10px 15px;
 }
 
-.info-line-fr {
+.info-line {
     margin: 0;
 }

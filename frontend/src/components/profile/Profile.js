@@ -1,16 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react"
-import { Col, Container, Row } from "react-bootstrap"
-import Search from "../search/Search"
 import { connect } from "react-redux"
 import { getCurrentUserSpotifyProfile } from "../../actions/spotify"
 import { followUser, getUserProfile, setFavAlbum, unfollowUser } from "../../actions/profile"
 import { setSelectedIndex } from "../../actions/spotifySearch"
-import CoverArt from "../cover_art/CoverArt"
 
 import './css/Profile.css'
 import { useParams } from "react-router-dom"
 import Posts from "../posts/Posts"
 import { getUserPosts } from "../../actions/posts"
+import FavoriteAlbums from "./FavoriteAlbums"
 
 function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     const albums = props.profile.favoriteAlbums
@@ -23,33 +21,10 @@ function fetchedAllAlbums(props) { // Returns bool specifying if done loading
     return true
 }
 
-function generateAlbumTags(props, setSearchDisplayed, isClickable) {
-    const rows = []
-
-    for (let i = 0; i < 6; i++) {  // Generates JSX tags for album art
-        rows.push(
-            <Col key={i}>
-                <CoverArt
-                    albumData={props.profile.favoriteAlbums[i]}
-                    isClickable={isClickable}
-                    fontSize={11}
-                    ind={i}
-                    displayReleaseInfoText={true}
-                    handleClick={() => {
-                        props.setSelectedIndex(i)
-                        setSearchDisplayed(true)
-                    }}
-                />
-            </Col>
-        )
-    }
-    return rows
-}
-
 function Profile(props) {
     const {username} = useParams()  // Vynle username of profile being viewed
 
-    if(props.profileNotFound) {
+    if (props.profileNotFound) {
         return (
             <Fragment>
                 <h2>Could not find user "{username}"</h2>
@@ -59,7 +34,6 @@ function Profile(props) {
 
     const isProfileOwner = username === props.username // Checks if URL matches logged-in user
 
-    const [searchDisplayed, setSearchDisplayed] = useState(false)
     const [posts, setPosts] = useState(null)
     let post_resp_status = 200
 
@@ -70,16 +44,12 @@ function Profile(props) {
         props.getUserProfile(username)
 
         post_resp_status = getUserPosts(username, setPosts, props.authToken)
-
-        return () => {
-            setSearchDisplayed(false)
-        }
     }, [props.id]);
 
     let followButton = null
 
-    if(!isProfileOwner) {
-        if(props.profile.is_following) { // If already following user
+    if (!isProfileOwner) {
+        if (props.profile.is_following) { // If already following user
             followButton = <button
                 type={'button'}
                 onClick={() => {
@@ -97,8 +67,13 @@ function Profile(props) {
     }
 
     return (
-            <Fragment>
-                <h3 className={'mb-3'}>{username}</h3>
+        <Fragment>
+            <h3 className={'mb-3'}>{username}</h3>
+            {followButton}
+            <div id={'top-level-container'}>
+                <div id={'favorite-albums-container'}>
+                    <FavoriteAlbums isProfileOwner={isProfileOwner}/>
+                </div>
                 {!fetchedAllAlbums(props) && <div className={'spinner-layer'}>
                     <div className={'text-container'}>
                         <div className="spinner-border" role="status">
@@ -106,28 +81,16 @@ function Profile(props) {
                         </div>
                     </div>
                 </div>}
-                <div>
-                    {followButton}
-                    <Container>
-                        <Row xs={6}>
-                            {generateAlbumTags(props, setSearchDisplayed, isProfileOwner)}
-                        </Row>
-                    </Container>
-                    {searchDisplayed && <Search
-                        clickFunction={props.setFavAlbum}
-                        clearSearchVisibility={() => {setSearchDisplayed(false)}}
-                        clickFunctionArgs={[props.selectedIndex]}
-                    />}
-                </div>
-                <div className={'mt-5'}>
+                <div id={'posts-container'} className={'mt-5'}>
                     <Posts
                         posts={posts}
                         httpStatus={post_resp_status}
                         noPostsMessage={'This user hasn\'t posted yet.'}
                     />
                 </div>
-            </Fragment>
-        )
+            </div>
+        </Fragment>
+    )
 }
 
 const mapStateToProps = state => ({
