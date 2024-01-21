@@ -22,8 +22,19 @@ class Search extends Component {
         clearSearchVisibility: PropTypes.func.isRequired, // Sets visibility state to false
     }
 
+    handleEscKey = event => {
+        if (event.keyCode === 27) {
+            this.props.clearSearchVisibility()
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleEscKey)
+    }
+
     componentWillUnmount() {
         this.props.clearSearchResults()
+        document.removeEventListener('keydown', this.handleEscKey)
     }
 
     sendQuery = () => {
@@ -86,7 +97,7 @@ class Search extends Component {
             <>
                 <div onClick={this.props.clearSearchVisibility} className={'blur-layer'}></div>
                 <div className={'search-component'}>
-                    <h3>Search for Music</h3>
+                    <h3 id={'search-bar-header'}>Search for Music</h3>
                     <form onSubmit={this.onSubmit}>
                         <div className={'form-group searchbar-form-group'}>
                             <input
