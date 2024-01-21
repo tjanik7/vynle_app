@@ -8,10 +8,10 @@ import { connect } from "react-redux"
 import { setFavAlbum } from "../../actions/profile"
 
 function generateAlbumTags(props, setSearchDisplayed, isClickable) {
-    const rows = []
+    const columns = []
 
     for (let i = 0; i < 6; i++) {  // Generates JSX tags for album art
-        rows.push(
+        columns.push(
             <Col key={i}>
                 <CoverArt
                     albumData={props.profile.favoriteAlbums[i]}
@@ -27,7 +27,7 @@ function generateAlbumTags(props, setSearchDisplayed, isClickable) {
             </Col>
         )
     }
-    return rows
+    return columns
 }
 
 function FavoriteAlbums(props) {

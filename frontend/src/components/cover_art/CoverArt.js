@@ -15,10 +15,8 @@ class CoverArt extends Component {
 
     handleHover(ind) {
         const slider = document.getElementById('sliding-box-' + ind)
-        const sliderHeight = slider.offsetHeight
         const releaseInfoAligner = document.getElementById('release-info-aligner-' + ind)
 
-        // slider.style.height = String(sliderHeight + releaseInfoAligner.offsetHeight) + 'px'
         slider.style.height = String(
             document.getElementById('release-img-' + ind).offsetHeight + releaseInfoAligner.offsetHeight
         ) + 'px'
@@ -32,10 +30,11 @@ class CoverArt extends Component {
     }
 
     render() {
-        const release = this.props.albumData.release
         const ind = this.props.ind.toString()
+        const release = this.props.albumData.release
+        const releaseIsPopulated = release != null
 
-        // If no art is set, and it is not clickable (meaning they are not the owner of this profile)
+        // If no art is set, and it is not clickable (meaning they are not the owner of this profile), render gray div
         if (!release?.img && !this.props.isClickable) {
             return (
                 <Fragment>
@@ -50,7 +49,7 @@ class CoverArt extends Component {
         }
 
         let releaseInfoText = null
-        if (this.props.displayReleaseInfoText) {
+        if (this.props.displayReleaseInfoText && releaseIsPopulated) {
             releaseInfoText = (
                 <div className={'release-info-sliding-box'}
                      id={'sliding-box-' + ind}
@@ -70,8 +69,16 @@ class CoverArt extends Component {
                     src={release?.img ? release.img : 'http://localhost:8000/static/img/plus.png'}
                     alt={'Album'}
                     id={'release-img-' + ind}
-                    onMouseOver={() => {this.handleHover(this.props.ind)}}
-                    onMouseOut={() => {this.resetHover(ind)}}
+                    onMouseOver={() => {
+                        if (releaseIsPopulated) {
+                            this.handleHover(this.props.ind)
+                        }
+                    }}
+                    onMouseOut={() => {
+                        if (releaseIsPopulated) {
+                            this.resetHover(ind)
+                        }
+                    }}
                     className={'album-art-img img-edge-curve ' + (this.props.isClickable ? 'clickable' : null)}
                     onClick={() => {
                         // Only call callback func if it exists and is clickable
