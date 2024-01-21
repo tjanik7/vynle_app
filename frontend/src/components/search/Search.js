@@ -27,12 +27,12 @@ class Search extends Component {
     }
 
     sendQuery = () => {
-        const { q } = this.state
+        const {q} = this.state
         this.props.search(q)
     }
 
     timerReset = (searchBarValue) => {
-        const { t } = this.state
+        const {t} = this.state
         clearTimeout(t)
 
         if (searchBarValue !== '') { // Only start new timer if search bar is nonempty
@@ -66,7 +66,7 @@ class Search extends Component {
     }
 
     transformAlbumObj = (album) => {
-        if(!album) {
+        if (!album) {
             return {}
         }
 
@@ -81,41 +81,44 @@ class Search extends Component {
     }
 
     render() {
-        const { q } = this.state
+        const {q} = this.state
         return (
-            <div className={'search-component'}>
-                <h3>Search for Music</h3>
-                <form onSubmit={this.onSubmit}>
-                    <div className={'form-group searchbar-form-group'}>
-                        <input
-                            className={'form-control'}
-                            type={'text'}
-                            name={'q'}
-                            onChange={this.onSearchbarChange}
-                            value={q}
-                            placeholder={'Search...'}
-                        />
-                    </div>
-                </form>
-                <Container>
-                    <Row>
-                        <Col className={'dropdown-column'}>
-                            {this.props.albums.map(result => (
-                                <DropdownRow key={result.id} dataKey={result.id} media={result.name}
-                                     artist={result.artists[0].name}
-                                     img={result.images[1].url}
-                                     clickFunction={this.configureClickFunction(
-                                         this.props.clickFunction,
-                                         this.transformAlbumObj(result),
-                                         this.props.clearSearchVisibility,
-                                         this.props.clickFunctionArgs
-                                     )}
-                                />
-                            ))}
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
+            <>
+                <div onClick={this.props.clearSearchVisibility} className={'blur-layer'}></div>
+                <div className={'search-component'}>
+                    <h3>Search for Music</h3>
+                    <form onSubmit={this.onSubmit}>
+                        <div className={'form-group searchbar-form-group'}>
+                            <input
+                                className={'form-control'}
+                                type={'text'}
+                                name={'q'}
+                                onChange={this.onSearchbarChange}
+                                value={q}
+                                placeholder={'Search...'}
+                            />
+                        </div>
+                    </form>
+                    <Container>
+                        <Row>
+                            <Col className={'dropdown-column'}>
+                                {this.props.albums.map(result => (
+                                    <DropdownRow key={result.id} dataKey={result.id} media={result.name}
+                                                 artist={result.artists[0].name}
+                                                 img={result.images[1].url}
+                                                 clickFunction={this.configureClickFunction(
+                                                     this.props.clickFunction,
+                                                     this.transformAlbumObj(result),
+                                                     this.props.clearSearchVisibility,
+                                                     this.props.clickFunctionArgs
+                                                 )}
+                                    />
+                                ))}
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            </>
         )
     }
 }
