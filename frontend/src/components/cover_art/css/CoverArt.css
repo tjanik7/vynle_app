@@ -1,5 +1,6 @@
 .album-art-img {
     max-width: 100%;
+    /*aspect-ratio: 1;*/
 }
 
 .clickable {
@@ -13,7 +14,6 @@
 }
 
 .release-container {
-    border-radius: 10px;
     position: relative;
     height: 0;
     padding-bottom: 100%;
