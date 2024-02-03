@@ -38,7 +38,7 @@ class CoverArt extends Component {
         if (!release?.img && !this.props.isClickable) {
             return (
                 <Fragment>
-                    <div className={'no-art-set'}></div>
+                    <div className={'no-art-set img-edge-curve'}></div>
                 </Fragment>
             )
         }
