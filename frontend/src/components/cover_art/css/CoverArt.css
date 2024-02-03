@@ -1,6 +1,17 @@
+.release-container {
+    position: relative;
+    background-color: rgba(0, 0, 0, 3%);
+    border-radius: 10px;
+    height: 0;
+    padding-bottom: 50%;
+    padding-top: 50%;
+    /*padding-bottom: 100%;*/
+    display: flex;
+}
+
 .album-art-img {
     max-width: 100%;
-    /*aspect-ratio: 1;*/
+    align-self: center;
 }
 
 .clickable {
@@ -10,12 +21,6 @@
 .no-art-set {
     background-color: rgb(128, 128, 128);
     width: 100%;
-    padding-bottom: 100%;
-}
-
-.release-container {
-    position: relative;
-    height: 0;
     padding-bottom: 100%;
 }
 
