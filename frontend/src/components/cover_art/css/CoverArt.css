@@ -1,11 +1,14 @@
+:root{
+    --vynle-gray: #eeeeee;
+}
+
 .release-container {
     position: relative;
-    background-color: rgba(0, 0, 0, 3%);
+    background-color: var(--vynle-gray);
     border-radius: 10px;
     height: 0;
     padding-bottom: 50%;
     padding-top: 50%;
-    /*padding-bottom: 100%;*/
     display: flex;
 }
 
@@ -19,7 +22,7 @@
 }
 
 .no-art-set {
-    background-color: rgb(128, 128, 128);
+    background-color: var(--vynle-gray);
     width: 100%;
     padding-bottom: 100%;
 }
@@ -30,7 +33,7 @@
 
 .release-info-sliding-box {
     color: rgba(0, 0, 0, 70%);
-    background-color: rgb(230, 230, 230);
+    background-color: var(--vynle-gray);
     top: 0;
     transition: height 400ms ease-in-out;
     position: absolute;
