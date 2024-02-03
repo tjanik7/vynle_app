@@ -11,11 +11,11 @@ function getFormattedJSX(releaseData) {
     }
     return (
         <>
-            <div className={'release-container'}>
-                <img className={'image-container'} src={releaseData.img} alt={'A Spotify Release'}/>
-                <div className={'release-info'}>
-                    <p className={'info-line'}>{releaseData.name}</p>
-                    <p className={'info-line'}>{releaseData.artist}</p>
+            <div className={'fr-release-container'}>
+                <img className={'fr-image-container'} src={releaseData.img} alt={'A Spotify Release'}/>
+                <div className={'fr-release-info'}>
+                    <p className={'fr-info-line'}>{releaseData.name}</p>
+                    <p className={'fr-info-line'}>{releaseData.artist}</p>
                 </div>
             </div>
         </>
