@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'vynle_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': '',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'PASSWORD': 'skoBirdBois679$',
+        'HOST': 'vynle-db-1.crssc8igacsm.us-east-2.rds.amazonaws.com',
         'PORT': 5432,
     }
 }
