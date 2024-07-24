@@ -10,19 +10,33 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+load_dotenv()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v5r7h336p-*sct!hc!7u7)0*3ajopv&89s9lfk&%vm&##v8u(*'
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-v5r7h336p-*sct!hc!7u7)0*3ajopv&89s9lfk&%vm&##v8u(*')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# Avoids sending CSRF cookie over HTTP
+CSRF_COOKIE_SECURE = True
+
+# Avoids sending session cookies over HTTP
+SESSION_COOKIE_SECURE = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'  # '!=' expression at end of line converts result from str to bool
 
 ALLOWED_HOSTS = ['*']
 
