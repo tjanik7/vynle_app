@@ -38,6 +38,7 @@ SESSION_COOKIE_SECURE = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'  # '!=' expression at end of line converts result from str to bool
 
+# TODO: double check what this should be in production
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -98,13 +99,25 @@ WSGI_APPLICATION = 'vynle_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {  # Currently set to use an AWS RDS instance
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': '',
+#         'USER': 'postgres',
+#         'PASSWORD': 'skoBirdBois679$',
+#         'HOST': 'vynle-db-1.crssc8igacsm.us-east-2.rds.amazonaws.com',
+#         'PORT': 5432,
+#     }
+# }
+
+# Here is the default postgresql db (using this while testing for simplicity)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'skoBirdBois679$',
-        'HOST': 'vynle-db-1.crssc8igacsm.us-east-2.rds.amazonaws.com',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': 5432,
     }
 }

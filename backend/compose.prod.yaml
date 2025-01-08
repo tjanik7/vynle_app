@@ -1,6 +1,24 @@
-version: "3.9"
-
 services:
   web:
     build: .
-    command: gunicorn
+    command: gunicorn --bind 0.0.0.0:8000 vynle_app.wsgi:application
+    expose:
+      - 8000
+    env_file:
+      - ./vynle_app/.env
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+  db:  # Just doing this now for simplicity
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
