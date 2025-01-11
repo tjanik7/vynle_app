@@ -22,21 +22,23 @@ load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'  # '!=' expression at end of line converts result from str to bool
+if DEBUG:
+    print('SERVER IN DEBUG MODE!')
+
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-v5r7h336p-*sct!hc!7u7)0*3ajopv&89s9lfk&%vm&##v8u(*')
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # Redirect all HTTP requests to HTTPS
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = not DEBUG
 
 # Avoids sending CSRF cookie over HTTP
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = not DEBUG
 
 # Avoids sending session cookies over HTTP
-SESSION_COOKIE_SECURE = True
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'  # '!=' expression at end of line converts result from str to bool
+SESSION_COOKIE_SECURE = not DEBUG
 
 # TODO: double check what this should be in production
 ALLOWED_HOSTS = ['*']

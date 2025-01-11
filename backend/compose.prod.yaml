@@ -8,14 +8,15 @@ services:
       - ./vynle_app/.env
 
   nginx:
-    build: ./nginx
+#    build: ./nginx
+    image: nginx:1.25
     ports:
       - 1337:80
-    depends_on:
-      - web
+#    depends_on:
+#      - web
 
   db:  # Just doing this now for simplicity
-    image: postgres
+    image: postgres:15
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
