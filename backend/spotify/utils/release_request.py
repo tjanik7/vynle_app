@@ -15,16 +15,28 @@ def _request_spotify_release_art(user, release_uri):
     base_url = 'https://api.spotify.com/v1/albums'
     headers = get_header(user)
 
-    if isinstance(release_uri, str):
+    if isinstance(release_uri, str):  # If only requesting one release
         url = base_url + f'/{release_uri}'
         many = False
 
-    elif isinstance(release_uri, list):
+    elif isinstance(release_uri, list):  # If requesting multiple releases
         if not release_uri:
             # Return empty list if no IDs supplied
             return []
 
-        url = base_url + '?ids=' + ','.join(release_uri)
+        skip_locations = set()  # Indices containing empty values
+        release_uris_filtered = []
+
+        # Filter out empty values while taking note of where they take place
+        # Necessary to reassemble this list in order
+        for ind, uri in enumerate(release_uri):
+            if uri == '':
+                skip_locations.add(ind)
+            else:
+                release_uris_filtered.append(uri)
+
+        # Only include non-empty URIs in request, otherwise throws 400 error
+        url = base_url + '?ids=' + ','.join(release_uris_filtered)
         many = True
 
     else:
@@ -35,7 +47,17 @@ def _request_spotify_release_art(user, release_uri):
 
     if response_obj.status_code == 200:
         if many:
-            return response_obj.json()['albums']
+            album_list_response = response_obj.json()['albums']
+            response = []
+
+            for ind in range(len(release_uri)):
+                if ind in skip_locations:
+                    response.append(None)
+
+                else:
+                    response.append(album_list_response.pop(0))
+
+            return response
 
         return response_obj.json()
 
@@ -65,7 +87,11 @@ def _transform_release_art_response(response_json, img_size):
             'img': response_json['images'][img_size_ind]['url'],  # Medium img - 300x300
         }
 
-    raise Exception(f'Keys not found in response: {response_json}')
+    return {  # Return empty album (either release URI was empty or album could not be found)
+        'name': '',  # Name of album
+        'artist': '',  # Name of first artist listed
+        'img': '',  # Medium img - 300x300
+    }
 
 
 def get_spotify_album(user, release_uri, img_size='m'):
