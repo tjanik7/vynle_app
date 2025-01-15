@@ -20,10 +20,6 @@ def _request_spotify_release_art(user, release_uri):
         many = False
 
     elif isinstance(release_uri, list):  # If requesting multiple releases
-        if not release_uri:
-            # Return empty list if no IDs supplied
-            return []
-
         skip_locations = set()  # Indices containing empty values
         release_uris_filtered = []
 
@@ -34,6 +30,10 @@ def _request_spotify_release_art(user, release_uri):
                 skip_locations.add(ind)
             else:
                 release_uris_filtered.append(uri)
+
+        if not release_uris_filtered:
+            # Return empty list if no IDs supplied
+            return [None] * len(release_uri)
 
         # Only include non-empty URIs in request, otherwise throws 400 error
         url = base_url + '?ids=' + ','.join(release_uris_filtered)
@@ -61,6 +61,7 @@ def _request_spotify_release_art(user, release_uri):
 
         return response_obj.json()
 
+    # If request != 200/OK
     raise Exception(
         f'Got {response_obj.status_code} response when retrieving album from Spotify. Reason: {response_obj.text}'
     )
