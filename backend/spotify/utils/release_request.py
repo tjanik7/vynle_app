@@ -32,7 +32,7 @@ def _request_spotify_release_art(user, release_uri):
                 release_uris_filtered.append(uri)
 
         if not release_uris_filtered:
-            # Return empty list if no IDs supplied
+            # Return list of Nones if empty list since returned list needs to be same size
             return [None] * len(release_uri)
 
         # Only include non-empty URIs in request, otherwise throws 400 error

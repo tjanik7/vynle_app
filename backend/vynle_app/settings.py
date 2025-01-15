@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Loads env var file
 load_dotenv()
 
 
@@ -106,7 +107,7 @@ WSGI_APPLICATION = 'vynle_app.wsgi.application'
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': '',
 #         'USER': 'postgres',
-#         'PASSWORD': 'skoBirdBois679$',
+#         'PASSWORD': '<PASSWORD_GOES_HERE>',
 #         'HOST': 'vynle-db-1.crssc8igacsm.us-east-2.rds.amazonaws.com',
 #         'PORT': 5432,
 #     }
@@ -146,13 +147,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # ===== Static files (CSS, JavaScript, Images) ===== #
@@ -191,7 +188,7 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 # CORS Headers config
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = False  # Should never be set to True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = (
