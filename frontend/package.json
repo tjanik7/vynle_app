@@ -34,7 +34,8 @@
   "scripts": {
     "dev": "webpack --mode development --watch ./src/index.js && webpack-dev-server --mode development",
     "build": "webpack --mode production --output-path ./dist",
-    "start" : "node ./server/index.js"
+    "start" : "node ./server/index.js",
+    "prod": "npm run build && npm run start"
   },
   "repository": {
     "type": "git",
