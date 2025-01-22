@@ -9,11 +9,8 @@ services:
 # TRY JUST USING HTTP FIRST BEFORE FIGURING OUT HTTPS
   nginx: # Serves backend and acts as reverse-proxy
     build: ./proxy
-    image: nginx:1.25
     ports:
       - 8001:80
-#    depends_on:
-#      - web
 
   db:  # Just doing this now for simplicity
     image: postgres:15
