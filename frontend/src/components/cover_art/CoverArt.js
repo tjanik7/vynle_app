@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { buildStaticUrl } from "../helperFunctions"
 import './css/CoverArt.css'
 
 class CoverArt extends Component {
@@ -66,7 +67,7 @@ class CoverArt extends Component {
         return (
             <div className={'release-container'}>
                 <img
-                    src={release?.img ? release.img : 'http://localhost:8000/static/img/plus.png'}
+                    src={release?.img ? release.img : buildStaticUrl('img/plus.png')}
                     alt={'Album'}
                     id={'release-img-' + ind}
                     onMouseOver={() => {
