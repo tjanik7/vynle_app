@@ -1,11 +1,8 @@
-# --- CONFIGURE CONTAINER ---
+# --- FRONTEND REACT CONTAINER ---
 FROM node:16-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
-
-COPY package.json .
-COPY package-lock.json .
 
 # Copy source code
 COPY . .
@@ -13,5 +10,5 @@ COPY . .
 # --- BUILD ---
 RUN npm ci
 
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
+EXPOSE 8080
+CMD ["npm", "run", "prod"]
