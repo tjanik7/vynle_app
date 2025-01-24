@@ -13,5 +13,5 @@ export const getFieldHasErrorObj = (fields, errors) => {
 }
 
 export const buildStaticUrl = (file) => {
-    return 'http://localhost:8001/static/' + file
+    return 'https://localhost:443/static/' + file
 }
