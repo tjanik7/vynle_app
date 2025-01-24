@@ -33,7 +33,7 @@ if DEBUG:
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # Redirect all HTTP requests to HTTPS
-SECURE_SSL_REDIRECT = not DEBUG
+SECURE_SSL_REDIRECT = False  # False is fine here since I'm using nginx as front-facing HTTPS server
 
 # Avoids sending CSRF cookie over HTTP
 CSRF_COOKIE_SECURE = not DEBUG
@@ -41,7 +41,7 @@ CSRF_COOKIE_SECURE = not DEBUG
 # Avoids sending session cookies over HTTP
 SESSION_COOKIE_SECURE = not DEBUG
 
-# TODO: double check what this should be in production
+# TODO: Set this to vynle.com in production
 ALLOWED_HOSTS = ['*']
 
 # Application definition
