@@ -1,16 +1,17 @@
 services:
   web:
     build: .
-    command: gunicorn --bind 0.0.0.0:8000 vynle_app.wsgi:application
+    command: gunicorn --bind 0.0.0.0:8000 --log-level debug vynle_app.wsgi:application
     expose:
       - 8000
     env_file:
       - ./vynle_app/.env
-# TRY JUST USING HTTP FIRST BEFORE FIGURING OUT HTTPS
+
   nginx: # Serves backend and acts as reverse-proxy
     build: ./proxy
     ports:
-      - 8001:80
+      - 8001:80  # TODO: remove this
+      - 443:443
 
   db:  # Just doing this now for simplicity
     image: postgres:15
