@@ -1,3 +1,5 @@
+import { serverLocation } from "../api/serverLocation"
+
 export const getFieldHasErrorObj = (fields, errors) => {
     let fieldHasError = {}
     for (const field of fields) {
@@ -13,5 +15,5 @@ export const getFieldHasErrorObj = (fields, errors) => {
 }
 
 export const buildStaticUrl = (file) => {
-    return 'https://localhost:443/static/' + file
+    return serverLocation + '/static/' + file
 }
