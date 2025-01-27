@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
+import { buildStaticUrl } from "../helperFunctions"
 import './css/Header.css'
 
 class Header extends Component {
@@ -67,7 +68,7 @@ class Header extends Component {
                     <div className="container-fluid">
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                             <a className="navbar-brand py-0" href="/">
-                                <img id={'logo-main'} src={'https://localhost:443/static/logo/logo_main.svg'} alt={'Vynle Logo'}/>
+                                <img id={'logo-main'} src={buildStaticUrl('logo/logo_main.svg')} alt={'Vynle Logo'}/>
                             </a>
                             {isAuthenticated ? authLinks : guestLinks}
                         </div>
