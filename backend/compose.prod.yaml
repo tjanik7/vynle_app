@@ -10,7 +10,6 @@ services:
   nginx: # Serves backend and acts as reverse-proxy
     build: ./proxy
     ports:
-      - 8001:80  # TODO: remove this
       - 443:443
 
   db:  # Just doing this now for simplicity
