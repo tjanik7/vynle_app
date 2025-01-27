@@ -1,0 +1,1 @@
+export const serverLocation = 'https://localhost:443'
