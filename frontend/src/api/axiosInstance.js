@@ -1,7 +1,8 @@
 import axios from "axios"
+import { serverLocation } from "./serverLocation"
 
 const axiosInstance = axios.create({
-    baseURL: 'https://localhost:443/api' // Configures server/port location to which requests will be sent
+    baseURL: serverLocation + '/api' // Configures server/port location to which requests will be sent
 })
 
 export default axiosInstance
