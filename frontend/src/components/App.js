@@ -18,6 +18,7 @@ import PostDetail from './posts/PostDetail'
 import '../../sass/main.css'
 import Profile from "./profile/Profile"
 import SpotifyCallback from "./spotify/SpotifyCallback"
+import { buildStaticUrl } from "./helperFunctions"
 
 class App extends Component {
     componentDidMount() {
@@ -65,3 +66,9 @@ class App extends Component {
 }
 
 ReactDOM.render(<App/>, document.getElementById('root'))
+
+// Set favicon dynamically
+const link = document.createElement('link')
+link.rel = 'shortcut icon'
+link.href = buildStaticUrl('img/favicon.ico')
+document.head.appendChild(link)
