@@ -10,5 +10,10 @@ RUN pip install --upgrade pip
 WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
+COPY posts /code/
+COPY spotify /code/
+COPY users /code/
+COPY vynle /code/
+COPY vynle_app /code/
 COPY . /code/
-RUN rm -rf data/
+COPY manage.py /code/
