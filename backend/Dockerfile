@@ -15,5 +15,4 @@ COPY spotify /code/
 COPY users /code/
 COPY vynle /code/
 COPY vynle_app /code/
-COPY . /code/
 COPY manage.py /code/
