@@ -1,5 +1,10 @@
 services:
   react:
     build: .
+    expose: # Need to change what port frontend server listens on after changing this
+      - 8080
+
+  nginx: # Serves backend and acts as reverse-proxy
+    build: ./proxy
     ports:
-      - 8080:8080
+      - 443:443
