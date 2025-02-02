@@ -1,1 +1,1 @@
-export const serverLocation = 'https://3.13.206.86'
+export const serverLocation = 'https://api.vynle.com'

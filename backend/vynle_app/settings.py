@@ -204,6 +204,5 @@ CORS_ALLOW_METHODS = (
     'OPTIONS',
 )
 CORS_ALLOWED_ORIGINS = [
-    # 'http://localhost:8080',  # Location of React app TODO: DELETE THIS I THINK
     'https://vynle.com'
 ]
