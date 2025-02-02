@@ -1,1 +1,1 @@
-export const serverLocation = 'https://ec2-18-222-158-126.us-east-2.compute.amazonaws.com'
+export const serverLocation = 'https://vynle.com:444'
