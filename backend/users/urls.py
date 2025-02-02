@@ -2,7 +2,7 @@
 from django.urls import path, include
 from knox import views as knox_views
 
-from .views import RegisterAPI, LoginAPI, AccountAPI, ProfileViewSet, FollowUser, UnfollowUser
+from .views import RegisterAPI, LoginAPI, AccountAPI, ProfileViewSet, FollowUser, UnfollowUser, HealthcheckViewSet
 
 # Prepended with 'users/'
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     path('<str:username>/', ProfileViewSet.as_view()),
     path('follow/<int:user_id>/', FollowUser.as_view()),
     path('unfollow/<int:user_id>/', UnfollowUser.as_view()),
+    path('healthcheck', HealthcheckViewSet.as_view())
 ]

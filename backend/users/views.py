@@ -9,6 +9,13 @@ from .serializers import RegisterSerializer, AccountSerializer, LoginSerializer,
     ProfileRegistrationSerializer
 
 
+class HealthcheckViewSet(APIView):
+    def get(self, request):
+        return Response({
+            'status': 'okay',
+        })
+
+
 class ProfileViewSet(APIView):
     # Private method used by other methods to retrieve an item from the DB
     def _get_object(self, username):
