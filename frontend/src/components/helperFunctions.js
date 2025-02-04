@@ -15,5 +15,5 @@ export const getFieldHasErrorObj = (fields, errors) => {
 }
 
 export const buildStaticUrl = (file) => {
-    return serverLocation + '/static/' + file
+    return 'https://vynle.com' + '/static/' + file
 }
