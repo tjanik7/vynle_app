@@ -1,1 +1,0 @@
-export const serverLocation = 'https://api.vynle.com'

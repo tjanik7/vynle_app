@@ -18,7 +18,8 @@ import PostDetail from './posts/PostDetail'
 import '../../sass/main.css'
 import Profile from "./profile/Profile"
 import SpotifyCallback from "./spotify/SpotifyCallback"
-import { buildStaticUrl } from "./helperFunctions"
+
+import { buildStaticUrl } from "../api/serverLocations"
 
 class App extends Component {
     componentDidMount() {

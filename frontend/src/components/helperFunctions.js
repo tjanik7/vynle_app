@@ -1,5 +1,3 @@
-import { serverLocation } from "../api/serverLocation"
-
 export const getFieldHasErrorObj = (fields, errors) => {
     let fieldHasError = {}
     for (const field of fields) {
@@ -12,8 +10,4 @@ export const getFieldHasErrorObj = (fields, errors) => {
         fieldHasError[field] = field in errors.msg
     }
     return fieldHasError
-}
-
-export const buildStaticUrl = (file) => {
-    return 'https://vynle.com' + '/static/' + file
 }

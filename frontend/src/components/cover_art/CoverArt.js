@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { buildStaticUrl } from "../helperFunctions"
 import './css/CoverArt.css'
+import { buildStaticUrl } from "../../api/serverLocations"
 
 class CoverArt extends Component {
     static propTypes = {

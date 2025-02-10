@@ -1,8 +1,8 @@
 import axios from "axios"
-import { serverLocation } from "./serverLocation"
+import { backendServerLocation } from "./serverLocations"
 
 const axiosInstance = axios.create({
-    baseURL: serverLocation + '/api' // Configures server/port location to which requests will be sent
+    baseURL: backendServerLocation + '/api' // Configures server/port location to which requests will be sent
 })
 
 export default axiosInstance
