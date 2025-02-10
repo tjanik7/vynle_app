@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="80.403946mm"
+   height="29.117418mm"
+   viewBox="0 0 80.403946 29.117418"
+   version="1.1"
+   id="svg32533"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   sodipodi:docname="vynle-logos-v1.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview32535"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.96504997"
+     inkscape:cx="261.64448"
+     inkscape:cy="504.11897"
+     inkscape:window-width="1920"
+     inkscape:window-height="949"
+     inkscape:window-x="3432"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs32530" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-19.04595,-16.785741)">
+    <g
+       id="g33094"
+       transform="matrix(1.8887858,0,0,1.8887858,-120.48426,-62.56019)"
+       inkscape:export-filename="g33094.png"
+       inkscape:export-xdpi="99.645012"
+       inkscape:export-ydpi="99.645012">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.1363px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.970984;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         x="91.467323"
+         y="54.322182"
+         id="text13899-6-1-9"
+         transform="skewX(-12.232715)"><tspan
+           sodipodi:role="line"
+           id="tspan13897-8-5-5"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.1363px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.970984;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+           x="91.467323"
+           y="54.322182">Vynle</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.5833px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.928964;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         x="90.992889"
+         y="46.598042"
+         id="text20919-3"
+         transform="matrix(0.87292537,0,-0.11267427,1.1455733,0,0)"><tspan
+           sodipodi:role="line"
+           id="tspan20917-5"
+           style="fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.928964;stroke-dasharray:none;stroke-opacity:1"
+           x="90.992889"
+           y="46.598042">{</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.928964;stroke-dasharray:none;stroke-opacity:1"
+           x="90.992889"
+           y="63.577168"
+           id="tspan20921-9" /></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.5833px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.928964;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         x="-138.23059"
+         y="-40.200306"
+         id="text20919-9-8"
+         transform="matrix(-0.87292537,0,0.11267427,-1.1455733,0,0)"><tspan
+           sodipodi:role="line"
+           id="tspan20917-0-9"
+           style="fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.928964;stroke-dasharray:none;stroke-opacity:1"
+           x="-138.23059"
+           y="-40.200306">{</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#7ab7d7;fill-opacity:1;stroke:#3c5f9c;stroke-width:0.928964;stroke-dasharray:none;stroke-opacity:1"
+           x="-138.23059"
+           y="-23.221182"
+           id="tspan20921-8-1" /></text>
+    </g>
+  </g>
+</svg>

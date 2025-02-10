@@ -1,0 +1,13 @@
+services:
+  react:
+    build: .
+    command: npm run dev
+    ports: # Need to change what port frontend server listens on after changing this
+      - 8080:8080
+    volumes:
+      - .:/app
+
+  nginx-static-devel-server:
+    build: ./proxy-devel
+    ports:
+      - 80:80
