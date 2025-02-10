@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
-import { buildStaticUrl } from "../helperFunctions"
 import './css/Header.css'
+import { buildStaticUrl } from "../../api/serverLocations"
 
 class Header extends Component {
     static propTypes = {
