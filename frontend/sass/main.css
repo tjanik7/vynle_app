@@ -28,7 +28,10 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-  --bs-primary: #b7094c;
+  --vynle-primary: #7ab7d7;
+  --vynle-secondary: #3c5f9c;
+  --vynle-accent: #ff7234;
+  --bs-primary: #7ab7d7;
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
@@ -3058,7 +3061,7 @@ textarea.form-control-lg {
 
 .btn-primary {
   color: white;
-  background-color: #5e3ab8;
+  background-color: var(--vynle-secondary);
   border-color: white;
 }
 
