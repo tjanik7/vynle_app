@@ -45,7 +45,7 @@ class Header extends Component {
                 </li>
                 <li className={'nav-item'}>
                     <button onClick={this.props.logout}
-                            className={'nav-link btn-primary btn-sm text-light'}>Logout
+                            className={'nav-link btn btn-primary btn-sm text-light'}>Logout
                     </button>
                 </li>
             </ul>

@@ -1,6 +1,7 @@
 services:
   react:
     build: .
+    command: npm run prod
     expose: # Need to change what port frontend server listens on after changing this
       - 8080
 

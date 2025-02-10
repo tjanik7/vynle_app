@@ -203,6 +203,9 @@ CORS_ALLOW_METHODS = (
     'DELETE',
     'OPTIONS',
 )
+
+allowed_origin = os.environ.get('ALLOWED_ORIGIN')
+
 CORS_ALLOWED_ORIGINS = [
-    'https://vynle.com'
+    allowed_origin,
 ]
