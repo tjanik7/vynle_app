@@ -204,5 +204,5 @@ CORS_ALLOW_METHODS = (
     'OPTIONS',
 )
 CORS_ALLOWED_ORIGINS = [
-    'https://vynle.com'
+    'https://localhost'
 ]
