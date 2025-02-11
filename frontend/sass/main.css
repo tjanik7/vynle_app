@@ -235,12 +235,12 @@ sup {
 }
 
 a {
-  color: #6e44d9;
+  color: var(--vynle-secondary);
   text-decoration: underline;
 }
 
 a:hover {
-  color: #5836ae;
+  color: var(--vynle-secondary);
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -3067,25 +3067,25 @@ textarea.form-control-lg {
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #5e3ab8;
-  border-color: #5836ae;
+  background-color: var(--vynle-primary);
+  border-color: var(--vynle-primary);
 }
 
 .btn-check:focus + .btn-primary, .btn-primary:focus {
   color: #fff;
-  background-color: #5e3ab8;
-  border-color: #5836ae;
+  background-color: var(--vynle-primary);
+  border-color: var(--vynle-primary);
   box-shadow: 0 0 0 0.25rem rgba(132, 96, 223, 0.5);
 }
 
 .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #5836ae;
-  border-color: #5333a3;
+  background-color: var(--vynle-primary);
+  border-color: var(--vynle-secondary);
 }
 
 .btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .show > .btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.25rem rgba(132, 96, 223, 0.5);
+  box-shadow: 0 0 0 0.25rem var(--vynle-primary);
 }
 
 .btn-primary:disabled, .btn-primary.disabled {
@@ -3586,7 +3586,7 @@ textarea.form-control-lg {
 }
 
 .btn-link:hover {
-  color: #5836ae;
+  color: var(--vynle-primary);
 }
 
 .btn-link:disabled, .btn-link.disabled {
@@ -4123,7 +4123,7 @@ textarea.form-control-lg {
 }
 
 .nav-link:hover, .nav-link:focus {
-  color: #5836ae;
+  color: var(--vynle-primary);
 }
 
 .nav-link.disabled {
@@ -5123,14 +5123,14 @@ textarea.form-control-lg {
 
 .page-link:hover {
   z-index: 2;
-  color: #5836ae;
+  color: var(--vynle-primary);
   background-color: #e9ecef;
   border-color: #dee2e6;
 }
 
 .page-link:focus {
   z-index: 3;
-  color: #5836ae;
+  color: var(--vynle-primary);
   background-color: #e9ecef;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(110, 68, 217, 0.25);
@@ -6870,7 +6870,7 @@ textarea.form-control-lg {
 }
 
 .link-primary:hover, .link-primary:focus {
-  color: #5836ae;
+  color: var(--vynle-primary);
 }
 
 .link-secondary {
