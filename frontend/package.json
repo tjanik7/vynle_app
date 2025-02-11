@@ -33,7 +33,7 @@
     "webpack-dev-server": "^4.15.2"
   },
   "scripts": {
-    "dev": "webpack serve --mode development --watch ./src/",
+    "dev": "webpack serve --mode development ./src/",
     "build": "webpack --mode production --output-path ./dist",
     "start": "node ./server/index.js",
     "prod": "npm run build && npm run start"
